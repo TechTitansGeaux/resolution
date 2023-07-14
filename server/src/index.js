@@ -17,8 +17,18 @@ app.use(express.static(distPath));
 
 // fill out routes
 
+
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../../dist/index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
 app.listen(port, () => {
-  console.log(`Server listening at http://127.0.0.1:${port}  ${distPath}`);
+  console.log(`Server listening at http://127.0.0.1:${port}`);
 });
 
 
