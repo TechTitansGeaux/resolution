@@ -4,9 +4,9 @@
   "description": "greenfield project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server",
-    "start:prod": "node server",
-    "build": "webpack --node-env=production",
+    "start": "nodemon server/index.js",
+    "start:prod": "node server/index.js",
+    "build": "webpack",
     "build:dev": "webpack -w",
     "serve": "webpack serve"
   },

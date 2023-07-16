@@ -5,7 +5,7 @@ require('dotenv').config();
 
 const port = 4000;
 
-const distPath = path.resolve(__dirname, '..', '..', 'dist');
+const distPath = path.resolve(__dirname, '..', 'dist');
 
 
 console.log(distPath);
