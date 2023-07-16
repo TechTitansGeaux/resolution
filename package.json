@@ -4,10 +4,10 @@
   "description": "greenfield project",
   "main": "index.js",
   "scripts": {
-    "start": "nodemon server/src/index.js",
+    "start": "nodemon server",
+    "start:prod": "node server",
     "build": "webpack --node-env=production",
     "build:dev": "webpack -w",
-    "build:prod": "webpack --node-env=production",
     "serve": "webpack serve"
   },
   "keywords": [],
@@ -15,9 +15,12 @@
   "license": "ISC",
   "dependencies": {
     "axios": "^1.4.0",
+    "bootstrap": "^5.3.0",
+    "dotenv": "^16.3.1",
     "express": "^4.18.2",
     "mysql": "^2.18.1",
     "mysql2": "^3.5.1",
+    "nodemon": "^3.0.1",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
     "react-router": "^6.14.1",
