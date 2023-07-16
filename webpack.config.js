@@ -4,14 +4,22 @@ const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
 
-const isProduction = process.env.NODE_ENV == "production";
+require("dotenv").config();
+
+const { NODE_ENV } = process.env;
+
+console.log(NODE_ENV);
+
+
+
+const isProduction = NODE_ENV == "production";
 
 const stylesHandler = isProduction
   ? MiniCssExtractPlugin.loader
   : "style-loader";
 
 const config = {
-  mode: "development",
+  mode: NODE_ENV,
   entry: path.resolve(__dirname, 'client/index.jsx'),
   stats: {
     errorDetails: true,
