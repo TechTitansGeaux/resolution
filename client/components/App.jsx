@@ -6,6 +6,7 @@ import Messages from "./Messages.jsx";
 import SignUp from "./SignUp.jsx";
 import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
+import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
   return (
