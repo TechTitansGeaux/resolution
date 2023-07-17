@@ -7,7 +7,7 @@ const express = require('express');
 const { Users} = require('./database/index');
 require('dotenv').config();
 
-// const port = 4000; maybe change to 8080 when socket is used
+const port = 8080;//maybe change to 8080 when socket is used
 
 const distPath = path.resolve(__dirname, '..', 'dist');
 
@@ -26,7 +26,11 @@ app.get('/user/:username', (req, res) =>{
 
   Users.findOne({ where: {username: username}})
     .then((response) => {
-      console.log('response:', response);
+      //console.log('response:', response);
+      if (response === null) {
+        console.log('username does not exist');
+        res.sendStatus(404);
+      }
       res.sendStatus(200);
     })
     .catch((err) => {
@@ -35,3 +39,15 @@ app.get('/user/:username', (req, res) =>{
     });
 });
 
+
+app.get('/*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
+    if (err) {
+      res.status(500).send(err);
+    }
+  });
+});
+
+app.listen(port, () => {
+  console.log(`Server listening at http://127.0.0.1:${port}`);
+});

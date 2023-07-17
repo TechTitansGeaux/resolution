@@ -4,16 +4,16 @@ import axios from 'axios'; // make GET request to search users
 const DecisionMaker = () => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
   const [searchInput, setSearchInput] = useState(''); // search input to search users
+  const [user, setUser] = useState(''); // set user (your opponent) state
 
-  // create function to GET all users
-  const getAllUsers = () => {
-    axios.get('/user', {
-      params: {
-        username: searchInput
-      }
-    })
+  // create function to GET user by username
+  const getUser = () => {
+    axios.get(`/user/${searchInput}`)
       .then((response) => {
         console.log('response:', response);
+        if (response.data === 'OK') {
+          setUser(searchInput);
+        }
       })
       .catch((err) => {
         console.log('error getting user:', err);
@@ -33,7 +33,9 @@ const DecisionMaker = () => {
         onChange={handleChange}
         value={searchInput}/>
       <button type="button"
+        onClick={getUser}
       >Search Users</button>
+      <h2>Your Opponent: {user}</h2>
       <h2>You picked {hand}!</h2>
       <button type="button"
         onClick={() => setHand('rock')}
