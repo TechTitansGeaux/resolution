@@ -1,6 +1,39 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import axios from 'axios';
+
 const Home = () => {
-  const [] = useState();
+  const [text, setText] = useState("");
+  const [posts, setPosts] = useState([]);
+
+  const handleChange = (e) => {
+    // console.log(e.target.value)
+    setText(e.target.value);
+  }
+
+  const handleClick = (e) => {
+    e.preventDefault();
+    console.log('void button clicked')
+  }
+
+  useEffect(() => {
+    // async function to get void table data
+    async function fetchData() {
+      await axios.get('/void')
+        .then((response) => {
+          console.log('response.data from axios.get request =>', response.data)
+          setPosts(response.data)
+          return response;
+
+        })
+        .catch((err) => {
+          console.error('Error in fetchData axios.get request ===>', err)
+        })
+    }
+    // call async function
+    fetchData()
+    // runs useEffect every time '/void' changes similar to componentDidMount()
+  }, ['/void'])
+
   return (
     <div>
       <main>
@@ -29,19 +62,23 @@ const Home = () => {
               name="scream"
               type="text"
               placeholder="Go Ahead and Vent"
+              onChange={handleChange}
+              value={text}
             ></input>
-            <button>SUBMIT</button>
+            <button onClick={handleClick}>SUBMIT</button>
           </div>
           <div className="scream-container">
-            <p className="scream">
-              <span>Anonymous: </span>Demo Scream <span>Created at time</span>
-            </p>
-            <p className="scream">
-              <span>Anonymous: </span>Demo Scream <span>Created at time</span>
-            </p>
-            <p className="scream">
-              <span>Anonymous: </span>Demo Scream <span>Created at time</span>
-            </p>
+            {<pre>{text}</pre>}
+            {posts.map((post) => {
+              return (
+                <p className="scream"
+                  key={post.id+"void"}>
+                  <span>Anonymous: </span>
+                  { `"${post.text}"` }
+                  <span> created at: { post.createdAt }</span>
+                </p>
+              );
+            })}
           </div>
         </div>
       </main>
