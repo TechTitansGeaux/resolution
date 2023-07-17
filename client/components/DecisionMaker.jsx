@@ -13,6 +13,8 @@ const DecisionMaker = () => {
         console.log('response:', response);
         if (response.data === 'OK') {
           setUser(searchInput);
+        } else {
+          setUser('');
         }
       })
       .catch((err) => {
