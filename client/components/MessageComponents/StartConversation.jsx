@@ -1,7 +1,6 @@
 import { React, useState } from 'react';
-import axios from 'axios';
 
-const Messages = () => {
+const StartConversation = () => {
 
   const [ topText, updateTopText ] = useState('');
 
@@ -48,4 +47,4 @@ const Messages = () => {
   );
 };
 
-export default Messages;
+export default StartConversation;
