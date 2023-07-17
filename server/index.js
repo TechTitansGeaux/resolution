@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const { Users, Messages, Void } = require('./database/index');
 require('dotenv').config();
+const messageRouter = require('./messagesHandling');
 
 const port = 4000;
 
@@ -16,8 +17,8 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 
-// fill out routes
-
+// sets endpoint (needs better name)
+app.use('/messagesHandling', messageRouter);
 
 
 app.get('/*', (req, res) => {
