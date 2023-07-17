@@ -14,9 +14,24 @@ const Home = () => {
     setText(e.target.value);
   }
 
-  const handleClick = (e) => {
-    e.preventDefault();
+  const handleClick = () => {
     console.log('void button clicked')
+    async function fetchData() {
+      await axios.post('/void', {
+        text: text
+      })
+        .then((data) => {
+          console.log('Success! handleClick post request data ==>', data);
+          // empty input field
+          setText("");
+        })
+        .catch((err) => {
+          console.error('Error in handleClick axios.post request ===>', err)
+      })
+    }
+    // calls async function
+    fetchData()
+    
   }
 
   useEffect(() => {
@@ -28,7 +43,7 @@ const Home = () => {
           setPosts(response.data)
         })
         .catch((err) => {
-          console.error('Error in fetchData axios.get request ===>', err)
+          console.error('Error in useEffect axios.get request ===>', err)
         })
     }
     // calls async function
@@ -65,6 +80,7 @@ const Home = () => {
               type="text"
               placeholder="Go Ahead and Vent"
               onChange={handleChange}
+              onKeyDown={(e) => e.key === 'Enter' ? handleClick() : null}
               value={text}
             ></input>
             <button onClick={handleClick}>SUBMIT</button>
