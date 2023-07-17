@@ -14,24 +14,22 @@ const Home = () => {
     setText(e.target.value);
   }
 
-  const handleClick = () => {
+  const handleSubmit = (e) => {
     console.log('void button clicked')
+    e.preventDefault();
     async function fetchData() {
-      await axios.post('/void', {
-        text: text
-      })
+      await axios.post('/void', { text })
         .then((data) => {
-          console.log('Success! handleClick post request data ==>', data);
+          console.log('Success! handleSubmit post request data ==>', data);
           // empty input field
           setText("");
         })
         .catch((err) => {
-          console.error('Error in handleClick axios.post request ===>', err)
+          console.error('Error in handleSubmit axios.post request ===>', err)
       })
     }
     // calls async function
     fetchData()
-    
   }
 
   useEffect(() => {
@@ -48,8 +46,8 @@ const Home = () => {
     }
     // calls async function
     fetchData()
-    // runs useEffect every time '/void' changes similar to componentDidMount()
-  }, [])
+    // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
+  }, [handleSubmit])
 
   // QUICK STYLES // transition to .CSS file before production
 
@@ -79,20 +77,20 @@ const Home = () => {
               anonymous.
             </p>
             <input
-              className="input-group"
               name="scream"
               type="text"
               placeholder="Go Ahead and Vent"
               onChange={handleChange}
-              onKeyDown={(e) => (e.key === "Enter" ? handleClick() : null)}
+              onKeyDown={(e) => (e.key === "Enter" ? handleSubmit(e) : null)}
               value={text}
+              className="input-group"
             ></input>
-            <button className="btn btn-primary mt-2 pe-5 ps-5" onClick={handleClick}>
+            <button className="btn btn-primary mt-2 pe-5 ps-5" onClick={(e) => handleSubmit(e)}>
               SUBMIT
             </button>
           </div>
           <div
-            className="scream-container bg-primary container pb-2"
+            className="scream-container bg-primary container pt-2pb-2"
           >
             {posts.map((post) => {
               return (
