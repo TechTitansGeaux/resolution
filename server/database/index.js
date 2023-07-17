@@ -23,7 +23,15 @@ const Users = sequelize.define('Users', {
 }, { timestamps: true });
 
 const Messages = sequelize.define('Messages', {
-  userId: {
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  recipientId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
