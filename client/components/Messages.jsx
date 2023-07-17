@@ -13,7 +13,7 @@ const Messages = () => {
     <div>
       <h3>select image</h3>
       <select name='cars' id='cars'>
-        <option value='Aint nobody got time for that'>Ain't nobody got time for that</option>
+        <option value='Aint-Nobody-Got-Time-For-That'>Ain't nobody got time for that</option>
         <option value='saab'>Saab</option>
         <option value='opel'>Opel</option>
         <option value='audi'>Audi</option>
@@ -28,7 +28,7 @@ const Messages = () => {
       <button>send</button>
       <br></br>
       <br></br>
-      <img src='https://apimeme.com/meme?meme=Aint-Nobody-Got-Time-For-That&top=test&bottom=test'></img>
+      <img src={`https://apimeme.com/meme?meme=Aint-Nobody-Got-Time-For-That&top=${topText}&bottom=test`}></img>
     </div>
   );
 };
