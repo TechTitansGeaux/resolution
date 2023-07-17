@@ -18,6 +18,26 @@ app.use(express.static(distPath));
 
 // fill out routes
 
+// VOID ROUTES
+// GET retrieve all screams at '/' from Void table
+
+// POST new screams at '/' as text into Void table
+app.post('/', (req, res) => {
+  // res.json({ msg: 'test in postman'}) // test in postman
+  const { text } = req.body;
+  Void.create({ text })
+    .then((data) => {
+      // log data
+      console.log('Success in Void.create() POST ==> ', data)
+      res.sendStatus(201);
+    })
+    .catch((err) => {
+      // log the error
+      console.error('Error in Void.create() POST Error ==> ', err);
+      // send status to 500
+      res.sendStatus(500);
+  })
+})
 
 
 app.get('/*', (req, res) => {
