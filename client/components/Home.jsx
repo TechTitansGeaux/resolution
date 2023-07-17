@@ -7,6 +7,7 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 const Home = () => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
+  const [submit, setSubmit] = useState(false)
 
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
@@ -15,12 +16,14 @@ const Home = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    setSubmit(true);
     async function fetchData() {
       await axios.post('/void', { text })
         .then((data) => {
           console.log('Success! handleSubmit post request data ==>', data);
           // empty input field
           setText("");
+          setSubmit(false);
         })
         .catch((err) => {
           console.error('Error in handleSubmit axios.post request ===>', err)
@@ -33,7 +36,8 @@ const Home = () => {
   useEffect(() => {
     // async function to get void table data
     async function fetchData() {
-      await axios.get('/void')
+      await axios
+        .get("/void")
         .then((response) => {
           // updates 'posts' state array with void table data
           setPosts(
@@ -44,13 +48,13 @@ const Home = () => {
           );
         })
         .catch((err) => {
-          console.error('Error in useEffect axios.get request ===>', err)
-        })
+          console.error("Error in useEffect axios.get request ===>", err);
+        });
     }
     // calls async function
     fetchData()
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
-  }, [handleSubmit])
+  }, [submit])
 
   return (
     <div>
