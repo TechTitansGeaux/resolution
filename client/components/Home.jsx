@@ -49,13 +49,16 @@ const Home = () => {
     // calls async function
     fetchData()
     // runs useEffect every time '/void' changes similar to componentDidMount()
-  }, ['/void'])
+  }, [])
+
+  // QUICK STYLES // transition to .CSS file before production
+
 
   return (
     <div>
-      <main>
+      <main className="container">
         <div className="intro">
-          <h1>Welcome to Resolution</h1>
+          <h1 className="text-primary">Welcome to Resolution</h1>
           <p>
             This innovative app will change the way you resolve interpersonal
             conflict. Resolution offers multiple features for all of your
@@ -67,8 +70,8 @@ const Home = () => {
           </p>
         </div>
         <div className="scream-void-component">
-          <div className="input-scream-container">
-            <h2>Scream into the Void</h2>
+          <div className="input-scream-container mb-3">
+            <h2 className="text-primary">Scream into the Void</h2>
             <p>
               Do you need to vent? Often, this might be the first constructive
               way to deal with your conflict. Put words to your emotions, say
@@ -76,24 +79,31 @@ const Home = () => {
               anonymous.
             </p>
             <input
+              className="input-group"
               name="scream"
               type="text"
               placeholder="Go Ahead and Vent"
               onChange={handleChange}
-              onKeyDown={(e) => e.key === 'Enter' ? handleClick() : null}
+              onKeyDown={(e) => (e.key === "Enter" ? handleClick() : null)}
               value={text}
             ></input>
-            <button onClick={handleClick}>SUBMIT</button>
+            <button className="btn btn-primary mt-2 pe-5 ps-5" onClick={handleClick}>
+              SUBMIT
+            </button>
           </div>
-          <div className="scream-container">
+          <div
+            className="scream-container bg-primary container pb-2"
+          >
             {<pre>{text}</pre>}
             {posts.map((post) => {
               return (
-                <p className="scream"
-                  key={post.id+"void"}>
+                <p
+                  className="scream modal-content  text-white"
+                  key={post.id + "void"}
+                >
                   <span>Anonymous: </span>
-                  { `"${post.text}"` }
-                  <span> created: { dayjs(`${post.createdAt}`).fromNow() }</span>
+                  {`"${post.text}"`}
+                  <span> created: {dayjs(`${post.createdAt}`).fromNow()}</span>
                 </p>
               );
             })}
