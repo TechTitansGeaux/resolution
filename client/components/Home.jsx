@@ -94,7 +94,6 @@ const Home = () => {
           <div
             className="scream-container bg-primary container pb-2"
           >
-            {<pre>{text}</pre>}
             {posts.map((post) => {
               return (
                 <p
