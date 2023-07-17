@@ -7,15 +7,13 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 const Home = () => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  
+
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
-    // console.log(e.target.value)
     setText(e.target.value);
   }
 
   const handleSubmit = (e) => {
-    console.log('void button clicked')
     e.preventDefault();
     async function fetchData() {
       await axios.post('/void', { text })
@@ -38,7 +36,12 @@ const Home = () => {
       await axios.get('/void')
         .then((response) => {
           // updates 'posts' state array with void table data
-          setPosts(response.data)
+          setPosts(
+            // sorts posts with the most recent at the top of void feed
+            response.data.sort((a, b) =>
+              b.createdAt > a.createdAt ? 1 : b.createdAt < a.createdAt ? -1 : 0
+            )
+          );
         })
         .catch((err) => {
           console.error('Error in useEffect axios.get request ===>', err)
@@ -48,9 +51,6 @@ const Home = () => {
     fetchData()
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [handleSubmit])
-
-  // QUICK STYLES // transition to .CSS file before production
-
 
   return (
     <div>
