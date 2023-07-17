@@ -10,7 +10,7 @@ const DecisionMaker = () => {
   const getUser = () => {
     axios.get(`/decisionmaker/user/${searchInput}`)
       .then((response) => {
-        console.log('response:', response);
+        //console.log('response:', response);
         if (response.data === 'OK') {
           setUser(searchInput);
         }
