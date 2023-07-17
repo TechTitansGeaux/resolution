@@ -20,9 +20,23 @@ app.use(express.static(distPath));
 
 // VOID ROUTES
 // GET retrieve all screams at '/' from Void table
+app.get('/void', (req, res) => {
+// use sequelize model method to get all from voids table
+  Void.findAll()
+    .then((data) => {
+      console.log('Data from Void.findAll()', data)
+      res.status(200).send(data);
+    })
+    .catch((err) => {
+      // log error
+      console.error('Error: Void.findAll() GET Error ==>', err);
+      // send status 500
+      res.sendStatus(500);
+  })
+})
 
 // POST new screams at '/' as text into Void table
-app.post('/', (req, res) => {
+app.post('/void', (req, res) => {
   // res.json({ msg: 'test in postman'}) // test in postman
   const { text } = req.body;
   Void.create({ text })
