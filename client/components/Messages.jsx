@@ -5,9 +5,9 @@ const Messages = () => {
 
   const [ topText, updateTopText ] = useState('');
 
-  const updateBottomText = () => {
+  const [ bottomText, updateBottomText ] = useState('');
 
-  };
+
 
   return (
     <div>
@@ -21,14 +21,14 @@ const Messages = () => {
       <h3>enter top text</h3>
       <input value={topText} onChange={(e) => { updateTopText(e.target.value); }}></input>
       <h3>enter bottom text</h3>
-      <input></input>
+      <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>enter username to send to</h3>
       <input></input>
       <h3>click to send meme</h3>
       <button>send</button>
       <br></br>
       <br></br>
-      <img src={`https://apimeme.com/meme?meme=Aint-Nobody-Got-Time-For-That&top=${topText}&bottom=test`}></img>
+      <img src={`https://apimeme.com/meme?meme=Aint-Nobody-Got-Time-For-That&top=${topText}&bottom=${bottomText}`}></img>
     </div>
   );
 };
