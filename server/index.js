@@ -1,6 +1,7 @@
 const path = require('path');
 const express = require('express');
 const { Users, Messages, Void } = require('./database/index');
+const wofRouter = require('./wofRoutes.js');
 require('dotenv').config();
 
 const port = 4000;
@@ -15,13 +16,14 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
+app.use('/wofRoutes', wofRouter);
 
 // fill out routes
 
 
 
 app.get('/*', (req, res) => {
-  res.sendFile(path.join(__dirname, '../../dist/index.html'), (err) => {
+  res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
     if (err) {
       res.status(500).send(err);
     }
