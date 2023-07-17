@@ -8,17 +8,16 @@ const DecisionMaker = () => {
 
   // create function to GET user by username
   const getUser = () => {
-    axios.get(`/user/${searchInput}`)
+    axios.get(`/decisionmaker/user/${searchInput}`)
       .then((response) => {
         console.log('response:', response);
         if (response.data === 'OK') {
           setUser(searchInput);
-        } else {
-          setUser('');
         }
       })
       .catch((err) => {
-        console.log('error getting user:', err);
+        console.error('error getting user:', err);
+        setUser('User does not exist. Please enter a valid username');
       });
   };
 
