@@ -1,10 +1,14 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import dayjs from 'dayjs'
+import relativeTime from 'dayjs/plugin/relativeTime';
+
 
 const Home = () => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-
+  
+  dayjs.extend(relativeTime);
   const handleChange = (e) => {
     // console.log(e.target.value)
     setText(e.target.value);
@@ -20,16 +24,14 @@ const Home = () => {
     async function fetchData() {
       await axios.get('/void')
         .then((response) => {
-          console.log('response.data from axios.get request =>', response.data)
+          // updates 'posts' state array with void table data
           setPosts(response.data)
-          return response;
-
         })
         .catch((err) => {
           console.error('Error in fetchData axios.get request ===>', err)
         })
     }
-    // call async function
+    // calls async function
     fetchData()
     // runs useEffect every time '/void' changes similar to componentDidMount()
   }, ['/void'])
@@ -75,7 +77,7 @@ const Home = () => {
                   key={post.id+"void"}>
                   <span>Anonymous: </span>
                   { `"${post.text}"` }
-                  <span> created at: { post.createdAt }</span>
+                  <span> created: { dayjs(`${post.createdAt}`).fromNow() }</span>
                 </p>
               );
             })}
