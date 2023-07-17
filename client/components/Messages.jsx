@@ -32,7 +32,6 @@ const Messages = () => {
         <option value='Ill-Have-You-Know-Spongebob'>Ill Have You Know Spongebob</option>
         <option value='Morty'>Morty</option>
         <option value='Mr-Krabs-Blur-Meme'>Mr Krabs Blur Meme</option>
-
       </select>
       <h3>enter top text</h3>
       <input value={topText} onChange={(e) => { updateTopText(e.target.value); }}></input>
