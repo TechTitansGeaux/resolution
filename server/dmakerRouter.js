@@ -1,6 +1,6 @@
 // back end for decision maker component
 // search for user by username
-// handle socket connections for multiplayer rock paper scissors
+// handle socket connections for multiplayer rock paper scissors (MAYBE?)
 
 const express = require('express');
 const { Users} = require('./database/index');

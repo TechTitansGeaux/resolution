@@ -1,5 +1,9 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import axios from 'axios'; // make GET request to search users
+// import '../../node_modules/socket.io';
+// const http = require('http');
+const socket = io();
+//import { socket } from '../socket';
 
 const DecisionMaker = () => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
@@ -27,6 +31,16 @@ const DecisionMaker = () => {
     setSearchInput(e.target.value);
   };
 
+  const sendHand = () => {
+    socket.emit('hand', { message: hand });
+  };
+
+  useEffect(() => {
+    socket.on('receive_hand', (data) => {
+      console.log(data);
+    });
+  });
+
   return (
     <div>
       <h1>Decision Maker</h1>
@@ -53,6 +67,9 @@ const DecisionMaker = () => {
       <button type="button"
         onClick={() => setHand('scissors')}
       >Scissors</button>
+      <button type="button"
+        onClick={sendHand}
+      >Send Hand</button>
     </div>
   );
 };
