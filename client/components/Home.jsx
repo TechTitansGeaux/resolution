@@ -113,6 +113,32 @@ const Home = () => {
             })}
           </div>
         </div>
+        <div className="messenger-intro">
+          <h2 className="text-primary">Meme Messenger</h2>
+          <p>
+            Do you have something you need to say, but just can’t find the right
+            way to say it? We offer a convenient and expressive meme generator
+            to help communicate your feelings to others in a light-hearted way.
+            It might be tough to say what needs to be said; why not break the
+            ice with a meme.
+          </p>
+        </div>
+        <div className="decision-maker-intro">
+          <h2 className="text-primary">Decision Maker</h2>
+          <p>
+            Are you ready to move forward with your conflict, but need an
+            unbiased way to decide how? Our decision maker feature offers a
+            fair, neutral answer. Through a game of rock, paper, scissors, you
+            and your opponent will be able to come to a concrete decision.
+          </p>
+        </div>
+        <div className="wall-of-fame-intro">
+          <h2 className="text-primary">Wall of Fame</h2>
+          <p>
+            Earn points and trophies as you become a master conflict resolver!
+            Our top 10 Resolution users will be featured on the Wall of Fame.
+          </p>
+        </div>
       </main>
     </div>
   );

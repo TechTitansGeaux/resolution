@@ -9,7 +9,6 @@ homeRouter.get('/void', (req, res) => {
 // use sequelize model method to get all from voids table
   Void.findAll()
     .then((data) => {
-      console.log('Data from Void.findAll()', data)
       res.status(200).send(data);
     })
     .catch((err) => {

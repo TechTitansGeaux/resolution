@@ -1,6 +1,7 @@
 import { Outlet, NavLink } from "react-router-dom";
 // nav collapse feature for small device widths
 import "bootstrap/js/src/collapse.js";
+import ResolutionLogo from "../img/resolution_app_logo_mini.svg";
 
 
 
@@ -10,7 +11,12 @@ const Navigation = () => {
       <nav className="navbar navbar-expand-md fixed-top navbar-light bg-light">
         <div className="container">
           <NavLink className="nav-link navbar-brand active" href="#" to="/">
-            <span className="align-top">App Logo</span>
+            {/* <span className="align-top">App Logo</span> */}
+            <img
+              src={ResolutionLogo}
+              alt="Resolution Logo"
+              style={{width: "auto", height: "2.5em"}}
+            />
           </NavLink>
           <button
             type="button"
@@ -27,7 +33,7 @@ const Navigation = () => {
             <ul className="navbar-nav mr-auto mt-1 mt-lg-0">
               <li className="nav-item" role="navigation">
                 <NavLink className="nav-link" href="#" to="/Messages">
-                  Messages
+                  Meme Messenger
                 </NavLink>
               </li>
               <li className="nav-item" role="navigation">
