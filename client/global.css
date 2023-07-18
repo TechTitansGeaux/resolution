@@ -1,0 +1,23 @@
+/* //// Root Variables */
+:root {
+  --text-primary: #0d6efd
+}
+
+
+/* //// GLOBAL STYLES */
+
+.section {
+  margin: 6em 0;
+}
+
+.active {
+  text-decoration: underline;
+}
+
+/* //// NAVIGATION COMPONENT */
+.navbar-brand {
+  text-decoration: none;
+}
+
+
+/* //// HOME COMPONENT */

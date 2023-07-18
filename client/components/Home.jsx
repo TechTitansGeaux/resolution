@@ -57,7 +57,7 @@ const Home = () => {
   }, [submit])
 
   return (
-    <div>
+    <div className="home section">
       <main className="container">
         <div className="intro">
           <h1 className="text-primary">Welcome to Resolution</h1>

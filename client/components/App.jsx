@@ -7,6 +7,7 @@ import Profile from "./Profile.jsx";
 import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
+import ".././global.css"
 
 const App = () => {
   return (
@@ -17,7 +18,7 @@ const App = () => {
           <Route path="/Messages" element={<Messages />} />
           <Route path="/DecisionMaker" element={<DecisionMaker />} />
           <Route path="/WallOfFame" element={<WallOfFame />} />
-          <Route path="/Proflie" element={<Profile />} />
+          <Route path="/myProfile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
