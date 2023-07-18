@@ -6,6 +6,8 @@ import Messages from "./MessageComponents/Messages.jsx";
 import SignUp from "./SignUp.jsx";
 import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
+// for development
+const loggedIn = 'tim8';
 
 const App = () => {
   return (
@@ -13,7 +15,7 @@ const App = () => {
       <Routes>
         <Route exact path="/" element={<Navigation />}>
           <Route index element={<Home />} />
-          <Route path="/Messages" element={<Messages />} />
+          <Route path="/Messages" element={<Messages loggedIn={loggedIn} />} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/WallOfFame" element={<WallOfFame />} />
           <Route path="/DecisionMaker" element={<DecisionMaker />} />

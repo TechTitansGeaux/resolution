@@ -1,19 +1,38 @@
 import { React, useState } from 'react';
+import axios from 'axios';
 
-const StartConversation = () => {
+const StartConversation = (props) => {
+  const { loggedIn } = props;
 
   const [ topText, updateTopText ] = useState('');
 
   const [ bottomText, updateBottomText ] = useState('');
 
+  const [ userExists, setUserExists ] = useState('');
+
   const [ meme, changeMeme ] = useState('Aint-Nobody-Got-Time-For-That');
 
-
+  const getRecipient = (username) => {
+    axios.get(`http://127.0.0.1:4000/messagesHandling/user${username}`)
+      .then((res) => {
+        if (res.status === 204) {
+          setUserExists('user not found');
+        } else if (res.status === 200) {
+          // maybe put a check mark emoji
+          setUserExists('all good');
+          console.log(res.data);
+        }
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  };
 
   return (
     <div>
       <h3>enter username to send to</h3>
-      <input></input>
+      <input onChange={(e) => { getRecipient(e.target.value); }}></input>
+      <h5>{ userExists }</h5>
       <h3>select Meme</h3>
       <select id='memes' onChange={(e) => { changeMeme(e.target.value); }}>
         <option value='Aint-Nobody-Got-Time-For-That'>Ain't Nobody Got Time For That</option>
