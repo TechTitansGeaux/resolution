@@ -20,6 +20,9 @@ const Users = sequelize.define('Users', {
   username: DataTypes.STRING(100),
   points: DataTypes.INTEGER,
   trophy: DataTypes.STRING(100),
+  email: DataTypes.STRING(100),
+  picture: DataTypes.STRING(100),
+  googleId: DataTypes.STRING(100)
 }, { timestamps: true });
 
 const Conversations = sequelize.define('Conversations', {
