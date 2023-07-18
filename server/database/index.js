@@ -2,7 +2,7 @@ const { Sequelize, DataTypes } = require('sequelize');
 
 // Create sequelize connection to mysql database
 const sequelize = new Sequelize({
-  host: 'localhost',
+  host: '127.0.0.1',
   dialect: 'mysql',
   username: 'root',
   password: '',
@@ -25,12 +25,53 @@ const Users = sequelize.define('Users', {
   googleId: DataTypes.STRING(100)
 }, { timestamps: true });
 
-const Messages = sequelize.define('Messages', {
-  userId: {
+const Conversations = sequelize.define('Conversations', {
+  userOneId: {
     type: DataTypes.INTEGER,
     allowNull: false,
     references: {
       model: Users,
+      key: 'id'
+    }
+  },
+  userTwoId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true
+  },
+}, {timestamps: true});
+
+const Messages = sequelize.define('Messages', {
+  senderId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  recipientId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  conversationId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Conversations,
       key: 'id'
     }
   },
@@ -61,5 +102,6 @@ module.exports = {
   db: sequelize,
   Users,
   Messages,
+  Conversations,
   Void
 };

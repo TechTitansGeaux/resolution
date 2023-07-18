@@ -1,6 +1,6 @@
 const mysql = require('mysql2/promise');
 
-const { Users, Messages, Void, db } = require('./index.js');
+const { Users, Conversations, Messages, Void, db } = require('./index.js');
 
 db.options.logging = false;
 
@@ -10,6 +10,8 @@ const seedSqlize = () => {
     .then(() => console.log('\x1b[33m', '\nDatabase (MySQL): \'resolution\' successfully created!'))
     .then(() => Users.sync({ force: true }))
     .then(() => console.log('\x1b[36m', '\nDatabase (MySQL): \'Users\' table successfully created!'))
+    .then(() => Conversations.sync({ force: true }))
+    .then(() => console.log('\x1b[36m', '\nDatabase (MySQL): \'Conversations\' table successfully created!'))
     .then(() => Messages.sync({ force: true }))
     .then(() => console.log('\x1b[36m', '\nDatabase (MySQL): \'Messages\' table successfully created!'))
     .then(() => Void.sync({ force: true }))

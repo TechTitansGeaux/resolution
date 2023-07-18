@@ -5,8 +5,11 @@ const passport = require('passport');
 const authRoutes = require('./routes/auth');
 require('dotenv').config();
 const users = require('./routes/users');
-
+// passport starategy
 require('./auth/passport');
+const wofRouter = require('./wofRoutes.js');
+require('dotenv').config();
+const messageRouter = require('./messagesHandling');
 
 const port = 4000;
 
@@ -22,6 +25,7 @@ const secretKey = uuid.v4();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
+// users session
 app.use(
   session({
     secret: secretKey,
@@ -40,6 +44,11 @@ app.get('/favicon.ico', (req, res) => {
   res.status(204).end(); // respond with a 204 No Content status code
 });
 
+
+app.use('/wofRoutes', wofRouter);
+
+// sets endpoint (needs better name)
+app.use('/messagesHandling', messageRouter);
 
 
 
