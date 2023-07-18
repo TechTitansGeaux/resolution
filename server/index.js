@@ -2,6 +2,7 @@ const path = require('path');
 const express = require('express');
 const { Users, Messages, Void } = require('./database/index');
 require('dotenv').config();
+const dmakerRouter = require('./dmakerRouter'); //samson's route
 
 const port = 4000;
 
@@ -15,10 +16,9 @@ const app = express();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
-app.use('/decisionmaker', dmakerRouter);
 
 // fill out routes
-const dmakerRouter = require('./dmakerRouter'); //samson's route
+app.use('/decisionmaker', dmakerRouter);
 
 
 app.get('/*', (req, res) => {
