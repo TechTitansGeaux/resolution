@@ -89,21 +89,24 @@ const Home = () => {
               value={text}
               className="input-group"
             ></input>
-            <button className="btn btn-primary mt-2 pe-5 ps-5" onClick={(e) => handleSubmit(e)}>
-              SUBMIT
+            <button
+              className="btn btn-primary mt-2 pe-5 ps-5"
+              onClick={(e) => handleSubmit(e)}
+            >
+              <b>SUBMIT</b>
             </button>
           </div>
-          <div
-            className="scream-container bg-primary container pt-2pb-2"
-          >
+          <div className="scream-container bg-primary container pt-2pb-2">
             {posts.map((post) => {
               return (
                 <p
                   className="scream modal-content  text-white"
                   key={post.id + "void"}
                 >
-                  <span>Anonymous: </span>
-                  {`"${post.text}"`}
+                  <span className="scream modal-content  text-sm-left">
+                    anonymous:{" "}
+                  </span>
+                  <b>{`"${post.text}"`}</b>
                   <span> created: {dayjs(`${post.createdAt}`).fromNow()}</span>
                 </p>
               );
