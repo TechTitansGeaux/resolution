@@ -9,15 +9,27 @@ import Navigation from "./Navigation.jsx";
 import "bootstrap/dist/css/bootstrap.min.css";
 
 const App = () => {
+
+  // function to add necessary points to current user as
+  const addPoints = async (user, num) => {
+    // axios patch request
+    await axios.patch(`wofRoutes/users/${user.id}`, {
+      points: user.points += num
+    })
+      .catch((err) => {
+        console.error('Failed axios PATCH: ', err);
+      });
+  };
+
   return (
     <BrowserRouter>
       <Routes>
         <Route exact path="/" element={<Navigation />}>
-          <Route index element={<Home />} />
-          <Route path="/Messages" element={<Messages />} />
+          <Route index element={<Home addPoints={addPoints}/>} />
+          <Route path="/Messages" element={<Messages addPoints={addPoints}/>} />
           <Route path="/SignUp" element={<SignUp />} />
           <Route path="/WallOfFame" element={<WallOfFame />} />
-          <Route path="/DecisionMaker" element={<DecisionMaker />} />
+          <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
       </Routes>
     </BrowserRouter>
