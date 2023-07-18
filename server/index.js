@@ -18,6 +18,7 @@ app.use(express.static(distPath));
 app.use('/decisionmaker', dmakerRouter);
 
 // fill out routes
+const dmakerRouter = require('./dmakerRouter');
 
 
 app.get('/*', (req, res) => {
