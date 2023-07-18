@@ -37,7 +37,7 @@ const StartConversation = (props) => {
     axios.post('http://127.0.0.1:4000/messagesHandling/message', {
       senderId: loggedIn.id,
       recipientId: recipient.id,
-      img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`
+      img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
     })
       .then()
       .catch((err) => {
@@ -78,7 +78,7 @@ const StartConversation = (props) => {
       <button onClick={() => { sendMessage(); }}>send</button>
       <br></br>
       <br></br>
-      <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`}></img>
+      <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>
     </div>
   );
 };
