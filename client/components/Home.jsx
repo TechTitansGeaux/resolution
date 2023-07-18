@@ -71,6 +71,7 @@ const Home = () => {
             with others and your quality of life overall.
           </p>
         </div>
+        <hr></hr>
         <div className="scream-void-component">
           <div className="input-scream-container mb-3">
             <h2 className="text-primary">Scream into the Void</h2>
@@ -96,11 +97,11 @@ const Home = () => {
               <b>SUBMIT</b>
             </button>
           </div>
-          <div className="scream-container bg-primary container pt-2pb-2">
+          <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
             {posts.map((post) => {
               return (
                 <p
-                  className="scream modal-content  text-white"
+                  className="scream modal-content  text-white pt-3"
                   key={post.id + "void"}
                 >
                   <span className="scream modal-content  text-sm-left">
@@ -108,11 +109,13 @@ const Home = () => {
                   </span>
                   <b>{`"${post.text}"`}</b>
                   <span> created: {dayjs(`${post.createdAt}`).fromNow()}</span>
+                  <hr></hr>
                 </p>
               );
             })}
           </div>
         </div>
+        <hr></hr>
         <div className="messenger-intro">
           <h2 className="text-primary">Meme Messenger</h2>
           <p>
@@ -123,6 +126,7 @@ const Home = () => {
             ice with a meme.
           </p>
         </div>
+        <hr></hr>
         <div className="decision-maker-intro">
           <h2 className="text-primary">Decision Maker</h2>
           <p>
@@ -132,6 +136,7 @@ const Home = () => {
             and your opponent will be able to come to a concrete decision.
           </p>
         </div>
+        <hr></hr>
         <div className="wall-of-fame-intro">
           <h2 className="text-primary">Wall of Fame</h2>
           <p>

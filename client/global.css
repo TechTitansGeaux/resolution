@@ -1,6 +1,6 @@
 /* //// Root Variables */
 :root {
-  --text-primary: #0d6efd
+  --color-primary: #0d6efd
 }
 
 
@@ -12,8 +12,12 @@
 }
 
 .active {
-  border-bottom: 2px solid var(--text-primary);
+  border-bottom: 2px solid var(--color-primary);
   padding-bottom: 3px;
+}
+
+hr {
+  border-width: 2px;
 }
 
 /* //// NAVIGATION COMPONENT */
@@ -22,7 +26,7 @@
 }
 
 .nav-link:active, .nav-link:hover {
-  color: var(--text-primary)
+  color: var(--color-primary)
 }
 
 /* //// HOME COMPONENT */
