@@ -3,6 +3,7 @@ const express = require('express');
 const { Users, Messages, Void } = require('./database/index');
 const wofRouter = require('./wofRoutes.js');
 require('dotenv').config();
+const messageRouter = require('./messagesHandling');
 
 const port = 4000;
 
@@ -18,8 +19,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
 app.use('/wofRoutes', wofRouter);
 
-// fill out routes
-
+// sets endpoint (needs better name)
+app.use('/messagesHandling', messageRouter);
 
 
 app.get('/*', (req, res) => {
