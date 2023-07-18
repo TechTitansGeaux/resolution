@@ -50,6 +50,31 @@ const Messages = sequelize.define('Messages', {
   }
 }, { timestamps: true });
 
+const Conversations = sequelize.define('Conversations', {
+  userOneId: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  userTwoId: {
+    type: DataTypes.INTEGER,
+    allowNull: true,
+    references: {
+      model: Users,
+      key: 'id'
+    }
+  },
+  id: {
+    type: DataTypes.INTEGER,
+    allowNull: false,
+    autoIncrement: true,
+    primaryKey: true
+  },
+}, {timestamps: true});
+
 const Void = sequelize.define('Void', {
   id: {
     type: DataTypes.INTEGER,
@@ -66,5 +91,6 @@ module.exports = {
   db: sequelize,
   Users,
   Messages,
+  Conversations,
   Void
 };

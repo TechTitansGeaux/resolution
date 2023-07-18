@@ -1,6 +1,6 @@
 const express = require('express');
 const messageRouter = express.Router();
-const { Users, Messages } = require('./database/index');
+const { Users, Messages, Conversations } = require('./database/index');
 
 messageRouter.get('/user:username', (req, res) => {
   const { username } = req.params;
@@ -19,15 +19,28 @@ messageRouter.get('/user:username', (req, res) => {
     });
 });
 
+messageRouter.get('/conversations:userId', (req, res) => {
+  const { userId } = req.params;
+});
+
 messageRouter.post('/message', (req, res) => {
-  Messages.create(req.body)
-    .then(() => {
-      res.sendStatus(201);
+  const { senderId, recipientId } = req.body;
+  // console.log(req.body);
+  Conversations.create({userOneId: senderId, userTwoId: recipientId})
+    .then((data) => {
+      console.log(data);
     })
     .catch((err) => {
-      console.log('error creating message: ', err);
-      res.sendStatus(500);
+      console.log('error creating conversations: ', err);
     });
+  // Messages.create(req.body)
+  //   .then(() => {
+  //     res.sendStatus(201);
+  //   })
+  //   .catch((err) => {
+  //     console.log('error creating message: ', err);
+  //     res.sendStatus(500);
+  //   });
 });
 
 module.exports = messageRouter;
