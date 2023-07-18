@@ -11,7 +11,7 @@ const Messages = (props) => {
   return (
     <div>
       <button onClick={() => { updateView(<AllConversations loggedIn={props.loggedIn} />); }}>all conversations</button>
-      <button onClick={() => { updateView(<StartConversation loggedIn={props.loggedIn} />); }}>start conversation</button>
+      <button onClick={() => { updateView(<StartConversation updateView={updateView} loggedIn={props.loggedIn} />); }}>start conversation</button>
       { view }
     </div>
   );

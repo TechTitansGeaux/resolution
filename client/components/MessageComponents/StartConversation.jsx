@@ -1,8 +1,9 @@
 import { React, useState } from 'react';
 import axios from 'axios';
+import AllConversations from './AllConversations.jsx';
 
 const StartConversation = (props) => {
-  const { loggedIn } = props;
+  const { loggedIn, updateView } = props;
 
   const [ topText, updateTopText ] = useState('');
 
@@ -28,12 +29,9 @@ const StartConversation = (props) => {
       .catch((err) => {
         console.log(err);
       });
-    return;
   };
 
   const sendMessage = () => {
-    // console.log(recipient);
-    // console.log(loggedIn.id);
     axios.post('http://127.0.0.1:4000/messagesHandling/message', {
       senderId: loggedIn.id,
       recipientId: recipient.id,
@@ -75,7 +73,10 @@ const StartConversation = (props) => {
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click to send meme</h3>
-      <button onClick={() => { sendMessage(); }}>send</button>
+      <button onClick={() => {
+        sendMessage();
+        updateView(<AllConversations loggedIn={props.loggedIn} />);
+      }}>send</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>
