@@ -19,4 +19,16 @@ messageRouter.get('/user:username', (req, res) => {
     });
 });
 
+messageRouter.post('/message', (req, res) => {
+  console.log(req.body);
+  Messages.create(req.body)
+    .then((data) => {
+      console.log(data);
+    })
+    .catch((err) => {
+      console.log('error creating message: ', err);
+      res.sendStatus(500);
+    });
+});
+
 module.exports = messageRouter;

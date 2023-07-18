@@ -7,7 +7,7 @@ import SignUp from "./SignUp.jsx";
 import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
 // for development
-const loggedIn = 'tim8';
+const loggedIn = {username: 'tim8', id: 4};
 
 const App = () => {
   return (

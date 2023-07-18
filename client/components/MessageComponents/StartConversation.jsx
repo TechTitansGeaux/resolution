@@ -12,17 +12,34 @@ const StartConversation = (props) => {
 
   const [ meme, changeMeme ] = useState('Aint-Nobody-Got-Time-For-That');
 
+  const [ recipient, setRecipient ] = useState(null);
+
   const getRecipient = (username) => {
     axios.get(`http://127.0.0.1:4000/messagesHandling/user${username}`)
       .then((res) => {
         if (res.status === 204) {
           setUserExists('user not found');
         } else if (res.status === 200) {
+          setRecipient(res.data);
           // maybe put a check mark emoji
           setUserExists('all good');
-          console.log(res.data);
         }
       })
+      .catch((err) => {
+        console.log(err);
+      });
+    return;
+  };
+
+  const sendMessage = () => {
+    // console.log(recipient);
+    // console.log(loggedIn.id);
+    axios.post('http://127.0.0.1:4000/messagesHandling/message', {
+      senderId: loggedIn.id,
+      recipientId: recipient.id,
+      img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`
+    })
+      .then()
       .catch((err) => {
         console.log(err);
       });
@@ -58,7 +75,7 @@ const StartConversation = (props) => {
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click to send meme</h3>
-      <button>send</button>
+      <button onClick={() => { sendMessage(); }}>send</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`}></img>
