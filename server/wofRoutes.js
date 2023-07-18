@@ -2,7 +2,7 @@ const express = require('express');
 const { Users } = require('./database/index');
 const wofRouter = express.Router();
 
-// handle request to get top 5 users
+// handle request to get top 50 users
 wofRouter.get('/users', (req, res) => {
   // use sequelize method to get users
   Users.findAll()
@@ -11,8 +11,8 @@ wofRouter.get('/users', (req, res) => {
       const sorted = usersArr.sort((a, b)=>{
         return b.points - a.points;
       });
-      //send back a 200 SC and users first 5 indexes from sorted array
-      res.status(200).send(sorted.slice(0, 5));
+      //send back a 200 SC and sorted array
+      res.status(200).send(sorted);
     })
     .catch((err) => {
       // if db query fails, send back 500 SC
@@ -22,14 +22,13 @@ wofRouter.get('/users', (req, res) => {
 
 });
 
-// handle request to update points
+// handle request to update properties (points or trophy)
 wofRouter.patch('/users/:id', (req, res) => {
   // access id from request parameters
   const { id } = req.params;
-  // access points from request body
-  const { points } = req.body;
   // use sequelize update method
-  Users.update({ points: points }, { where: {id: id}})
+  // pass in any properties from request body
+  Users.update({... req.body}, { where: {id: id}})
     .then((updatedArr) => {
       // if id is found, [ 1 ] is sent back
       if (updatedArr[0] > 0) {
@@ -46,5 +45,7 @@ wofRouter.patch('/users/:id', (req, res) => {
       res.sendStatus(500);
     });
 });
+
+
 
 module.exports = wofRouter;
