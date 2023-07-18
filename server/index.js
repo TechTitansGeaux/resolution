@@ -18,7 +18,7 @@ app.use(express.static(distPath));
 app.use('/decisionmaker', dmakerRouter);
 
 // fill out routes
-const dmakerRouter = require('./dmakerRouter');
+const dmakerRouter = require('./dmakerRouter'); //samson's route
 
 
 app.get('/*', (req, res) => {
