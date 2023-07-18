@@ -11,7 +11,6 @@ const Navigation = () => {
       <nav className="navbar navbar-expand-md fixed-top navbar-light bg-light">
         <div className="container">
           <NavLink className="nav-link navbar-brand active" href="#" to="/">
-            {/* <span className="align-top">App Logo</span> */}
             <img
               src={ResolutionLogo}
               alt="Resolution Logo"

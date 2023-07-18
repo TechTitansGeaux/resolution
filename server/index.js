@@ -1,6 +1,5 @@
 const path = require('path');
 const express = require('express');
-// const { Users, Messages, Void } = require('./database/index');
 require('dotenv').config();
 const homeRouter = require('./routes/homeRouter')
 
