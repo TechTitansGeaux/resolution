@@ -37,7 +37,7 @@ const DecisionMaker = () => {
 
   useEffect(() => {
     socket.on('receive_hand', (data) => {
-      console.log(data);
+      console.log(data.message);
     });
   });
 

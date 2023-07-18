@@ -2,7 +2,6 @@ const path = require('path');
 const express = require('express');
 const { Users, Messages, Void } = require('./database/index');
 require('dotenv').config();
-const dmakerRouter = require('./dmakerRouter');
 
 const port = 4000;
 
@@ -19,7 +18,6 @@ app.use(express.static(distPath));
 app.use('/decisionmaker', dmakerRouter);
 
 // fill out routes
-
 
 
 app.get('/*', (req, res) => {
