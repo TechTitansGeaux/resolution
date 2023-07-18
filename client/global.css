@@ -11,13 +11,17 @@
 }
 
 .active {
-  text-decoration: underline;
+  border-bottom: 2px solid var(--text-primary);
+  padding-bottom: 3px;
 }
 
 /* //// NAVIGATION COMPONENT */
 .navbar-brand {
-  text-decoration: none;
+  border: none;
 }
 
+.nav-link:active, .nav-link:hover {
+  color: var(--text-primary)
+}
 
 /* //// HOME COMPONENT */
