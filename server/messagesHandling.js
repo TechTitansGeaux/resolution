@@ -24,23 +24,31 @@ messageRouter.get('/conversations:userId', (req, res) => {
 });
 
 messageRouter.post('/message', (req, res) => {
-  const { senderId, recipientId } = req.body;
-  // console.log(req.body);
-  Conversations.create({userOneId: senderId, userTwoId: recipientId})
-    .then((data) => {
-      console.log(data);
-    })
-    .catch((err) => {
-      console.log('error creating conversations: ', err);
-    });
-  // Messages.create(req.body)
-  //   .then(() => {
-  //     res.sendStatus(201);
-  //   })
-  //   .catch((err) => {
-  //     console.log('error creating message: ', err);
-  //     res.sendStatus(500);
-  //   });
+  const { senderId, recipientId, conversationId } = req.body;
+  if (conversationId) {
+    Messages.create(req.body)
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log('error creating message: ', err);
+        res.sendStatus(500);
+      });
+  } else {
+    Conversations.create({userOneId: senderId, userTwoId: recipientId})
+      .then((data) => {
+        const { id } = data.dataValues;
+        return Messages.create({ senderId, recipientId, conversationId: id });
+      })
+      .then(() => {
+        res.sendStatus(201);
+      })
+      .catch((err) => {
+        console.log('error creating message: ', err);
+        res.sendStatus(500);
+      });
+  }
+
 });
 
 module.exports = messageRouter;

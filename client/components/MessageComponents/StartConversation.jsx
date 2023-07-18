@@ -37,7 +37,9 @@ const StartConversation = (props) => {
       recipientId: recipient.id,
       img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
     })
-      .then()
+      .then(() => {
+        updateView(<AllConversations loggedIn={props.loggedIn} />);
+      })
       .catch((err) => {
         console.log(err);
       });
@@ -72,11 +74,8 @@ const StartConversation = (props) => {
       <input value={topText} onChange={(e) => { updateTopText(e.target.value); }}></input>
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
-      <h3>click to send meme</h3>
-      <button onClick={() => {
-        sendMessage();
-        updateView(<AllConversations loggedIn={props.loggedIn} />);
-      }}>send</button>
+      <h3>click 'send meme' button to start conversation</h3>
+      <button onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>
