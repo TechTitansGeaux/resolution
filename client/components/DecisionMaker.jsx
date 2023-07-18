@@ -13,6 +13,7 @@ const DecisionMaker = () => {
         //console.log('response:', response);
         if (response.data === 'OK') {
           setUser(searchInput);
+          setSearchInput('');
         }
       })
       .catch((err) => {
@@ -32,6 +33,11 @@ const DecisionMaker = () => {
       <input type="text"
         placeholder='Search User'
         onChange={handleChange}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            getUser();
+          }
+        }}
         value={searchInput}/>
       <button type="button"
         onClick={getUser}
