@@ -4,7 +4,7 @@ const { isUserAuthenticated } = require('../middleware/auth');
 
 const router = express.Router();
 
-const successLoginUrl = 'http://127.0.0.1:4000';
+const successLoginUrl = 'http://127.0.0.1:4000/Home';
 const errorLoginUrl = 'http://127.0.0.1:4000/login/error';
 
 router.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
