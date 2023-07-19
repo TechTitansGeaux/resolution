@@ -11,6 +11,8 @@ import axios from 'axios';
 
 
 
+
+
 const App = () => {
 
   // check if user is authenticated
@@ -24,31 +26,19 @@ const App = () => {
   };
 
   // redirect user to sign up page
-  const redirectToGoogleSSO = async () => {
-    const googleLoginURL = 'http://127.0.0.1:4000/auth/login/google';
-    const newWindow = window.open(googleLoginURL, "_blank", "width=500,height=600");
-    
-    if (newWindow) {
-      const timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log('AUTHENTICATED');
-          fetchAuthUser();
-          if (timer) {
-            clearInterval(timer);
-          }
-        }
-      }, 500);
-    }
+  const redirectToGoogleSSO = () => {
+    window.location.href = 'http://127.0.0.1:4000/auth/login/google';
   };
+  
 
 
 
   return (
     <BrowserRouter>
       <Routes>
+        <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>}></Route>
         <Route exact path="/" element={<Navigation />}>
-          <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>} />
-          <Route exact path="/Home" element={<Home />} />
+          <Route path="/Home" element={<Home />} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages />} />
           <Route path="/WallOfFame" element={<WallOfFame />} />
