@@ -29,7 +29,7 @@ const config = {
   devtool: "eval",
   devServer: {
     open: true,
-    host: "localhost",
+    host: "127.0.0.1",
     liveReload: true,
     resolve: {
       extensions: [".js", ".jsx", ".json"],
