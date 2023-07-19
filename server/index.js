@@ -9,8 +9,9 @@ const users = require('./routes/users');
 // passport starategy
 const messageRouter = require('./routes/messagesHandling');
 const wofRouter = require('./routes/wofRoutes.js');
-require('dotenv').config();
+const dmakerRouter = require('./dmakerRouter'); //samson's route
 const homeRouter = require('./routes/homeRouter')
+
 
 const port = 4000;
 
@@ -48,6 +49,9 @@ app.use('/messagesHandling', messageRouter);
 // });
 
 app.use('/', homeRouter)
+
+// fill out routes
+app.use('/decisionmaker', dmakerRouter);
 
 
 
