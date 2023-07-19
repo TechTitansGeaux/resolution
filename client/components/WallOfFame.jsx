@@ -2,8 +2,8 @@ import WOFItem from "./WOFItem.jsx";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const WallOfFame = () => {
-
+const WallOfFame = (props) => {
+  
   // add top 5 property to state, empty array initially
   const [ top5, setTop5 ] = useState([]);
 

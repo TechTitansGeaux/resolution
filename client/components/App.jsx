@@ -19,8 +19,8 @@ import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 const App = () => {
   
-  // add current user ID variable to state
-  const [ userId, setUserId ] = useState('');
+  // add current user variable to state
+  const [ user, setUser ] = useState({});
 
   const dispatch = useDispatch();
 
@@ -33,8 +33,8 @@ const App = () => {
       const response = await axios.get(`/users/user`);
       if (response && response.data) {
         console.log('User', response.data);
-        // set user id variable to that of user who was just logged in 
-        setUserId(response.data.id);
+        // set user variable to user who was just logged in
+        setUser(response.data);
         dispatch(setIsAuthenticated(true));
         dispatch(setAuthUser(response.data));
       }
@@ -68,7 +68,7 @@ const App = () => {
           <Route exact path="/Home" element={<Home addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />
-          <Route path="/WallOfFame" element={<WallOfFame userId={userId}/>} />
+          <Route path="/WallOfFame" element={<WallOfFame />} />
           <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
       </Routes>
