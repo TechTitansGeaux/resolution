@@ -1,27 +1,30 @@
 import { useState, useEffect } from "react";
+
+import { Link } from 'react-router-dom'
 import axios from 'axios';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-
-const Home = (props) => {
+const Home = ({ user, addPoints }) => {
 
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [submit, setSubmit] = useState(false)
+  const [submit, setSubmit] = useState(false);
 
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
-    async function fetchData() {
-      await axios.post('/void', { text })
+    const fetchData = async () => {
+
+      await axios
+        .post("/void", { text })
         .then((data) => {
-          console.log('Success! handleSubmit post request data ==>', data);
+          console.log("Success! handleSubmit post request data ==>", data);
           // empty input field
           setText("");
           setSubmit(false);
@@ -31,14 +34,15 @@ const Home = (props) => {
       })
     };
     // also add points to user
-    props.addPoints(props.user, 5);
+    addPoints(user, 5);
+
     // calls async function
-    fetchData()
-  }
+    fetchData();
+  };
 
   useEffect(() => {
     // async function to get void table data
-    async function fetchData() {
+    const fetchData = async () => {
       await axios
         .get("/void")
         .then((response) => {
@@ -53,16 +57,17 @@ const Home = (props) => {
         .catch((err) => {
           console.error("Error in useEffect axios.get request ===>", err);
         });
-    }
+    };
     // calls async function
-    fetchData()
+    fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
-  }, [submit])
+  }, [submit]);
 
   return (
     <div className="home section">
       <main className="container">
         <div className="intro">
+          {user && <h3>Hi {user.username} 👋</h3>}
           <h1 className="text-primary">Welcome to Resolution</h1>
           <p>
             This innovative app will change the way you resolve interpersonal
@@ -77,22 +82,23 @@ const Home = (props) => {
         <hr></hr>
         <div className="scream-void-component">
           <div className="input-scream-container mb-3">
-            <h2 className="text-primary">Scream into the Void</h2>
+            <h2 className="text-primary">📣 Scream into the Void</h2>
             <p>
               Do you need to vent? Often, this might be the first constructive
               way to deal with your conflict. Put words to your emotions, say
               your piece and get everything off your chest. All screams are
               anonymous.
             </p>
-            <input
+            <textarea
               name="scream"
               type="text"
               placeholder="Go Ahead and Vent"
               onChange={handleChange}
               onKeyDown={(e) => (e.key === "Enter" ? handleSubmit(e) : null)}
               value={text}
+              rows="3"
               className="input-group"
-            ></input>
+            ></textarea>
             <button
               className="btn btn-primary mt-2 pe-5 ps-5"
               onClick={(e) => handleSubmit(e)}
@@ -103,24 +109,30 @@ const Home = (props) => {
           <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
             {posts.map((post) => {
               return (
-                <p
-                  className="scream modal-content  text-white pt-3"
-                  key={post.id + "void"}
-                >
-                  <span className="scream modal-content  text-sm-left">
-                    anonymous:{" "}
-                  </span>
-                  <b>{`"${post.text}"`}</b>
-                  <span> created: {dayjs(`${post.createdAt}`).fromNow()}</span>
+                <div key={post.id + "void"}>
+                  <p className="scream modal-content  text-white pt-3">
+                    <span className="scream modal-content  text-sm-left">
+                      anonymous:{" "}
+                    </span>
+                    <b>{`"${post.text}"`}</b>
+                    <span>
+                      {" "}
+                      created: {dayjs(`${post.createdAt}`).fromNow()}
+                    </span>
+                  </p>
                   <hr></hr>
-                </p>
+                </div>
               );
             })}
           </div>
         </div>
         <hr></hr>
         <div className="messenger-intro">
-          <h2 className="text-primary">Meme Messenger</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/Messages">
+              🤣 Meme Messenger
+            </Link>
+          </h2>
           <p>
             Do you have something you need to say, but just can’t find the right
             way to say it? We offer a convenient and expressive meme generator
@@ -131,7 +143,11 @@ const Home = (props) => {
         </div>
         <hr></hr>
         <div className="decision-maker-intro">
-          <h2 className="text-primary">Decision Maker</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/DecisionMaker">
+              🎯 Decision Maker
+            </Link>
+          </h2>
           <p>
             Are you ready to move forward with your conflict, but need an
             unbiased way to decide how? Our decision maker feature offers a
@@ -141,7 +157,11 @@ const Home = (props) => {
         </div>
         <hr></hr>
         <div className="wall-of-fame-intro">
-          <h2 className="text-primary">Wall of Fame</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/WallOfFame">
+              🏆 Wall of Fame
+            </Link>
+          </h2>
           <p>
             Earn points and trophies as you become a master conflict resolver!
             Our top 10 Resolution users will be featured on the Wall of Fame.
