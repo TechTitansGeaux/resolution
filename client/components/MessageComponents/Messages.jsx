@@ -10,8 +10,12 @@ const Messages = (props) => {
 
   return (
     <div className='section container'>
-      <button onClick={() => { updateView(<AllConversations loggedIn={props.loggedIn} />); }}>all conversations</button>
-      <button onClick={() => { updateView(<StartConversation updateView={updateView} loggedIn={props.loggedIn} />); }}>start conversation</button>
+      <button onClick={() => {
+        updateView(<AllConversations loggedIn={props.loggedIn} />);
+      }}>all conversations</button>
+      <button onClick={() => {
+        updateView(<StartConversation updateView={updateView} loggedIn={props.loggedIn} />);
+      }}>start conversation</button>
       { view }
     </div>
   );
