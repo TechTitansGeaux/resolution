@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import axios from 'axios';
 
 const WallOfFame = (props) => {
-  
+
   // add top 5 property to state, empty array initially
   const [ top5, setTop5 ] = useState([]);
 
@@ -37,7 +37,7 @@ const WallOfFame = (props) => {
       .then(({data}) => {
         // in order to make placement relative to other users and to amount of users
         // set placement to users place in ranked list, divided by the length
-        setPlacement((data.map(user => user.id).indexOf(testUser.id)) / data.length);
+        setPlacement((data.map(user => user.id).indexOf(props.user.id)) / data.length);
       })
       .catch((err) => {
         console.error('Failed axios GET user placement: ', err);

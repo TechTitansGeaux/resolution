@@ -51,24 +51,27 @@ const App = () => {
   };
 
   // function to add necessary points to current user as
-  const addPoints = async (user, num) => {
+  const addPoints = (user, num) => {
+    const oldPoints = user.points;
     // axios patch request
-    await axios.patch(`wofRoutes/users/${user.id}`, {
-      points: user.points += num
+    axios.patch(`wofRoutes/users/${user.id}`, {
+      points: oldPoints + num
     })
       .catch((err) => {
         console.error('Failed axios PATCH: ', err);
       });
   };
+
+  
   return (
     <BrowserRouter>
       <Routes>
         <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>}></Route>
         <Route exact path="/" element={<Navigation />}>
-          <Route exact path="/Home" element={<Home addPoints={addPoints}/>} />
+          <Route exact path="/Home" element={<Home user={user} addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />
-          <Route path="/WallOfFame" element={<WallOfFame />} />
+          <Route path="/WallOfFame" element={<WallOfFame user={user}/>} />
           <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
       </Routes>
