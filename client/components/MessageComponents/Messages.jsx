@@ -5,7 +5,7 @@ import AllConversations from './AllConversations.jsx';
 
 const Messages = (props) => {
 
-  const [ view, updateView ] = useState(<AllConversations />);
+  const [ view, updateView ] = useState(<AllConversations loggedIn={props.loggedIn}/>);
 
 
   return (
