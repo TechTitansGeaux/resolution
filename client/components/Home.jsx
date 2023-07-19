@@ -5,8 +5,8 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
+const Home = ({ user, addPoints }) => {
 
-const Home = ({ user }) => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false);
@@ -30,9 +30,12 @@ const Home = ({ user }) => {
           setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err);
-        });
+          console.error('Error in handleSubmit axios.post request ===>', err)
+      })
     };
+    // also add points to user
+    addPoints(user, 5);
+
     // calls async function
     fetchData();
   };
