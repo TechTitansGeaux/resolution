@@ -39,8 +39,8 @@ const AllConversations = (props) => {
         {message}
       </h3>
       {
-        allConversations.map(() => {
-          return <Conversation />;
+        allConversations.map((el, i) => {
+          return <Conversation key={el.id + i} />;
         })
       }
     </div>

@@ -22,7 +22,6 @@ const StartConversation = (props) => {
       .then((res) => {
         if (res.status === 204 || username.length === 0) {
           setUserExists('user not found');
-          console.log(userExists);
         } else if (res.status === 200) {
           setRecipient(res.data);
           setNoUserMessage('');

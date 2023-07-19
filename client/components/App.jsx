@@ -1,4 +1,4 @@
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DecisionMaker from "./DecisionMaker.jsx";
 import Home from "./Home.jsx";
@@ -9,7 +9,6 @@ import GoogleButton from 'react-google-button';
 import axios from 'axios';
 import Messages from "./MessageComponents/Messages.jsx";
 // for development
-const loggedIn = {id: 4, username: 'tim8'};
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
@@ -19,6 +18,7 @@ import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 const App = () => {
   const dispatch = useDispatch();
+  const [ user, setUser] = useState("");
 
   useEffect(() => {
     fetchAuthUser();
@@ -31,6 +31,7 @@ const App = () => {
         console.log('User', response.data);
         dispatch(setIsAuthenticated(true));
         dispatch(setAuthUser(response.data));
+        setUser(response.data);
       }
     } catch (error) {
       console.error(error);
@@ -61,7 +62,7 @@ const App = () => {
         <Route exact path="/" element={<Navigation />}>
           <Route exact path="/Home" element={<Home addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
-          <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />
+          <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={user} />} />
           <Route path="/WallOfFame" element={<WallOfFame />} />
           <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
