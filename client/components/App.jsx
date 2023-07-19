@@ -59,7 +59,6 @@ const App = () => {
       <Routes>
         <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>}></Route>
         <Route exact path="/" element={<Navigation />}>
-          <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>} />
           <Route exact path="/Home" element={<Home addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />

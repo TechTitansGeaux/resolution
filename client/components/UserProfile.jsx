@@ -47,7 +47,7 @@ const UserProfile = () => {
   }
 
   return (
-    <div>
+    <div className='container section'>
       <h2>User Profile</h2>
       <p>Username: {authUser.username}</p>
       <p>Points: {authUser.points}</p>

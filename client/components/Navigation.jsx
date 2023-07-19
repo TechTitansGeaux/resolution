@@ -10,7 +10,7 @@ const Navigation = () => {
     <>
       <nav className="navbar navbar-expand-md fixed-top navbar-light bg-light">
         <div className="container">
-          <NavLink className="nav-link navbar-brand active" href="#" to="/">
+          <NavLink className="nav-link navbar-brand active" href="#" to="/Home">
             <img
               src={ResolutionLogo}
               alt="Resolution Logo"
@@ -46,7 +46,7 @@ const Navigation = () => {
                 </NavLink>
               </li>
               <li className="nav-item" role="navigation">
-                <NavLink className="nav-link" href="#" to="/myProfile">
+                <NavLink className="nav-link" href="#" to="/UserProfile">
                   My Profile
                 </NavLink>
               </li>
