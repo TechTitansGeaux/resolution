@@ -14,7 +14,7 @@ const WallOfFame = () => {
       // destructure to get data (array of top 5) from response
       .then(({data}) => {
         // set top5 in state to top5 given from axios
-        setTop5(data.slice(0, 5));
+        setTop5(data.slice(0, 6));
       })
       .catch((err) => {
         console.error('Failed axios GET top 5: ', err);
@@ -28,7 +28,7 @@ const WallOfFame = () => {
   // add placement property to state to hold relative placement
   const [ placement, setPlacement ] = useState('');
 
-  const testUser = {id: 5, username: 'Joe', points: 50};
+  const testUser = {id: 6, username: 'Joe', points: 0};
 
   // useEffect to get user placement
   useEffect(() => {

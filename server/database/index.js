@@ -18,7 +18,11 @@ const Users = sequelize.define('Users', {
     autoIncrement: true
   },
   username: DataTypes.STRING(100),
-  points: DataTypes.INTEGER,
+  points: {
+    type: DataTypes.INTEGER,
+    defaultValue: 0,
+    allowNull: false
+  },
   trophy: DataTypes.STRING(100),
   email: DataTypes.STRING(100),
   picture: DataTypes.STRING(100),
