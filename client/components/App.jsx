@@ -32,7 +32,6 @@ const App = () => {
     try {
       const response = await axios.get(`/users/user`);
       if (response && response.data) {
-        console.log("User", response.data);
         dispatch(setIsAuthenticated(true));
         dispatch(setAuthUser(response.data));
         setUser(response.data);
@@ -106,7 +105,7 @@ const App = () => {
       });
   };
 
-  
+
   return (
     <BrowserRouter>
       <Routes>

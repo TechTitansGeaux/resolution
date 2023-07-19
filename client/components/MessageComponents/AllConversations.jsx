@@ -4,6 +4,7 @@ import axios from 'axios';
 
 const AllConversations = (props) => {
   const { loggedIn } = props;
+  console.log('user: ', loggedIn);
 
   const [ allConversations, setConversations ] = useState([]);
 
@@ -12,7 +13,6 @@ const AllConversations = (props) => {
   const getAllConversations = () => {
     axios.get(`/messagesHandling/conversations${loggedIn.id}`)
       .then((res) => {
-        // console.log(res.data);
         setConversations(res.data);
         if (allConversations.length === 0) {
           setMessage('You don\'t have any conversations yet click start conversation to start one up!');
@@ -28,10 +28,6 @@ const AllConversations = (props) => {
   useEffect(() => {
     getAllConversations();
   }, [message]);
-
-
-
-
 
   return (
     <div>
