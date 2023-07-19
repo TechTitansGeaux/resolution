@@ -20,7 +20,7 @@ const Home = () => {
     async function fetchData() {
       await axios.post('/void', { text })
         .then((data) => {
-          console.log('Success! handleSubmit post request data ==>', data);
+          // console.log('Success! handleSubmit post request data ==>', data);
           // empty input field
           setText("");
           setSubmit(false);
@@ -100,17 +100,19 @@ const Home = () => {
           <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
             {posts.map((post) => {
               return (
-                <p
-                  className="scream modal-content  text-white pt-3"
-                  key={post.id + "void"}
-                >
-                  <span className="scream modal-content  text-sm-left">
-                    anonymous:{" "}
-                  </span>
-                  <b>{`"${post.text}"`}</b>
-                  <span> created: {dayjs(`${post.createdAt}`).fromNow()}</span>
+                <div key={post.id + "void"}>
+                  <p className="scream modal-content  text-white pt-3">
+                    <span className="scream modal-content  text-sm-left">
+                      anonymous:{" "}
+                    </span>
+                    <b>{`"${post.text}"`}</b>
+                    <span>
+                      {" "}
+                      created: {dayjs(`${post.createdAt}`).fromNow()}
+                    </span>
+                  </p>
                   <hr></hr>
-                </p>
+                </div>
               );
             })}
           </div>
