@@ -1,0 +1,32 @@
+/* //// Root Variables */
+:root {
+  --color-primary: #0d6efd
+}
+
+
+/* //// GLOBAL STYLES */
+
+.section {
+  margin-top: 8em;
+  margin-bottom: 4em;
+}
+
+.active {
+  border-bottom: 2px solid var(--color-primary);
+  padding-bottom: 3px;
+}
+
+hr {
+  border-width: 2px;
+}
+
+/* //// NAVIGATION COMPONENT */
+.navbar-brand {
+  border: none;
+}
+
+.nav-link:active, .nav-link:hover {
+  color: var(--color-primary)
+}
+
+/* //// HOME COMPONENT */

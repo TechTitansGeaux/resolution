@@ -1,4 +1,3 @@
-// import React from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DecisionMaker from "./DecisionMaker.jsx";
 import Home from "./Home.jsx";
@@ -8,10 +7,11 @@ import Navigation from "./Navigation.jsx";
 import GoogleButton from 'react-google-button';
 import axios from 'axios';
 import Messages from "./MessageComponents/Messages.jsx";
-import "bootstrap/dist/css/bootstrap.min.css";
 // for development
 const loggedIn = {id: 4, username: 'tim8'};
 
+import "bootstrap/dist/css/bootstrap.min.css";
+import ".././global.css"
 
 const App = () => {
   // check if user is authenticated
