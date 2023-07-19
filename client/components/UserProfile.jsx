@@ -37,7 +37,6 @@ const UserProfile = () => {
     try {
       const response = await axios.delete(`/users/${authUser.id}`);
       if (response && response.data) {
-        
         window.location.href = 'http://127.0.0.1:4000';
       }
     } catch (error) {
@@ -51,22 +50,47 @@ const UserProfile = () => {
 
   return (
     <div className='container section'>
-      <h2>User Profile</h2>
-      <img src={authUser.picture} alt="User Picture" />
-      <p>Username: {authUser.username}</p>
-      <div>
-        <label htmlFor="usernameInput">Edit Username:</label>
-        <input
-          type="text"
-          id="usernameInput"
-          value={updatedUsername}
-          onChange={(event) => setUpdatedUsername(event.target.value)}
-        />
-        <button onClick={handleUpdateUser}>Save</button>
+      <div className='row justify-content-center'>
+        <div className='col-md-8'>
+          <div className='card'>
+            <div className='card-body text-center'>
+              <img
+                src={authUser.picture}
+                alt='User Picture'
+                className='rounded-circle mb-3'
+                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              />
+              <h2 className='card-title'>{authUser.username}</h2>
+              <div className='mb-3'>
+                <label htmlFor='usernameInput' className='form-label'>
+                  Edit Username:
+                </label>
+                <input
+                  type='text'
+                  id='usernameInput'
+                  value={updatedUsername}
+                  onChange={(event) => setUpdatedUsername(event.target.value)}
+                  className='form-control'
+                />
+                <button
+                  onClick={handleUpdateUser}
+                  className='btn btn-primary mt-3'
+                >
+                  Save
+                </button>
+              </div>
+              <p className='card-text'>Points: {authUser.points}</p>
+              <p className='card-text'>Trophy: {authUser.trophy}</p>
+              <button
+                onClick={handleDeleteUser}
+                className='btn btn-danger'
+              >
+                Delete Profile
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <p>Points: {authUser.points}</p>
-      <p>Trophy: {authUser.trophy}</p>
-      <button onClick={handleDeleteUser}>Delete Profile</button>
     </div>
   );
 };

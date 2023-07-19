@@ -1,18 +1,18 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
-import dayjs from 'dayjs'
+import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 
 const Home = () => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [submit, setSubmit] = useState(false)
+  const [submit, setSubmit] = useState(false);
 
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
-  }
+  };
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -30,8 +30,8 @@ const Home = () => {
       })
     }
     // calls async function
-    fetchData()
-  }
+    fetchData();
+  };
 
   useEffect(() => {
     // async function to get void table data
