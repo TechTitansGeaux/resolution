@@ -32,7 +32,7 @@ app.use(
   session({
     secret: secretKey,
     resave: false,
-    saveUninitialized: true
+    saveUninitialized: false
   })
 );
 app.use(passport.initialize());

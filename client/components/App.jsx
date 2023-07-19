@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DecisionMaker from "./DecisionMaker.jsx";
 import Home from "./Home.jsx";
@@ -12,34 +13,35 @@ const loggedIn = {id: 4, username: 'tim8'};
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
+import { useDispatch } from "react-redux";
+import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
+
 
 const App = () => {
-  // check if user is authenticated
-  const fetchAuthUser = async () => {
-    const response = await axios.get('http://127.0.0.1:4000/users/')
-      .catch((err) => console.error(err));
+  const dispatch = useDispatch();
 
-    if (response && response.data) {
-      console.log('User', response.data);
+  useEffect(() => {
+    fetchAuthUser();
+  }, []);
+
+  const fetchAuthUser = async () => {
+    try {
+      const response = await axios.get(`/users/user`);
+      if (response && response.data) {
+        console.log('User', response.data);
+        dispatch(setIsAuthenticated(true));
+        dispatch(setAuthUser(response.data));
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   // redirect user to sign up page
-  const redirectToGoogleSSO = async () => {
-    const googleLoginURL = 'http://127.0.0.1:4000/auth/login/google';
-    const newWindow = window.open(googleLoginURL, "_blank", "width=500,height=600");
+  const redirectToGoogleSSO = () => {
+    window.location.href = 'http://127.0.0.1:4000/auth/login/google';
 
-    if (newWindow) {
-      const timer = setInterval(() => {
-        if (newWindow.closed) {
-          console.log('AUTHENTICATED');
-          fetchAuthUser();
-          if (timer) {
-            clearInterval(timer);
-          }
-        }
-      }, 500);
-    }
+
   };
 
   // function to add necessary points to current user as
@@ -55,8 +57,8 @@ const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>}></Route>
         <Route exact path="/" element={<Navigation />}>
-          <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>} />
           <Route exact path="/Home" element={<Home addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />

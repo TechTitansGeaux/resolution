@@ -1,5 +1,6 @@
 const express = require('express');
 const { Users } = require('../database/index');
+const { isUserAuthenticated } = require('../middleware/auth');
 
 const router = express.Router();
 
@@ -16,6 +17,10 @@ router.get('/', async (req, res) => {
     console.error(error);
     res.status(500).json({ error: 'Internal Server Error' });
   }
+});
+
+router.get('/user', isUserAuthenticated, (req, res) => {
+  res.json(req.user);
 });
 
 // GET request to retrieve one user
