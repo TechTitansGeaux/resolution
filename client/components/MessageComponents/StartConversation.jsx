@@ -16,7 +16,7 @@ const StartConversation = (props) => {
   const [ recipient, setRecipient ] = useState(null);
 
   const getRecipient = (username) => {
-    axios.get(`http://127.0.0.1:4000/messagesHandling/user${username}`)
+    axios.get(`/messagesHandling/user${username}`)
       .then((res) => {
         if (res.status === 204) {
           setUserExists('user not found');
@@ -32,7 +32,7 @@ const StartConversation = (props) => {
   };
 
   const sendMessage = () => {
-    axios.post('http://127.0.0.1:4000/messagesHandling/message', {
+    axios.post('/messagesHandling/message', {
       senderId: loggedIn.id,
       recipientId: recipient.id,
       img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')

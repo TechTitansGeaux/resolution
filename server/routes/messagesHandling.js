@@ -1,6 +1,6 @@
 const express = require('express');
 const messageRouter = express.Router();
-const { Users, Messages, Conversations } = require('./database/index');
+const { Users, Messages, Conversations } = require('../database/index');
 
 messageRouter.get('/user:username', (req, res) => {
   const { username } = req.params;
@@ -19,12 +19,13 @@ messageRouter.get('/user:username', (req, res) => {
     });
 });
 
-messageRouter.get('/conversations:userId', (req, res) => {
-  const { userId } = req.params;
-});
+// messageRouter.get('/conversations:userId', (req, res) => {
+//   const { userId } = req.params;
+// });
 
 messageRouter.post('/message', (req, res) => {
-  const { senderId, recipientId, conversationId } = req.body;
+  console.log(req.body);
+  const { senderId, recipientId, conversationId, img } = req.body;
   if (conversationId) {
     Messages.create(req.body)
       .then(() => {
@@ -38,7 +39,7 @@ messageRouter.post('/message', (req, res) => {
     Conversations.create({userOneId: senderId, userTwoId: recipientId})
       .then((data) => {
         const { id } = data.dataValues;
-        return Messages.create({ senderId, recipientId, conversationId: id });
+        return Messages.create({ senderId, recipientId, conversationId: id, img: img});
       })
       .then(() => {
         res.sendStatus(201);

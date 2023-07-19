@@ -1,15 +1,14 @@
-const path = require('path');
+require('dotenv').config();
+require('./auth/passport');
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
 const passport = require('passport');
 const authRoutes = require('./routes/auth');
-require('dotenv').config();
 const users = require('./routes/users');
 // passport starategy
-require('./auth/passport');
-const wofRouter = require('./wofRoutes.js');
-require('dotenv').config();
-const messageRouter = require('./messagesHandling');
+const messageRouter = require('./routes/messagesHandling');
+const wofRouter = require('./routes/wofRoutes.js');
 
 const port = 4000;
 
@@ -37,18 +36,16 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
-app.use('/auth', authRoutes);
 app.use('/users', users);
-
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end(); // respond with a 204 No Content status code
-});
-
-
+app.use('/auth', authRoutes);
 app.use('/wofRoutes', wofRouter);
-
-// sets endpoint (needs better name)
 app.use('/messagesHandling', messageRouter);
+
+// app.get('/favicon.ico', (req, res) => {
+//   res.status(204).end(); // respond with a 204 No Content status code
+// });
+
+
 
 
 

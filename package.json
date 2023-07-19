@@ -4,6 +4,7 @@
   "description": "greenfield project",
   "main": "index.js",
   "scripts": {
+    "seed": "node ./server/database/seed.js",
     "start": "nodemon server/index.js",
     "start:prod": "node server/index.js",
     "build": "webpack",

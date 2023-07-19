@@ -1,5 +1,5 @@
 const express = require('express');
-const { Users } = require('./database/index');
+const { Users } = require('../database/index');
 const wofRouter = express.Router();
 
 // handle request to get top 50 users
