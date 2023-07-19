@@ -81,15 +81,16 @@ const Home = () => {
               your piece and get everything off your chest. All screams are
               anonymous.
             </p>
-            <input
+            <textarea
               name="scream"
               type="text"
               placeholder="Go Ahead and Vent"
               onChange={handleChange}
               onKeyDown={(e) => (e.key === "Enter" ? handleSubmit(e) : null)}
               value={text}
+              rows="3"
               className="input-group"
-            ></input>
+            ></textarea>
             <button
               className="btn btn-primary mt-2 pe-5 ps-5"
               onClick={(e) => handleSubmit(e)}

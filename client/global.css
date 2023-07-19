@@ -20,6 +20,12 @@ hr {
   border-width: 2px;
 }
 
+textarea {
+  box-shadow: 4px 4px 0px var(--color-primary);
+  min-height: 2em;
+  margin-bottom: .5em;
+}
+
 /* //// NAVIGATION COMPONENT */
 .navbar-brand {
   border: none;
