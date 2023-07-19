@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+
 import { Link } from 'react-router-dom'
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -19,9 +20,11 @@ const Home = ({ user }) => {
     e.preventDefault();
     setSubmit(true);
     const fetchData = async () => {
-      await axios.post('/void', { text })
+
+      await axios
+        .post("/void", { text })
         .then((data) => {
-          // console.log('Success! handleSubmit post request data ==>', data);
+          console.log("Success! handleSubmit post request data ==>", data);
           // empty input field
           setText("");
           setSubmit(false);

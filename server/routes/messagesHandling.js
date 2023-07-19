@@ -1,6 +1,7 @@
 const express = require('express');
 const messageRouter = express.Router();
 const { Users, Messages, Conversations } = require('../database/index');
+const { Op } = require("sequelize");
 
 messageRouter.get('/user:username', (req, res) => {
   const { username } = req.params;
@@ -19,9 +20,27 @@ messageRouter.get('/user:username', (req, res) => {
     });
 });
 
-// messageRouter.get('/conversations:userId', (req, res) => {
-//   const { userId } = req.params;
-// });
+messageRouter.get('/conversations:userId', (req, res) => {
+  const { userId } = req.params;
+  Conversations.findAll({
+    where: {
+      [Op.or]: [
+        { userOneId: userId },
+        { userTwoId: userId }
+      ]
+    }
+  })
+    .then((data) => {
+      if (data) {
+        res.send(data);
+      } else {
+        res.sendStatus(204);
+      }
+    })
+    .catch((err) => {
+      console.log('error finding all conversations: ', err);
+    });
+});
 
 messageRouter.post('/message', (req, res) => {
   console.log(req.body);

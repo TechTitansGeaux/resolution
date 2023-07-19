@@ -8,8 +8,9 @@ import Navigation from "./Navigation.jsx";
 import GoogleButton from "react-google-button";
 import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
-// for development
-const loggedIn = { id: 4, username: "tim8" };
+
+
+
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
