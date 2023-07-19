@@ -9,6 +9,8 @@ const users = require('./routes/users');
 // passport starategy
 const messageRouter = require('./routes/messagesHandling');
 const wofRouter = require('./routes/wofRoutes.js');
+require('dotenv').config();
+const homeRouter = require('./routes/homeRouter')
 
 const port = 4000;
 
@@ -45,6 +47,7 @@ app.use('/messagesHandling', messageRouter);
 //   res.status(204).end(); // respond with a 204 No Content status code
 // });
 
+app.use('/', homeRouter)
 
 
 

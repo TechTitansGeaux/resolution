@@ -17,10 +17,15 @@ Finally, earn points and trophies as you become a master conflict resolver! Our 
 
 # Tech Stack
 
-- MUI
 - React
+- React-router
 - MySQL
 - Sequelize
 - Express
 - Axios
-- AWS Elastic Beanstalk
+- AWS EC2
+- Bootstrap
+- Socket.io
+- eslint
+- Webpack
+- DayJS

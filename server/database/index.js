@@ -94,7 +94,11 @@ const Void = sequelize.define('Void', {
     autoIncrement: true
   },
   text: {
-    type: DataTypes.TEXT
+    type: DataTypes.TEXT,
+    allowNull: false,
+    validate: {
+      notEmpty: true,
+    }
   }
 }, {timestamps: true});
 
