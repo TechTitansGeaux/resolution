@@ -2,26 +2,47 @@ import { Outlet, NavLink } from "react-router-dom";
 // nav collapse feature for small device widths
 import "bootstrap/js/src/collapse.js";
 import ResolutionLogo from "../img/resolution_app_logo_mini.svg";
-import { useState } from "react";
-
-
+import { useState, useEffect } from "react";
 
 const Navigation = () => {
-// state for navigation collapse
-  const [collapseNav, setCollapseNav ] = useState(true)
+  // state for navigation collapse
+  const [collapseNav, setCollapseNav] = useState(true);
 
-// auto-close menu on click of NavLink
-  const handleCollapseNav = () => setCollapseNav(!collapseNav);
+  // state for width of app window to later create conditional based on window width
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+  });
+
+  // auto-close menu on click of NavLink
+  const handleCollapseNav = () => {
+    if (windowSize.width < 767) {
+      setCollapseNav(!collapseNav);
+    } else {
+      return;
+    }
+  };
+  // listen for window width resize
+  useEffect(() => {
+    const handleResize = () => {
+      console.log("resized to:", window.innerWidth);
+      setWindowSize({
+        width: window.innerWidth,
+      });
+    };
+    window.addEventListener("resize", handleResize);
+    // clean up event listener every time useEffect runs
+    return () => window.removeEventListener("resize", handleResize);
+  });
+
+
+  // console.log("state of collapseNav =>", collapseNav);
+  // console.log("state of windowSize =>", windowSize);
 
   return (
     <>
       <nav className="navbar navbar-expand-md fixed-top navbar-light bg-light">
         <div className="container">
-          <NavLink
-            className="nav-link navbar-brand active"
-            href="#"
-            to="/Home"
-          >
+          <NavLink className="nav-link navbar-brand active" href="#" to="/Home">
             <img
               src={ResolutionLogo}
               alt="Resolution Logo"
