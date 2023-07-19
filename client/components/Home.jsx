@@ -4,7 +4,7 @@ import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
 
 
-const Home = () => {
+const Home = ({ user }) => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false)
@@ -60,6 +60,7 @@ const Home = () => {
     <div className="home section">
       <main className="container">
         <div className="intro">
+          {user && <h3>Hi {user}!</h3>}
           <h1 className="text-primary">Welcome to Resolution</h1>
           <p>
             This innovative app will change the way you resolve interpersonal
