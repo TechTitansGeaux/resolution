@@ -18,8 +18,10 @@ import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 
 const App = () => {
-  const authUser = useSelector((state) => state.app.authUser);
-  console.log(authUser, '<----authUser');
+
+  // create placement and trophy variables in state for current user
+  const [ placement, setPlacement ] = useState('');
+  const [ trophy, setTrophy ] = useState('');
 
   const dispatch = useDispatch();
 
@@ -48,13 +50,59 @@ const App = () => {
 
   };
 
-  // function to add necessary points to current user as
+  // function to update trophy
+  const updateTrophy = (user) => {
+    // get all users
+    // axios get request
+    axios.get('/wofRoutes/users')
+      .then(({data}) => {
+        // in order to make placement relative to other users and to amount of users
+        // set placement to users place in ranked list, divided by the length
+        setPlacement((data.map(user => user.id).indexOf(user.id)) / data.length);
+      })
+      .catch((err) => {
+        console.error('Failed axios GET user placement: ', err);
+      });
+    // conditionally assign trophy
+    // determine if user has no points
+    if (user.points === 0) {
+      setTrophy('Earn points to win an award!');
+      // else determine users placement
+    } else if (placement <= .1) {
+      // top 10 percent get gold
+      setTrophy('🏆');
+    } else if (placement <= .2) {
+      // top 20 get Silver
+      setTrophy('🥈');
+    } else if (placement <= .3) {
+      // top 30 get Bronze
+      setTrophy('🥉');
+    } else {
+      // else if user has points but placement is over top 30 percent, ribbon
+      setTrophy('🎗️');
+    }
+    // send trophy to db
+    axios.patch(`wofRoutes/users/${user.id}`, {
+      trophy: trophy
+    })
+      .catch((err) => {
+        console.error('Failed to axios patch trophy: ', err);
+      });
+  };
+
+  // function to add necessary points to current user
+  // also must update trophy
   const addPoints = (user, num) => {
+  // points on user in state is 'read only' and cannot be directly updated
+    // create variable to grab old points number from user
     const oldPoints = user.points;
     // axios patch request
     axios.patch(`wofRoutes/users/${user.id}`, {
+      // increment old points variable INSTEAD of incrementing points property directly
+      // and set that to points
       points: oldPoints + num
     })
+      .then(updateTrophy(user))
       .catch((err) => {
         console.error('Failed axios PATCH: ', err);
       });
@@ -69,7 +117,7 @@ const App = () => {
           <Route exact path="/Home" element={<Home user={authUser} addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />
-          <Route path="/WallOfFame" element={<WallOfFame user={authUser}/>} />
+          <Route path="/WallOfFame" element={<WallOfFame authUser={authUser}/>} />
           <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
       </Routes>

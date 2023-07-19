@@ -5,8 +5,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 
 const Home = (props) => {
-  console.log(props.user, '<---- user from home')
-  // console.log(props.addPoints, '<----- add points function from home')
 
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
