@@ -8,6 +8,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
+  const [updatedUsername, setUpdatedUsername] = useState('');
 
   useEffect(() => {
     if (authUser) {
@@ -21,10 +22,11 @@ const UserProfile = () => {
 
   const handleUpdateUser = async () => {
     try {
-      const updatedUser = { ...authUser, username };
+      const updatedUser = { ...authUser, username: updatedUsername };
       const response = await axios.patch(`/users/${authUser.id}`, updatedUser);
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
+        setUpdatedUsername(''); // clear the input field after successful update
       }
     } catch (error) {
       console.error(error);
@@ -35,7 +37,8 @@ const UserProfile = () => {
     try {
       const response = await axios.delete(`/users/${authUser.id}`);
       if (response && response.data) {
-        // Handle the successful deletion of the user, e.g., redirect to another page
+        
+        window.location.href = 'http://127.0.0.1:4000';
       }
     } catch (error) {
       console.error(error);
@@ -49,20 +52,20 @@ const UserProfile = () => {
   return (
     <div className='container section'>
       <h2>User Profile</h2>
-      <p>Username: {authUser.username}</p>
-      <p>Points: {authUser.points}</p>
-      <p>Trophy: {authUser.trophy}</p>
       <img src={authUser.picture} alt="User Picture" />
+      <p>Username: {authUser.username}</p>
       <div>
-        <label htmlFor="usernameInput">Change Username:</label>
+        <label htmlFor="usernameInput">Edit Username:</label>
         <input
           type="text"
           id="usernameInput"
-          value={username}
-          onChange={handleUsernameChange}
+          value={updatedUsername}
+          onChange={(event) => setUpdatedUsername(event.target.value)}
         />
-        <button onClick={handleUpdateUser}>Update Username</button>
+        <button onClick={handleUpdateUser}>Save</button>
       </div>
+      <p>Points: {authUser.points}</p>
+      <p>Trophy: {authUser.trophy}</p>
       <button onClick={handleDeleteUser}>Delete Profile</button>
     </div>
   );
