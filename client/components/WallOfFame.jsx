@@ -77,7 +77,7 @@ const WallOfFame = () => {
   }, [trophy]);
 
   return (
-    <div>
+    <div className='section container'>
       <h2>Wall Of Fame</h2>
       {top5.map((user, index) => {
         return <WOFItem user={user} key={'user' + index}/>;

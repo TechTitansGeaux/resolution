@@ -11,7 +11,7 @@ import Messages from "./MessageComponents/Messages.jsx";
 const loggedIn = {id: 4, username: 'tim8'};
 
 import "bootstrap/dist/css/bootstrap.min.css";
-import ".././global.css"
+import ".././global.css";
 
 const App = () => {
   // check if user is authenticated
