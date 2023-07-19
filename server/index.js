@@ -1,12 +1,17 @@
-const path = require('path');
+require('dotenv').config();
+require('./auth/passport');
 const express = require('express');
 const session = require('express-session');
+const path = require('path');
 const passport = require('passport');
 const authRoutes = require('./routes/auth');
-require('dotenv').config();
 const users = require('./routes/users');
+// passport starategy
+const messageRouter = require('./routes/messagesHandling');
+const wofRouter = require('./routes/wofRoutes.js');
+const dmakerRouter = require('./routes/dmakerRouter'); //samson's route
+const homeRouter = require('./routes/homeRouter');
 
-require('./auth/passport');
 
 const port = 4000;
 
@@ -22,6 +27,7 @@ const secretKey = uuid.v4();
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
+// users session
 app.use(
   session({
     secret: secretKey,
@@ -33,12 +39,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 // routes
-app.use('/auth', authRoutes);
 app.use('/users', users);
+app.use('/auth', authRoutes);
+app.use('/wofRoutes', wofRouter);
+app.use('/messagesHandling', messageRouter);
 
-app.get('/favicon.ico', (req, res) => {
-  res.status(204).end(); // respond with a 204 No Content status code
-});
+// app.get('/favicon.ico', (req, res) => {
+//   res.status(204).end(); // respond with a 204 No Content status code
+// });
+
+app.use('/', homeRouter);
+
+// fill out routes
+app.use('/decisionmaker', dmakerRouter);
 
 
 
