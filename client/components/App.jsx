@@ -13,14 +13,13 @@ const loggedIn = {id: 4, username: 'tim8'};
 
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 
 const App = () => {
-  
-  // add current user variable to state
-  const [ user, setUser ] = useState({});
+  const authUser = useSelector((state) => state.app.authUser);
+  console.log(authUser, '<----authUser');
 
   const dispatch = useDispatch();
 
@@ -33,8 +32,6 @@ const App = () => {
       const response = await axios.get(`/users/user`);
       if (response && response.data) {
         console.log('User', response.data);
-        // set user variable to user who was just logged in
-        setUser(response.data);
         dispatch(setIsAuthenticated(true));
         dispatch(setAuthUser(response.data));
       }
@@ -42,6 +39,7 @@ const App = () => {
       console.error(error);
     }
   };
+
 
   // redirect user to sign up page
   const redirectToGoogleSSO = () => {
@@ -68,10 +66,10 @@ const App = () => {
       <Routes>
         <Route index element={<GoogleButton onClick={redirectToGoogleSSO}/>}></Route>
         <Route exact path="/" element={<Navigation />}>
-          <Route exact path="/Home" element={<Home user={user} addPoints={addPoints}/>} />
+          <Route exact path="/Home" element={<Home user={authUser} addPoints={addPoints}/>} />
           <Route path="/UserProfile" element={<UserProfile />} />
           <Route path="/Messages" element={<Messages addPoints={addPoints} loggedIn={loggedIn} />} />
-          <Route path="/WallOfFame" element={<WallOfFame user={user}/>} />
+          <Route path="/WallOfFame" element={<WallOfFame user={authUser}/>} />
           <Route path="/DecisionMaker" element={<DecisionMaker addPoints={addPoints}/>} />
         </Route>
       </Routes>
