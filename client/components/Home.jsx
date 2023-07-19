@@ -35,7 +35,7 @@ const Home = () => {
 
   useEffect(() => {
     // async function to get void table data
-    fetchData = async () => {
+    const fetchData = async () => {
       await axios
         .get("/void")
         .then((response) => {
