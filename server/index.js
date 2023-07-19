@@ -9,8 +9,8 @@ const users = require('./routes/users');
 // passport starategy
 const messageRouter = require('./routes/messagesHandling');
 const wofRouter = require('./routes/wofRoutes.js');
-const dmakerRouter = require('./dmakerRouter'); //samson's route
-const homeRouter = require('./routes/homeRouter')
+const dmakerRouter = require('./routes/dmakerRouter'); //samson's route
+const homeRouter = require('./routes/homeRouter');
 
 
 const port = 4000;
@@ -48,7 +48,7 @@ app.use('/messagesHandling', messageRouter);
 //   res.status(204).end(); // respond with a 204 No Content status code
 // });
 
-app.use('/', homeRouter)
+app.use('/', homeRouter);
 
 // fill out routes
 app.use('/decisionmaker', dmakerRouter);

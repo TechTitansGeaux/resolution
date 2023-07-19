@@ -42,7 +42,7 @@ const DecisionMaker = () => {
   });
 
   return (
-    <div>
+    <div className='section container'>
       <h1>Decision Maker</h1>
       <input type="text"
         placeholder='Search User'
