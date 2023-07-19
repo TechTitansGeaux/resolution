@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from 'react-router-dom'
 import axios from 'axios';
 import dayjs from 'dayjs'
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -60,7 +61,7 @@ const Home = ({ user }) => {
     <div className="home section">
       <main className="container">
         <div className="intro">
-          {user && <h3>Hi {user}!</h3>}
+          {user && <h3>Hi {user} 👋</h3>}
           <h1 className="text-primary">Welcome to Resolution</h1>
           <p>
             This innovative app will change the way you resolve interpersonal
@@ -75,7 +76,7 @@ const Home = ({ user }) => {
         <hr></hr>
         <div className="scream-void-component">
           <div className="input-scream-container mb-3">
-            <h2 className="text-primary">Scream into the Void</h2>
+            <h2 className="text-primary">📣 Scream into the Void</h2>
             <p>
               Do you need to vent? Often, this might be the first constructive
               way to deal with your conflict. Put words to your emotions, say
@@ -121,7 +122,11 @@ const Home = ({ user }) => {
         </div>
         <hr></hr>
         <div className="messenger-intro">
-          <h2 className="text-primary">Meme Messenger</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/Messages">
+              🤣 Meme Messenger
+            </Link>
+          </h2>
           <p>
             Do you have something you need to say, but just can’t find the right
             way to say it? We offer a convenient and expressive meme generator
@@ -132,7 +137,11 @@ const Home = ({ user }) => {
         </div>
         <hr></hr>
         <div className="decision-maker-intro">
-          <h2 className="text-primary">Decision Maker</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/DecisionMaker">
+              🎯 Decision Maker
+            </Link>
+          </h2>
           <p>
             Are you ready to move forward with your conflict, but need an
             unbiased way to decide how? Our decision maker feature offers a
@@ -142,7 +151,11 @@ const Home = ({ user }) => {
         </div>
         <hr></hr>
         <div className="wall-of-fame-intro">
-          <h2 className="text-primary">Wall of Fame</h2>
+          <h2 className="text-primary">
+            <Link className="link" to="/WallOfFame">
+              🏆 Wall of Fame
+            </Link>
+          </h2>
           <p>
             Earn points and trophies as you become a master conflict resolver!
             Our top 10 Resolution users will be featured on the Wall of Fame.

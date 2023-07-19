@@ -31,6 +31,10 @@ textarea {
   border: none;
 }
 
+.link {
+ text-decoration: none;
+}
+
 .nav-link:active, .nav-link:hover {
   color: var(--color-primary)
 }

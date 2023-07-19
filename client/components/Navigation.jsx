@@ -15,16 +15,12 @@ const Navigation = () => {
 
   // auto-close menu on click of NavLink
   const handleCollapseNav = () => {
-    if (windowSize.width < 767) {
-      setCollapseNav(!collapseNav);
-    } else {
-      return;
-    }
+    if (windowSize.width < 767) setCollapseNav(!collapseNav);
   };
+  
   // listen for window width resize
   useEffect(() => {
     const handleResize = () => {
-      console.log("resized to:", window.innerWidth);
       setWindowSize({
         width: window.innerWidth,
       });
