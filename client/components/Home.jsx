@@ -61,7 +61,7 @@ const Home = ({ user }) => {
     <div className="home section">
       <main className="container">
         <div className="intro">
-          {user && <h3>Hi {user} 👋</h3>}
+          {user && <h3>Hi {user.username} 👋</h3>}
           <h1 className="text-primary">Welcome to Resolution</h1>
           <p>
             This innovative app will change the way you resolve interpersonal
