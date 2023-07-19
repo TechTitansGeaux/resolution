@@ -1,4 +1,4 @@
-// import React from "react";
+import { useEffect } from "react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import DecisionMaker from "./DecisionMaker.jsx";
 import Home from "./Home.jsx";
@@ -8,30 +8,36 @@ import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
 import GoogleButton from 'react-google-button';
 import axios from 'axios';
-
-
-
+import { useDispatch } from "react-redux";
+import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 
 const App = () => {
+  const dispatch = useDispatch();
 
-  // check if user is authenticated
+  useEffect(() => {
+    fetchAuthUser();
+  }, []);
+
   const fetchAuthUser = async () => {
-    const response = await axios.get('http://127.0.0.1:4000/users/')
-      .catch((err) => console.error(err));
-
-    if (response && response.data) {
-      console.log('User', response.data);
+    try {
+      const response = await axios.get(`/users/user`);
+      if (response && response.data) {
+        console.log('User', response.data);
+        dispatch(setIsAuthenticated(true));
+        dispatch(setAuthUser(response.data));
+      }
+    } catch (error) {
+      console.error(error);
     }
   };
 
   // redirect user to sign up page
   const redirectToGoogleSSO = () => {
     window.location.href = 'http://127.0.0.1:4000/auth/login/google';
+
+
   };
-  
-
-
 
   return (
     <BrowserRouter>
