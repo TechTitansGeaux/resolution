@@ -17,12 +17,13 @@ import { setAuthUser, setIsAuthenticated } from "./store/appSlice.js";
 
 const App = () => {
 
-  // create placement and trophy variables in state for current user
-  const [ placement, setPlacement ] = useState('');
-  const [ trophy, setTrophy ] = useState('');
-
   const dispatch = useDispatch();
   const [user, setUser] = useState("");
+
+  // create placement and trophy variables in state for current user
+  const [ trophy, setTrophy ] = useState('');
+  const [ placement, setPlacement ] = useState('');
+
 
   useEffect(() => {
     fetchAuthUser();
@@ -47,9 +48,12 @@ const App = () => {
     window.location.href = "http://127.0.0.1:4000/auth/login/google";
   };
 
-  // function to update trophy
-  const updateTrophy = (user) => {
-    // get all users
+  console.log(placement, '<----placement from app')
+  console.log(trophy, '<----trophy from app')
+
+  // get placement of each user
+  // useEffect to get user placement
+  const getPlacement = () => {
     // axios get request
     axios.get('/wofRoutes/users')
       .then(({data}) => {
@@ -60,37 +64,55 @@ const App = () => {
       .catch((err) => {
         console.error('Failed axios GET user placement: ', err);
       });
-    // conditionally assign trophy
-    // determine if user has no points
-    if (user.points === 0) {
-      setTrophy('Earn points to win an award!');
-      // else determine users placement
-    } else if (placement <= .1) {
-      // top 10 percent get gold
-      setTrophy('🏆');
-    } else if (placement <= .2) {
-      // top 20 get Silver
-      setTrophy('🥈');
-    } else if (placement <= .3) {
-      // top 30 get Bronze
-      setTrophy('🥉');
-    } else {
-      // else if user has points but placement is over top 30 percent, ribbon
-      setTrophy('🎗️');
-    }
-    // send trophy to db
-    axios.patch(`wofRoutes/users/${user.id}`, {
-      trophy: trophy
-    })
-      .catch((err) => {
-        console.error('Failed to axios patch trophy: ', err);
-      });
   };
+  useEffect(() => {
+    return getPlacement();
+  }, [user]);
+  // console.log(placement, '<----placements from wofItem');
+
+  // assign trophy according to placement
+  useEffect(() => {
+    const chooseAward = () => {
+      // determine if user has no points
+      if (user.points === 0) {
+        setTrophy('Earn points to win an award!');
+        // else determine users placement
+      } else if (placement <= .1) {
+        // top 10 percent get gold
+        setTrophy('🏆');
+      } else if (placement <= .2) {
+        // top 20 get Silver
+        setTrophy('🥈');
+      } else if (placement <= .3) {
+        // top 30 get Bronze
+        setTrophy('🥉');
+      } else {
+        // else if user has points but placement is over top 30 percent, ribbon
+        setTrophy('🎗️');
+      }
+    };
+    chooseAward();
+    // should update every time placement updates
+  }, [placement]);
+
+  // send trophy back to database
+  useEffect( () => {
+    const sendTrophy = () => {
+      axios.patch(`wofRoutes/users/${user.id}`, {
+        trophy: trophy
+      })
+        .catch((err) => {
+          console.error('Failed to axios patch trophy: ', err);
+        });
+    };
+    sendTrophy();
+  }, [trophy]);
 
   // function to add necessary points to current user
   // also must update trophy
   const addPoints = (user, num) => {
-  // points on user in state is 'read only' and cannot be directly updated
+    getPlacement();
+    // points on user in state is 'read only' and cannot be directly updated
     // create variable to grab old points number from user
     const oldPoints = user.points;
     // axios patch request
@@ -99,12 +121,10 @@ const App = () => {
       // and set that to points
       points: oldPoints + num
     })
-      .then(updateTrophy(user))
       .catch((err) => {
         console.error("Failed axios PATCH: ", err);
       });
   };
-
 
   return (
     <BrowserRouter>
@@ -131,7 +151,7 @@ const App = () => {
           />
           <Route
             path="/WallOfFame"
-            element={<WallOfFame authUser={user} />} />
+            element={<WallOfFame />} />
           <Route
             path="/DecisionMaker"
             element={<DecisionMaker addPoints={addPoints} user={user} />}
@@ -143,3 +163,47 @@ const App = () => {
 };
 
 export default App;
+
+  // const updateTrophy = (user) => {
+  //   // get all users
+  //   // axios get request
+  //   axios.get('/wofRoutes/users')
+  //     .then(({data}) => {
+  //       // in order to make placement relative to other users and to amount of users
+  //       // set placement to users place in ranked list, divided by the length
+  //       setPlacement((data.map(user => user.id).indexOf(user.id)) / data.length);
+  //     })
+  //     .catch((err) => {
+  //       console.error('Failed axios GET user placement: ', err);
+  //     });
+  //   // conditionally assign trophy
+  //   // determine if user has no points
+  //   if (user.points === 0) {
+  //     setTrophy('Earn points to win an award!');
+  //     // else determine users placement
+  //   } else if (placement <= .1) {
+  //     // top 10 percent get gold
+  //     setTrophy('🏆');
+  //   } else if (placement <= .2) {
+  //     // top 20 get Silver
+  //     setTrophy('🥈');
+  //   } else if (placement <= .3) {
+  //     // top 30 get Bronze
+  //     setTrophy('🥉');
+  //   } else {
+  //     // else if user has points but placement is over top 30 percent, ribbon
+  //     setTrophy('🎗️');
+  //   }
+  //   // send trophy to db
+  //   axios.patch(`wofRoutes/users/${user.id}`, {
+  //     trophy: trophy
+  //   })
+  //     .then(() => {
+  //       console.log('set trophy to ', trophy);
+  //     })
+  //     .catch((err) => {
+  //       console.error('Failed to axios patch trophy: ', err);
+  //     });
+  // };
+
+  // useEffect(() => updateTrophy(user), [points]);

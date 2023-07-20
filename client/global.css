@@ -40,3 +40,33 @@ textarea {
 }
 
 /* //// HOME COMPONENT */
+
+
+
+/* //// WOF COMPONENT */
+.wof-component{
+  margin-top: 8em;
+}
+
+.wof-users-component {
+  width:auto;
+  height:auto;
+  padding: 10px 10px 50px 30px;
+  float:left;
+}
+
+.wof-leger-component {
+  width:auto;
+  height:auto;
+  padding: 5px 10px 5px 0px;
+  margin-right: 300px;
+  float:right;
+}
+
+.wof-explain-points-component {
+  border: 1px solid #dee2e6;
+  clear: both;
+  width: inherit;
+  margin-bottom: 50px;
+  padding: 0px 10px 5px 10px;
+}
