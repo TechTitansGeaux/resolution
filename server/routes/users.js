@@ -1,8 +1,23 @@
 const express = require('express');
 const { Users } = require('../database/index');
 const { isUserAuthenticated } = require('../middleware/auth');
+// use multer to handle file uploads
+const multer = require('multer');
 
 const router = express.Router();
+
+// set up multer storage
+const storage = multer.diskStorage({
+  destination: (req, file, cb) => {
+    cb(null, 'server/public/uploads'); // set the destination folder for uploaded files
+  },
+  filename: (req, file, cb) => {
+    cb(null, Date.now() + '-' + file.originalname); // Set the file name with a timestamp to avoid conflicts
+  }
+});
+
+const upload = multer({ storage }); // initialize multer with the storage configuration
+
 
 // route to GET all users
 router.get('/', async (req, res) => {
@@ -90,6 +105,37 @@ router.delete('/:id', async (req, res) => {
 
     // Respond with a success message
     res.json({ message: 'User deleted successfully' });
+  } catch (error) {
+    // Handle any errors that occur
+    console.error(error);
+    res.status(500).json({ error: 'Internal Server Error' });
+  }
+});
+
+// POST request to upload a user image
+router.post('/uploadImage/:id', isUserAuthenticated, upload.single('image'), async (req, res) => {
+  const { id } = req.params;
+  
+  try {
+    // Find the user by ID in the database
+    const user = await Users.findByPk(id);
+
+    if (!user) {
+      // If the user doesn't exist, send a 404 Not Found response
+      return res.status(404).json({ error: 'User not found' });
+    }
+
+    // Construct the URL of the uploaded image
+    const imageUrl = `${req.protocol}://${req.get('host')}/uploads/${req.file.filename}`;
+
+    // Update the user's picture field with the URL of the uploaded image
+    user.picture = imageUrl;
+
+    // Save the updated user to the database
+    await user.save();
+
+    // Respond with the updated user
+    res.json(user);
   } catch (error) {
     // Handle any errors that occur
     console.error(error);

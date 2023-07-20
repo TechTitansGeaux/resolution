@@ -6,7 +6,6 @@ const path = require('path');
 const passport = require('passport');
 const authRoutes = require('./routes/auth');
 const users = require('./routes/users');
-// passport starategy
 const messageRouter = require('./routes/messagesHandling');
 const wofRouter = require('./routes/wofRoutes.js');
 const dmakerRouter = require('./routes/dmakerRouter'); //samson's route
@@ -17,15 +16,16 @@ const port = 4000;
 
 const distPath = path.resolve(__dirname, '..', 'dist');
 
-
-//generate secret key
 const app = express();
+//generate secret key
 const uuid = require('uuid');
 const secretKey = uuid.v4();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
+// serve the uploads folder as a static directory
+app.use('/uploads', express.static('server/public/uploads'));
 // users session
 app.use(
   session({
@@ -42,18 +42,8 @@ app.use('/users', users);
 app.use('/auth', authRoutes);
 app.use('/wofRoutes', wofRouter);
 app.use('/messagesHandling', messageRouter);
-
-// app.get('/favicon.ico', (req, res) => {
-//   res.status(204).end(); // respond with a 204 No Content status code
-// });
-
 app.use('/', homeRouter);
-
-// fill out routes
 app.use('/decisionmaker', dmakerRouter);
-
-
-
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {

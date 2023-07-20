@@ -15,7 +15,9 @@ const Navigation = () => {
 
   // auto-close menu on click of NavLink
   const handleCollapseNav = () => {
-    if (windowSize.width < 767) setCollapseNav(!collapseNav);
+    if (windowSize.width < 767) {
+      setCollapseNav(!collapseNav);
+    } 
   };
   
   // listen for window width resize
