@@ -3,12 +3,12 @@ import axios from 'axios';
 
 const WOFItem = ({user, authUser}) => {
 
-  console.log(authUser, '<-----auth user')
+  console.log(authUser, '<-----auth user');
   // create trophy variable in state for each user
   const [ trophy, setTrophy ] = useState('');
   // create placement variable in state for each user
   const [ placement, setPlacement ] = useState('');
-  
+
   // get placement of each user
   // useEffect to get user placement
   useEffect(() => {

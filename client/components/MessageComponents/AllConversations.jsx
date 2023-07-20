@@ -34,11 +34,13 @@ const AllConversations = (props) => {
       <h3>
         {message}
       </h3>
-      {
-        allConversations.map((el, i) => {
-          return <Conversation key={el.id + i} />;
-        })
-      }
+      <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
+        {
+          allConversations.map((conversation, i) => {
+            return <Conversation conversation={conversation} key={conversation.createdAt + i} />;
+          })
+        }
+      </div>
     </div>
 
   );

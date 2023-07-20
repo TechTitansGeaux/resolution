@@ -2,7 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'; // make GET request to search users
 // import '../../node_modules/socket.io';
 // const http = require('http');
-const socket = io();
+// const socket = io();
 //import { socket } from '../socket';
 
 const DecisionMaker = () => {

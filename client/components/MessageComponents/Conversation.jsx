@@ -1,12 +1,19 @@
 import { React, useState } from 'react';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
 
 
-const Conversation = () => {
+const Conversation = (props) => {
+  dayjs.extend(relativeTime);
+  const { conversation } = props;
 
   return (
-    <h3>
-      conversation
-    </h3>
+    <p className="scream modal-content  text-white pt-3">
+      <span>
+        created: {dayjs(`${conversation.createdAt}`).fromNow()}
+      </span>
+      <hr></hr>
+    </p>
   );
 };
 

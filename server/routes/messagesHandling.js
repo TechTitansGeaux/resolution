@@ -32,7 +32,7 @@ messageRouter.get('/conversations:userId', (req, res) => {
   })
     .then((data) => {
       if (data) {
-        res.send(data);
+        res.send(data.reverse());
       } else {
         res.sendStatus(204);
       }
