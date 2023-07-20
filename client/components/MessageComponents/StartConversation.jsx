@@ -42,8 +42,8 @@ const StartConversation = (props) => {
         img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
       })
         .then((res) => {
-
-          updateView(<Conversation convoId={res.data.convoId} loggedIn={props.loggedIn} />);
+          console.log(res.data);
+          updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
         })
         .catch((err) => {
           console.log(err);

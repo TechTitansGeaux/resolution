@@ -72,7 +72,7 @@ messageRouter.post('/message', (req, res) => {
       })
       .then((data) => {
         res.status(201);
-        res.send({ convoId: data.dataValues.id });
+        res.send(data.dataValues);
       })
       .catch((err) => {
         console.log('error creating message: ', err);

@@ -1,9 +1,10 @@
 import { React, useState, useEffect } from 'react';
-import Conversation from './ConversationListItem.jsx';
+import ConversationListItem from './ConversationListItem.jsx';
 import axios from 'axios';
 
 const AllConversations = (props) => {
-  const { loggedIn } = props;
+  const { loggedIn, updateView } = props;
+  console.log(updateView);
 
   const [ allConversations, setConversations ] = useState([]);
 
@@ -36,7 +37,11 @@ const AllConversations = (props) => {
       <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
         {
           allConversations.map((conversation, i) => {
-            return <Conversation loggedIn={loggedIn} conversation={conversation} key={conversation.createdAt + i} />;
+            return <ConversationListItem
+              updateView={updateView}
+              loggedIn={loggedIn}
+              convo={conversation}
+              key={conversation.createdAt + i} />;
           })
         }
       </div>

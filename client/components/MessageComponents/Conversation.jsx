@@ -3,7 +3,7 @@ import axios from 'axios';
 import MessageItem from './ConvoMessageItem.jsx';
 
 const Conversation = (props) => {
-  const { convoId, loggedIn } = props;
+  const { convo, loggedIn } = props;
 
   const [ conversations, setConversations ] = useState([]);
 
@@ -11,12 +11,12 @@ const Conversation = (props) => {
 
   useEffect(() => {
     const fetchAllConvoMessages = async () => {
-      const request = await axios.get(`/messagesHandling/messages${convoId}`);
+      const request = await axios.get(`/messagesHandling/messages${convo.id}`);
       setConversations(request.data);
       return request;
     };
     fetchAllConvoMessages();
-  }, [convoId]);
+  }, [convo]);
 
   return (
     <div>
