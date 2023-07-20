@@ -103,7 +103,8 @@ const Void = sequelize.define('Void', {
     validate: {
       notEmpty: true,
     }
-  }
+  },
+  likes: DataTypes.INTEGER
 }, {timestamps: true});
 
 module.exports = {

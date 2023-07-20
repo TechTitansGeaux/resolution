@@ -6,7 +6,6 @@ const path = require('path');
 const passport = require('passport');
 const authRoutes = require('./routes/auth');
 const users = require('./routes/users');
-// passport starategy
 const messageRouter = require('./routes/messagesHandling');
 const wofRouter = require('./routes/wofRoutes.js');
 const dmakerRouter = require('./routes/dmakerRouter'); //samson's route
@@ -42,18 +41,8 @@ app.use('/users', users);
 app.use('/auth', authRoutes);
 app.use('/wofRoutes', wofRouter);
 app.use('/messagesHandling', messageRouter);
-
-// app.get('/favicon.ico', (req, res) => {
-//   res.status(204).end(); // respond with a 204 No Content status code
-// });
-
 app.use('/', homeRouter);
-
-// fill out routes
 app.use('/decisionmaker', dmakerRouter);
-
-
-
 
 app.get('/*', (req, res) => {
   res.sendFile(path.join(__dirname, '../dist/index.html'), (err) => {
