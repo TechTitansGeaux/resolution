@@ -49,6 +49,8 @@ app.use('/users', users);
 app.use('/auth', authRoutes);
 app.use('/wofRoutes', wofRouter);
 app.use('/messagesHandling', messageRouter);
+// serve the uploads folder as a static directory
+app.use('/uploads', express.static('server/public/uploads'));
 
 // app.get('/favicon.ico', (req, res) => {
 //   res.status(204).end(); // respond with a 204 No Content status code
