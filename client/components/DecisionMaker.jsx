@@ -2,6 +2,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios'; // make GET request to search users
 // import '../../node_modules/socket.io';
 // const http = require('http');
+import io from 'socket.io-client';
 const socket = io();
 //import { socket } from '../socket';
 
@@ -117,7 +118,7 @@ const DecisionMaker = () => {
     <div className='section container'>
       <h1>Decision Maker</h1>
 
-      <input type="text"
+      {/* <input type="text"
         placeholder='Search User'
         onChange={handleChange}
         onKeyDown={(e) => {
@@ -131,7 +132,7 @@ const DecisionMaker = () => {
         onClick={getUser}
       >Search Users</button>
 
-      <h2>Your Opponent: {user}</h2>
+      <h2>Your Opponent: {user}</h2> */}
 
       <input placeholder='Enter Room Number'
         onChange={(e) => {
