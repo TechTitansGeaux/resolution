@@ -8,36 +8,22 @@ const ConversationListItem = (props) => {
   dayjs.extend(relativeTime);
   const { conversation, loggedIn } = props;
 
-  const [ otherUser, setOtherUser ] = useState('guy');
+  const [ otherUser, setOtherUser ] = useState('');
 
-  const getOtherUser = async () => {
-    if (loggedIn.id === conversation.userOneId) {
-      await axios.get(`/users/${conversation.userTwoId}`)
-        .then((res) => {
-          console.log(res.data.username);
-          setOtherUser(res.data.userName);
-        })
-        .catch((err) => {
-          console.log('error getting other conversation participant', err);
-        });
 
-    } else if (loggedIn.id === conversation.userTwoId) {
-      await axios.get(`/users/${conversation.userOneId}`)
-        .then((res) => {
-          console.log(res.data.username);
-          setOtherUser(res.data.userName);
-        })
-        .catch((err) => {
-          console.log('error getting other conversation participant', err);
-        });
-    }
-  };
 
   useEffect(() => {
+    const getOtherUser = async () => {
+      if (loggedIn.id === conversation.userOneId) {
+        const request = await axios.get(`/users/${conversation.userTwoId}`);
+        setOtherUser(request.data.username);
+      } else if (loggedIn.id === conversation.userTwoId) {
+        const request = await axios.get(`/users/${conversation.userOneId}`);
+        setOtherUser(request.data.username);
+      }
+    };
     getOtherUser();
   }, []);
-
-  // getOtherUser();
 
   return (
     <div>
