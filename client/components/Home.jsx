@@ -1,25 +1,34 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom'
-import axios from 'axios';
-import dayjs from 'dayjs'
-import relativeTime from 'dayjs/plugin/relativeTime';
-
+import { Link } from "react-router-dom";
+import axios from "axios";
+import dayjs from "dayjs";
+import relativeTime from "dayjs/plugin/relativeTime";
 
 const Home = ({ user }) => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [submit, setSubmit] = useState(false)
+  const [submit, setSubmit] = useState(false);
+  
+  let startCount = parseInt(posts.likes || 0)
+  const [countLikes, setCountLikes] = useState(startCount);
 
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
-  }
+  };
 
+  // INCREMENTS LIKES STATE
+  const handleIncrementLikes = () => {
+    setCountLikes((prevCountLikes) => prevCountLikes + 1);
+  };
+
+  // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
-    async function fetchData() {
-      await axios.post('/void', { text })
+    const fetchData = async () => {
+      await axios
+        .post("/void", { text })
         .then((data) => {
           // console.log('Success! handleSubmit post request data ==>', data);
           // empty input field
@@ -27,16 +36,17 @@ const Home = ({ user }) => {
           setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err)
-      })
-    }
+          console.error("Error in handleSubmit axios.post request ===>", err);
+        });
+    };
     // calls async function
-    fetchData()
-  }
+    fetchData();
+  };
 
+  // GET ALL SCREAMS THEN SET 'setPosts' STATE IN ORDER OF MOST RECENT FROM VOID TABLE
   useEffect(() => {
     // async function to get void table data
-    async function fetchData() {
+    const fetchData = async () => {
       await axios
         .get("/void")
         .then((response) => {
@@ -51,11 +61,27 @@ const Home = ({ user }) => {
         .catch((err) => {
           console.error("Error in useEffect axios.get request ===>", err);
         });
-    }
+    };
     // calls async function
-    fetchData()
+    fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
-  }, [submit])
+  }, [submit]);
+
+  // CREATE POSTS v. POSTS ITEMS component to get post id through props! via Jackie's suggestion
+  // // UPDATE A SPECIFIC SCREAM VIA post id
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .put("/void/<Needs Post.id Variable ID>", { likes: countLikes })
+        .then((response) => {
+          console.log("PUT request response", response);
+        })
+        .catch((err) => {
+          console.error("ERROR in axios put request at handleLikeClick: ", err);
+        });
+        fetchData();
+      }
+    }, [countLikes]);
 
   return (
     <div className="home section">
@@ -103,7 +129,7 @@ const Home = ({ user }) => {
           <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
             {posts.map((post) => {
               return (
-                <div key={post.id + "void"}>
+                <div key={post.id + "void"} id={post.id}>
                   <p className="scream modal-content  text-white pt-3">
                     <span className="scream modal-content  text-sm-left">
                       anonymous:{" "}
@@ -114,6 +140,12 @@ const Home = ({ user }) => {
                       created: {dayjs(`${post.createdAt}`).fromNow()}
                     </span>
                   </p>
+                  <button
+                    className="btn btn-light round-btn"
+                    onClick={handleIncrementLikes}
+                  >
+                    💯 <span className="likes">{post.likes}</span>
+                  </button>
                   <hr></hr>
                 </div>
               );
