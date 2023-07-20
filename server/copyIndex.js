@@ -61,11 +61,24 @@ app.use('/decisionmaker', dmakerRouter);
 
 // decision maker sockets
 
-io.on('connection', (socket) => {
+io.sockets.on('connection', (socket) => {
   console.log(`a user connected ${socket.id}`);
 
   socket.on('join_room', (data) => {
-    socket.join(data);
+    const clients = io.sockets.adapter.rooms.get(data);
+    const numClients = clients ? clients.size : 0;
+
+    console.log('Room ' + data + ' now has ' + numClients + ' client(s)');
+
+    if (numClients === 0) {
+      socket.join(data);
+    } else if (numClients === 1) {
+      socket.join(data);
+      socket.to(data).emit('ready', 'READY');
+    } else { // max two clients
+      socket.emit('full', 'FULL');
+    }
+
   });
 
   socket.on('hand', (data) => {
@@ -73,9 +86,6 @@ io.on('connection', (socket) => {
     socket.to(data.room).emit('receive_hand', data);
   });
 
-  // socket.on('checkResults', (data) => {
-  //   console.log(data);
-  // });
 });
 
 

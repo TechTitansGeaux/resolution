@@ -12,6 +12,9 @@ const DecisionMaker = () => {
   const [room, setRoom] = useState(''); // create room for rps players
   const [handReceived, setHandReceived] = useState('...'); // hand received from socket server
   const [result, setResult] = useState(''); // result after playing hands
+  const [joined, setJoined] = useState(false); // help visually confirm if user joined room
+  const [full, setFull] = useState(false); // if room is full
+  const [ready, setReady] = useState(false); // if both players are ready
 
   // create function to GET user by username
   const getUser = () => {
@@ -37,12 +40,18 @@ const DecisionMaker = () => {
 
   // join room
   const joinRoom = () => {
-    if (room !== '') {
-      socket.emit('join_room', room);
+    if (joined === false) {
+      if (room === '') {
+        setFull(false);
+      }
+      if (room !== '') {
+        socket.emit('join_room', room);
+        setJoined(true);
+      }
     }
   };
 
-  // win lose tie logic (HANDLE THIS SERVER SIDE??)
+  // win lose tie logic
   const displayResult = () => {
     if (hand === handReceived) {
       setResult('Tie!');
@@ -63,24 +72,46 @@ const DecisionMaker = () => {
 
   // send rock, paper, or scissors to socket server
   const sendHand = () => {
-    socket.emit('hand', { hand, room });
-    displayResult();
-    //socket.emit('checkResults', {hand, room, p1});
-    // console.log('result', result);
-    // console.log('p1:', p1);
+    if (!full) {
+      socket.emit('hand', { hand, room });
+      displayResult();
+    }
   };
+
+  // refresh page to play again
+  const refreshPage = () => {
+    window.location.reload(false);
+  };
+
+  // if both players are ready
+  useEffect(() => {
+    socket.on('ready', (data) => {
+      console.log(data);
+      setReady(true);
+      console.log(ready);
+    });
+  });
+
+  // receive if room is full
+  useEffect(() => {
+    socket.on('full', (data) => {
+      setFull(true);
+      console.log(data);
+    });
+  });
 
   // receive socket server info
   useEffect(() => {
     socket.on('receive_hand', (data) => {
-      console.log(data.hand);
+      // console.log(data.hand);
       setHandReceived(data.hand);
-      displayResult();
-      console.log('handReceived:', handReceived);
-      console.log('result:', result);
     });
   }, [socket]);
 
+  // show result when handReceived changes
+  useEffect(() => {
+    displayResult();
+  }, [handReceived]);
 
   return (
     <div className='section container'>
@@ -105,14 +136,31 @@ const DecisionMaker = () => {
       <input placeholder='Enter Room Number'
         onChange={(e) => {
           setRoom(e.target.value);
+          if (e.target.value === '') {
+            setFull(false);
+            setHand('none');
+          }
+        }}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') {
+            joinRoom();
+          }
         }}
       />
       <button onClick={joinRoom}> Join Room </button>
-      <h2>Room Number: {room}</h2>
-
+      <div>
+        {!joined ? (<h2></h2>) : <h2>You are in room: {room}</h2>}
+      </div>
+      <div>{!full ? (<h2></h2>) : <h2>The room is full</h2>}</div>
       <h2>You picked {hand}!</h2>
-      <h2>Your opponent picked {handReceived}!</h2>
-      <h2>{result}</h2>
+
+      <div>
+        {!result ? (<h2></h2>) : ( <div>
+          <h2>Your opponent picked {handReceived}!</h2>
+          <h2>{result}</h2>
+          <button onClick={refreshPage}>Click to Play Again!</button>
+        </div>)}
+      </div>
 
       <button type="button"
         onClick={() => setHand('rock')}
