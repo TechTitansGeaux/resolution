@@ -1,5 +1,4 @@
 import { useState, useEffect } from "react";
-
 import { Link } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
@@ -11,11 +10,24 @@ const Home = ({ user, addPoints }) => {
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false);
 
+  
+  let startCount = parseInt(posts.likes || 0)
+  const [countLikes, setCountLikes] = useState(startCount);
+
+
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
   };
 
+
+  // INCREMENTS LIKES STATE
+  const handleIncrementLikes = () => {
+    setCountLikes((prevCountLikes) => prevCountLikes + 1);
+  };
+
+
+  // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
@@ -36,10 +48,12 @@ const Home = ({ user, addPoints }) => {
     // also add points to user
     addPoints(user, 5);
 
+
     // calls async function
     fetchData();
   };
 
+  // GET ALL SCREAMS THEN SET 'setPosts' STATE IN ORDER OF MOST RECENT FROM VOID TABLE
   useEffect(() => {
     // async function to get void table data
     const fetchData = async () => {
@@ -62,6 +76,24 @@ const Home = ({ user, addPoints }) => {
     fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [submit]);
+
+
+  // CREATE POSTS v. POSTS ITEMS component to get post id through props! via Jackie's suggestion
+  // // UPDATE A SPECIFIC SCREAM VIA post id
+  useEffect(() => {
+    const fetchData = async () => {
+      await axios
+        .put("/void/<Needs Post.id Variable ID>", { likes: countLikes })
+        .then((response) => {
+          console.log("PUT request response", response);
+        })
+        .catch((err) => {
+          console.error("ERROR in axios put request at handleLikeClick: ", err);
+        });
+        fetchData();
+      }
+    }, [countLikes]);
+
 
   return (
     <div className="home section">
@@ -109,7 +141,7 @@ const Home = ({ user, addPoints }) => {
           <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
             {posts.map((post) => {
               return (
-                <div key={post.id + "void"}>
+                <div key={post.id + "void"} id={post.id}>
                   <p className="scream modal-content  text-white pt-3">
                     <span className="scream modal-content  text-sm-left">
                       anonymous:{" "}
@@ -120,6 +152,12 @@ const Home = ({ user, addPoints }) => {
                       created: {dayjs(`${post.createdAt}`).fromNow()}
                     </span>
                   </p>
+                  <button
+                    className="btn btn-light round-btn"
+                    onClick={handleIncrementLikes}
+                  >
+                    💯 <span className="likes">{post.likes}</span>
+                  </button>
                   <hr></hr>
                 </div>
               );

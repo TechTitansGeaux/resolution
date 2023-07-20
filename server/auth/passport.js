@@ -36,17 +36,16 @@ passport.use(
 );
 
 passport.serializeUser((user, done) => {
-  // Serialize the user object and store it in the session
+  // serialize the user object and store it in the session
   done(null, user.id);
 });
 
 passport.deserializeUser(async (id, done) => {
-  // Retrieve the user object from the session based on the serialized ID
+  // retrieve the user object from the session based on the serialized ID
   const user = await Users.findOne({ where: { id } }).catch((err) => {
     console.error(err);
     done(err, null);
   });
-  console.log('Deserialized!');
 
   if (user) {
     done(null, user);
