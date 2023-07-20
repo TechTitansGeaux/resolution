@@ -1,5 +1,5 @@
 import { React, useState, useEffect } from 'react';
-import Conversation from './Conversation.jsx';
+import Conversation from './ConversationListItem.jsx';
 import axios from 'axios';
 
 const AllConversations = (props) => {

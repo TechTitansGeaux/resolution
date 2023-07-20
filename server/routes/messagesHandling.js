@@ -42,8 +42,18 @@ messageRouter.get('/conversations:userId', (req, res) => {
     });
 });
 
+messageRouter.get('/messages:convoId', (req, res) => {
+  const {convoId} = req.params;
+  Messages.findAll({ where: { conversationId: convoId } })
+    .then((data) => {
+      res.send(data);
+    })
+    .catch((err) => {
+      console.log('error getting all messages for conversation: ', err);
+    });
+});
+
 messageRouter.post('/message', (req, res) => {
-  console.log(req.body);
   const { senderId, recipientId, conversationId, img } = req.body;
   if (conversationId) {
     Messages.create(req.body)
@@ -60,8 +70,9 @@ messageRouter.post('/message', (req, res) => {
         const { id } = data.dataValues;
         return Messages.create({ senderId, recipientId, conversationId: id, img: img});
       })
-      .then(() => {
-        res.sendStatus(201);
+      .then((data) => {
+        res.status(201);
+        res.send({ convoId: data.dataValues.id });
       })
       .catch((err) => {
         console.log('error creating message: ', err);

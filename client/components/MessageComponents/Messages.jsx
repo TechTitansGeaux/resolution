@@ -2,6 +2,7 @@ import { React, useState } from 'react';
 
 import StartConversation from './StartConversation.jsx';
 import AllConversations from './AllConversations.jsx';
+import Conversation from './Conversation.jsx';
 
 const Messages = (props) => {
 

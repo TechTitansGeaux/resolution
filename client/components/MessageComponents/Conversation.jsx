@@ -1,57 +1,33 @@
-import { React, useState, useEffect} from 'react';
-import dayjs from 'dayjs';
+import { React, useState, useEffect } from 'react';
 import axios from 'axios';
-import relativeTime from 'dayjs/plugin/relativeTime';
-
+import MessageItem from './ConvoMessageItem.jsx';
 
 const Conversation = (props) => {
-  dayjs.extend(relativeTime);
-  const { conversation, loggedIn } = props;
+  const { convoId, loggedIn } = props;
 
-  const [ otherUser, setOtherUser ] = useState('guy');
+  const [ conversations, setConversations ] = useState([]);
 
-  const getOtherUser = () => {
-    if (loggedIn.id === conversation.userOneId) {
-      axios.get(`/users/${conversation.userTwoId}`)
-        .then((res) => {
-          console.log(res.data.username);
-          setOtherUser(res.data.userName);
-        })
-        .catch((err) => {
-          console.log('error getting other conversation participant', err);
-        });
 
-    } else if (loggedIn.id === conversation.userTwoId) {
-      axios.get(`/users/${conversation.userOneId}`)
-        .then((res) => {
-          console.log(res.data.username);
-          setOtherUser(res.data.userName);
-        })
-        .catch((err) => {
-          console.log('error getting other conversation participant', err);
-        });
-
-    }
-
-  };
 
   useEffect(() => {
-    getOtherUser();
-  }, []);
+    const fetchAllConvoMessages = async () => {
+      const request = await axios.get(`/messagesHandling/messages${convoId}`);
+      setConversations(request.data);
+      return request;
+    };
+    fetchAllConvoMessages();
+  }, [convoId]);
 
   return (
     <div>
-      <p className="scream modal-content  text-white pt-3">
-        <span className="scream modal-content  text-sm-left">
-          between you and { `${otherUser}` }
-        </span>
-        <span>
-          created: {dayjs(`${conversation.createdAt}`).fromNow()}
-        </span>
-      </p>
-      <hr></hr>
+      {
+        conversations.map((message) => {
+          return <MessageItem key={message.id + message.conversationId} message={message} />;
+        })
+      }
     </div>
   );
+
 };
 
 export default Conversation;

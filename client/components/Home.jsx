@@ -30,8 +30,8 @@ const Home = ({ user, addPoints }) => {
           setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err)
-      })
+          console.error('Error in handleSubmit axios.post request ===>', err);
+        });
     };
     // also add points to user
     addPoints(user, 5);
