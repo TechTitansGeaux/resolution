@@ -8,6 +8,7 @@ const UserProfile = () => {
   const dispatch = useDispatch();
 
   const [username, setUsername] = useState('');
+  const [updatedUsername, setUpdatedUsername] = useState('');
 
   useEffect(() => {
     if (authUser) {
@@ -21,10 +22,11 @@ const UserProfile = () => {
 
   const handleUpdateUser = async () => {
     try {
-      const updatedUser = { ...authUser, username };
+      const updatedUser = { ...authUser, username: updatedUsername };
       const response = await axios.patch(`/users/${authUser.id}`, updatedUser);
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
+        setUpdatedUsername(''); // clear the input field after successful update
       }
     } catch (error) {
       console.error(error);
@@ -35,7 +37,7 @@ const UserProfile = () => {
     try {
       const response = await axios.delete(`/users/${authUser.id}`);
       if (response && response.data) {
-        // Handle the successful deletion of the user, e.g., redirect to another page
+        window.location.href = 'http://127.0.0.1:4000';
       }
     } catch (error) {
       console.error(error);
@@ -48,22 +50,47 @@ const UserProfile = () => {
 
   return (
     <div className='container section'>
-      <h2>User Profile</h2>
-      <p>Username: {authUser.username}</p>
-      <p>Points: {authUser.points}</p>
-      <p>Trophy: {authUser.trophy}</p>
-      <img src={authUser.picture} alt="User Picture" />
-      <div>
-        <label htmlFor="usernameInput">Change Username:</label>
-        <input
-          type="text"
-          id="usernameInput"
-          value={username}
-          onChange={handleUsernameChange}
-        />
-        <button onClick={handleUpdateUser}>Update Username</button>
+      <div className='row justify-content-center'>
+        <div className='col-md-8'>
+          <div className='card'>
+            <div className='card-body text-center'>
+              <img
+                src={authUser.picture}
+                alt='User Picture'
+                className='rounded-circle mb-3'
+                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+              />
+              <h2 className='card-title'>{authUser.username}</h2>
+              <div className='mb-3'>
+                <label htmlFor='usernameInput' className='form-label'>
+                  Edit Username:
+                </label>
+                <input
+                  type='text'
+                  id='usernameInput'
+                  value={updatedUsername}
+                  onChange={(event) => setUpdatedUsername(event.target.value)}
+                  className='form-control'
+                />
+                <button
+                  onClick={handleUpdateUser}
+                  className='btn btn-primary mt-3'
+                >
+                  Save
+                </button>
+              </div>
+              <p className='card-text'>Points: {authUser.points}</p>
+              <p className='card-text'>Trophy: {authUser.trophy}</p>
+              <button
+                onClick={handleDeleteUser}
+                className='btn btn-danger'
+              >
+                Delete Profile
+              </button>
+            </div>
+          </div>
+        </div>
       </div>
-      <button onClick={handleDeleteUser}>Delete Profile</button>
     </div>
   );
 };

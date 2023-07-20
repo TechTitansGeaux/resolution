@@ -11,6 +11,8 @@ const StartConversation = (props) => {
 
   const [ userExists, setUserExists ] = useState('');
 
+  const [ noUserMessage, setNoUserMessage ] = useState('');
+
   const [ meme, changeMeme ] = useState('Aint-Nobody-Got-Time-For-That');
 
   const [ recipient, setRecipient ] = useState(null);
@@ -18,10 +20,11 @@ const StartConversation = (props) => {
   const getRecipient = (username) => {
     axios.get(`/messagesHandling/user${username}`)
       .then((res) => {
-        if (res.status === 204) {
+        if (res.status === 204 || username.length === 0) {
           setUserExists('user not found');
         } else if (res.status === 200) {
           setRecipient(res.data);
+          setNoUserMessage('');
           // maybe put a check mark emoji
           setUserExists('all good');
         }
@@ -32,18 +35,24 @@ const StartConversation = (props) => {
   };
 
   const sendMessage = () => {
-    axios.post('/messagesHandling/message', {
-      senderId: loggedIn.id,
-      recipientId: recipient.id,
-      img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
-    })
-      .then(() => {
-        updateView(<AllConversations loggedIn={props.loggedIn} />);
+    if (userExists === 'all good') {
+      axios.post('/messagesHandling/message', {
+        senderId: loggedIn.id,
+        recipientId: recipient.id,
+        img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
       })
-      .catch((err) => {
-        console.log(err);
-      });
+        .then(() => {
+          updateView(<AllConversations loggedIn={props.loggedIn} />);
+        })
+        .catch((err) => {
+          console.log(err);
+        });
+    } else {
+      setNoUserMessage('please enter valid username');
+    }
   };
+
+
 
   return (
     <div>
@@ -75,6 +84,7 @@ const StartConversation = (props) => {
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click 'send meme' button to start conversation</h3>
+      { noUserMessage }
       <button onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>

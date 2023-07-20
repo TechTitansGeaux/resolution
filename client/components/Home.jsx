@@ -1,44 +1,56 @@
 import { useState, useEffect } from "react";
-import { Link } from "react-router-dom";
-import axios from "axios";
-import dayjs from "dayjs";
-import relativeTime from "dayjs/plugin/relativeTime";
 
-const Home = ({ user }) => {
+
+import { Link } from 'react-router-dom'
+import axios from 'axios';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+
+const Home = ({ user, addPoints }) => {
+
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false);
+
   
   let startCount = parseInt(posts.likes || 0)
   const [countLikes, setCountLikes] = useState(startCount);
+
 
   dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
   };
 
+
   // INCREMENTS LIKES STATE
   const handleIncrementLikes = () => {
     setCountLikes((prevCountLikes) => prevCountLikes + 1);
   };
+
 
   // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
     const fetchData = async () => {
+
       await axios
         .post("/void", { text })
         .then((data) => {
-          // console.log('Success! handleSubmit post request data ==>', data);
+          console.log("Success! handleSubmit post request data ==>", data);
           // empty input field
           setText("");
           setSubmit(false);
         })
         .catch((err) => {
-          console.error("Error in handleSubmit axios.post request ===>", err);
-        });
+          console.error('Error in handleSubmit axios.post request ===>', err)
+      })
     };
+    // also add points to user
+    addPoints(user, 5);
+
+
     // calls async function
     fetchData();
   };
@@ -67,6 +79,7 @@ const Home = ({ user }) => {
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [submit]);
 
+
   // CREATE POSTS v. POSTS ITEMS component to get post id through props! via Jackie's suggestion
   // // UPDATE A SPECIFIC SCREAM VIA post id
   useEffect(() => {
@@ -82,6 +95,7 @@ const Home = ({ user }) => {
         fetchData();
       }
     }, [countLikes]);
+
 
   return (
     <div className="home section">
