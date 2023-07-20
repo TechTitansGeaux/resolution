@@ -57,7 +57,7 @@ const App = () => {
     const request = await axios.get('/wofRoutes/users');
     setPlacement((request.data.map(user => user.id).indexOf(user.id)) / request.data.length);
   };
-  
+
   useEffect(() => {
     getPlacement();
   }, [user, refresher]);
