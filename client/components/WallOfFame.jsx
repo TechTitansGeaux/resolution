@@ -31,7 +31,7 @@ const WallOfFame = ({refresher}) => {
       </div>
       <div className='wof-leger-component'>
         <h5 className="text-primary">Leger</h5>
-        <table class="table table-bordered table-sm">
+        <table className="table table-bordered table-sm">
           <tbody>
             <tr>
               <th scope="row">🏆</th>
