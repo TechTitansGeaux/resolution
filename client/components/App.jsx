@@ -90,15 +90,17 @@ const App = () => {
 
   // send trophy back to database
   useEffect( () => {
-    const sendTrophy = async () => {
-      await axios.patch(`wofRoutes/users/${user.id}`, {
-        trophy: trophy
-      })
-        .catch((err) => {
-          console.error('Failed to axios patch trophy: ', err);
-        });
-    };
-    sendTrophy();
+    if (user) {
+      const sendTrophy = async () => {
+        await axios.patch(`wofRoutes/users/${user.id}`, {
+          trophy: trophy
+        })
+          .catch((err) => {
+            console.error('Failed to axios patch trophy: ', err);
+          });
+      };
+      sendTrophy();
+    }
   }, [trophy]);
 
   // function to add necessary points to current user
