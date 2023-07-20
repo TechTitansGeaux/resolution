@@ -10,6 +10,7 @@ const UserProfile = () => {
   const [username, setUsername] = useState('');
   const [updatedUsername, setUpdatedUsername] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
+  const [isImageSelected, setIsImageSelected] = useState(false);
 
   useEffect(() => {
     if (authUser) {
@@ -57,6 +58,7 @@ const UserProfile = () => {
 
   const handleImageChange = (event) => {
     setSelectedImage(event.target.files[0]);
+    setIsImageSelected(true);
   };
 
   const uploadImageToServer = async () => {
@@ -69,6 +71,7 @@ const UserProfile = () => {
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
         setSelectedImage(null); // clear the selected image after successful upload
+        setIsImageSelected(false); // reset the image selection state
       }
     } catch (error) {
       console.error(error);
@@ -78,6 +81,9 @@ const UserProfile = () => {
   if (!authUser) {
     return <div>Loading...</div>;
   }
+
+  const isSaveProfileDisabled = !isImageSelected;
+  const isSaveUsernameDisabled = !updatedUsername;
 
   return (
     <div className='container section'>
@@ -112,10 +118,18 @@ const UserProfile = () => {
                   className='form-control'
                 />
                 <button
+                  onClick={uploadImageToServer}
+                  className='btn btn-primary mt-3'
+                  disabled={isSaveProfileDisabled}
+                >
+                  Save Profile Picture
+                </button>
+                <button
                   onClick={handleUpdateUser}
                   className='btn btn-primary mt-3'
+                  disabled={isSaveUsernameDisabled}
                 >
-                  Save
+                  Save Username
                 </button>
               </div>
               <p className='card-text'>Points: {authUser.points}</p>
@@ -128,12 +142,6 @@ const UserProfile = () => {
                   Logout
                 </button>
                 <div>
-                  <button
-                    onClick={uploadImageToServer}
-                    className='btn btn-primary'
-                  >
-                    Change Picture
-                  </button>
                   <button
                     onClick={handleDeleteUser}
                     className='btn btn-danger ml-2'

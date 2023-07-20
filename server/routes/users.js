@@ -6,10 +6,10 @@ const multer = require('multer');
 
 const router = express.Router();
 
-// Set up multer storage
+// set up multer storage
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
-    cb(null, 'server/public/uploads'); // Set the destination folder for uploaded files
+    cb(null, 'server/public/uploads'); // set the destination folder for uploaded files
   },
   filename: (req, file, cb) => {
     cb(null, Date.now() + '-' + file.originalname); // Set the file name with a timestamp to avoid conflicts
