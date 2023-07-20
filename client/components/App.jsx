@@ -65,7 +65,6 @@ const App = () => {
   // assign trophy according to placement
   useEffect( () => {
     const chooseAward = async () => {
-      console.log(user.points, '<--- user points');
       // determine if user has no points
       if (user.points < 1) {
         setTrophy('Earn points to win an award!');
