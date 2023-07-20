@@ -9,7 +9,10 @@ const UserProfile = () => {
 
   const [username, setUsername] = useState('');
   const [updatedUsername, setUpdatedUsername] = useState('');
-
+  const [selectedImage, setSelectedImage] = useState(null);
+  const [uploadError, setUploadError] = useState('');
+  const [isUploading, setIsUploading] = useState(false);
+  
   useEffect(() => {
     if (authUser) {
       setUsername(authUser.username);
@@ -37,6 +40,9 @@ const UserProfile = () => {
     try {
       const response = await axios.delete(`/users/${authUser.id}`);
       if (response && response.data) {
+        // logout the user by clearing the authUser state
+        dispatch(setAuthUser(null));
+        // redirect the user to the homepage
         window.location.href = 'http://127.0.0.1:4000';
       }
     } catch (error) {
@@ -44,9 +50,43 @@ const UserProfile = () => {
     }
   };
 
-  if (!authUser) {
-    return <div>Loading...</div>;
-  }
+  const handleLogout = () => {
+    // logout the user by clearing the authUser state
+    dispatch(setAuthUser(null));
+    // redirect the user to the homepage
+    window.location.href = 'http://127.0.0.1:4000';
+  };
+
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+  };
+
+  const uploadImageToServer = async () => {
+    try {
+      if (!selectedImage) {
+        setUploadError('Please select an image to upload.');
+        return;
+      }
+
+      setUploadError('');
+      setIsUploading(true);
+
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+
+      const response = await axios.post(`/users/uploadImage/${authUser.id}`, formData);
+
+      if (response && response.data) {
+        dispatch(setAuthUser(response.data));
+        setSelectedImage(null); // clear the selected image after successful upload
+        setIsUploading(false);
+      }
+    } catch (error) {
+      console.error(error);
+      setUploadError('Error uploading the image. Please try again later.');
+      setIsUploading(false);
+    }
+  };
 
   return (
     <div className='container section'>
@@ -58,7 +98,15 @@ const UserProfile = () => {
                 src={authUser.picture}
                 alt='User Picture'
                 className='rounded-circle mb-3'
-                style={{ width: '150px', height: '150px', objectFit: 'cover' }}
+                style={{ width: '150px', height: '150px', objectFit: 'cover', cursor: 'pointer' }}
+                onClick={() => document.getElementById('imageInput').click()}
+              />
+              <input
+                type='file'
+                id='imageInput'
+                style={{ display: 'none' }}
+                accept='image/*'
+                onChange={handleImageChange}
               />
               <h2 className='card-title'>{authUser.username}</h2>
               <div className='mb-3'>
@@ -81,12 +129,30 @@ const UserProfile = () => {
               </div>
               <p className='card-text'>Points: {authUser.points}</p>
               <p className='card-text'>Trophy: {authUser.trophy}</p>
-              <button
-                onClick={handleDeleteUser}
-                className='btn btn-danger'
-              >
-                Delete Profile
-              </button>
+              <div className='d-flex justify-content-between'>
+                <button
+                  onClick={handleLogout}
+                  className='btn btn-outline-secondary'
+                >
+                  Logout
+                </button>
+                <div>
+                  <button
+                    onClick={uploadImageToServer}
+                    className='btn btn-primary'
+                    disabled={isUploading}
+                  >
+                    {isUploading ? 'Uploading...' : 'Change Picture'}
+                  </button>
+                  {uploadError && <div className='text-danger'>{uploadError}</div>}
+                  <button
+                    onClick={handleDeleteUser}
+                    className='btn btn-danger ml-2'
+                  >
+                    Delete Profile
+                  </button>
+                </div>
+              </div>
             </div>
           </div>
         </div>

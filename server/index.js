@@ -17,15 +17,16 @@ const port = 4000;
 
 const distPath = path.resolve(__dirname, '..', 'dist');
 
-
-//generate secret key
 const app = express();
+//generate secret key
 const uuid = require('uuid');
 const secretKey = uuid.v4();
 
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.static(distPath));
+// serve the uploads folder as a static directory
+app.use('/uploads', express.static('server/public/uploads'));
 // users session
 app.use(
   session({
