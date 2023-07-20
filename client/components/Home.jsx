@@ -1,6 +1,6 @@
 import { useState, useEffect } from "react";
 
-import { Link } from 'react-router-dom'
+import { Link } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -30,8 +30,8 @@ const Home = ({ user, addPoints }) => {
           setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err)
-      });
+          console.error('Error in handleSubmit axios.post request ===>', err);
+        });
     };
     // also add points to user
     addPoints(user, 5);

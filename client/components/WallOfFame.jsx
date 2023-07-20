@@ -2,7 +2,7 @@ import WOFItem from "./WOFItem.jsx";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const WallOfFame = (props) => {
+const WallOfFame = ({refresher}) => {
 
   // add top 5 property to state, empty array initially
   const [ top5, setTop5 ] = useState([]);
@@ -24,21 +24,19 @@ const WallOfFame = (props) => {
   return (
     <div className='wof-component container'>
       <div className='wof-users-component'>
-        <h2 className="text-primary">Wall Of Fame</h2>
+        <h1 className="text-primary">Wall Of Fame</h1>
         {top5.map((user, index) => {
-          return <WOFItem user={user} key={'user' + index}/>;
+          return <WOFItem user={user} refresher={refresher} key={'user' + index}/>;
         })}
       </div>
       <div className='wof-leger-component'>
-        <h2 className="text-primary">Leger</h2>
+        <h5 className="text-primary">Leger</h5>
         <table class="table table-bordered table-sm">
-          <thead>
+          <tbody>
             <tr>
               <th scope="row">🏆</th>
               <td>Most elite! Top 10%</td>
             </tr>
-          </thead>
-          <tbody>
             <tr>
               <th scope="row">🥈</th>
               <td>Second most elite! Top 20%</td>
@@ -49,7 +47,7 @@ const WallOfFame = (props) => {
             </tr>
             <tr>
               <th scope="row">🎗️</th>
-              <td colspan="2">Earning points! Keep it up</td>
+              <td>Earning points! Keep it up</td>
             </tr>
           </tbody>
         </table>
