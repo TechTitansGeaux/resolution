@@ -3,13 +3,12 @@ import axios from 'axios';
 
 const WOFItem = ({user, refresher}) => {
 
-
   // create trophy variable in state for each user
   const [ trophy, setTrophy ] = useState('');
   // create placement variable in state for each user
   const [ placement, setPlacement ] = useState('');
+
   
-  // useEffect(() => updateTrophy(user), [points]);
 
   // get placement of each user
   // useEffect to get user placement

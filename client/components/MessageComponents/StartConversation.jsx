@@ -1,6 +1,6 @@
 import { React, useState } from 'react';
 import axios from 'axios';
-import AllConversations from './AllConversations.jsx';
+import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
   const { loggedIn, updateView } = props;
@@ -41,8 +41,9 @@ const StartConversation = (props) => {
         recipientId: recipient.id,
         img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
       })
-        .then(() => {
-          updateView(<AllConversations loggedIn={props.loggedIn} />);
+        .then((res) => {
+          console.log(res.data);
+          updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
         })
         .catch((err) => {
           console.log(err);
