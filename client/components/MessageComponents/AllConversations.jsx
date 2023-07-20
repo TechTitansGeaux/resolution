@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const AllConversations = (props) => {
   const { loggedIn, updateView } = props;
-  console.log(updateView);
 
   const [ allConversations, setConversations ] = useState([]);
 
