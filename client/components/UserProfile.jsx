@@ -10,9 +10,7 @@ const UserProfile = () => {
   const [username, setUsername] = useState('');
   const [updatedUsername, setUpdatedUsername] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
-  const [uploadError, setUploadError] = useState('');
-  const [isUploading, setIsUploading] = useState(false);
-  
+
   useEffect(() => {
     if (authUser) {
       setUsername(authUser.username);
@@ -63,14 +61,6 @@ const UserProfile = () => {
 
   const uploadImageToServer = async () => {
     try {
-      if (!selectedImage) {
-        setUploadError('Please select an image to upload.');
-        return;
-      }
-
-      setUploadError('');
-      setIsUploading(true);
-
       const formData = new FormData();
       formData.append('image', selectedImage);
 
@@ -79,14 +69,15 @@ const UserProfile = () => {
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
         setSelectedImage(null); // clear the selected image after successful upload
-        setIsUploading(false);
       }
     } catch (error) {
       console.error(error);
-      setUploadError('Error uploading the image. Please try again later.');
-      setIsUploading(false);
     }
   };
+
+  if (!authUser) {
+    return <div>Loading...</div>;
+  }
 
   return (
     <div className='container section'>
@@ -140,11 +131,9 @@ const UserProfile = () => {
                   <button
                     onClick={uploadImageToServer}
                     className='btn btn-primary'
-                    disabled={isUploading}
                   >
-                    {isUploading ? 'Uploading...' : 'Change Picture'}
+                    Change Picture
                   </button>
-                  {uploadError && <div className='text-danger'>{uploadError}</div>}
                   <button
                     onClick={handleDeleteUser}
                     className='btn btn-danger ml-2'
