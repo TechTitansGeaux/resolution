@@ -25,6 +25,7 @@ router.get('/user', isUserAuthenticated, (req, res) => {
 
 // GET request to retrieve one user
 router.get('/:id', async (req, res) => {
+
   const { id } = req.params;
 
   try {

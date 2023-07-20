@@ -4,7 +4,6 @@ import axios from 'axios';
 
 const AllConversations = (props) => {
   const { loggedIn } = props;
-  console.log('user: ', loggedIn);
 
   const [ allConversations, setConversations ] = useState([]);
 
@@ -37,7 +36,7 @@ const AllConversations = (props) => {
       <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
         {
           allConversations.map((conversation, i) => {
-            return <Conversation conversation={conversation} key={conversation.createdAt + i} />;
+            return <Conversation loggedIn={loggedIn} conversation={conversation} key={conversation.createdAt + i} />;
           })
         }
       </div>
