@@ -3,7 +3,7 @@ import axios from 'axios';
 import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
-  const { loggedIn, updateView } = props;
+  const { loggedIn, updateView, addPoints } = props;
 
   const [ topText, updateTopText ] = useState('');
 
@@ -86,7 +86,7 @@ const StartConversation = (props) => {
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click 'send meme' button to start conversation</h3>
       { noUserMessage }
-      <button onClick={() => { sendMessage(); }}>send meme</button>
+      <button onClick={() => { sendMessage(); addPoints(loggedIn, 15); }}>send meme</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>

@@ -3,7 +3,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthUser } from './store/appSlice';
 
-const UserProfile = () => {
+const UserProfile = ({trophy, points}) => {
   const authUser = useSelector((state) => state.app.authUser);
   const dispatch = useDispatch();
 
@@ -132,8 +132,8 @@ const UserProfile = () => {
                   Save Username
                 </button>
               </div>
-              <p className='card-text'>Points: {authUser.points}</p>
-              <p className='card-text'>Trophy: {authUser.trophy}</p>
+              <p className='card-text'>Points: {points}</p>
+              <p className='card-text'>Trophy: {trophy}</p>
               <div className='d-flex justify-content-between'>
                 <button
                   onClick={handleLogout}

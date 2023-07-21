@@ -20,11 +20,25 @@ const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState("");
 
-  // create placement and trophy variables in state for current user
+  // create placement and trophy and points variables in state for current user
   const [ trophy, setTrophy ] = useState('');
   const [ placement, setPlacement ] = useState('');
   const [ refresher, setRefresher ] = useState(0);
+  const [ points, setPoints ] = useState('');
 
+  // get current points from user
+  const getPoints = async () => {
+    // axios get request
+    await axios.get(`/wofRoutes/users/${user.id}`)
+      // grab points and assign to state
+      .then(({data}) => {
+        setPoints(data.points);
+      })
+      .catch((err) => {
+        console.error('Failed axios GET user points: ', err);
+      });
+  };
+  console.log(points, '<----points state from app');
 
 
   useEffect(() => {
@@ -59,27 +73,27 @@ const App = () => {
   };
 
   useEffect(() => {
+    getPoints();
     getPlacement();
   }, [user, refresher]);
 
   // assign trophy according to placement
   useEffect( () => {
     const chooseAward = async () => {
-      // determine if user has no points
-      if (user.points < 1) {
+      if (points === 0) {
         setTrophy('Earn points to win an award!');
-        // else determine users placement
       } else if (placement <= .1) {
+        // determine user placement
         // top 10 percent get gold
         setTrophy('🏆');
       } else if (placement <= .2) {
         // top 20 get Silver
         setTrophy('🥈');
-      } else if (placement <= .3) {
+      } else if (placement <= .35) {
         // top 30 get Bronze
         setTrophy('🥉');
-      } else if (placement > .3 && user.points > 0) {
-        // else if user has points but placement is over top 30 percent, ribbon
+      } else {
+        // else if placement is over top 30 percent, ribbon
         setTrophy('🎗️');
       }
     };
@@ -109,7 +123,9 @@ const App = () => {
     getPlacement();
     // points on user in state is 'read only' and cannot be directly updated
     // create variable to grab old points number from user
-    const oldPoints = user.points;
+    const oldPoints = points;
+    // reset points on state
+    setPoints(oldPoints + num);
     // axios patch request
     axios.patch(`wofRoutes/users/${user.id}`, {
       // increment old points variable INSTEAD of incrementing points property directly
@@ -119,6 +135,7 @@ const App = () => {
       .catch((err) => {
         console.error("Failed axios PATCH: ", err);
       });
+    // window.location.reload(false);
   };
 
   return (
@@ -139,7 +156,7 @@ const App = () => {
           />
           <Route
             path="/UserProfile"
-            element={<UserProfile user={user} />} />
+            element={<UserProfile user={user} trophy={trophy} points={points}/>} />
           <Route
             path="/Messages"
             element={<Messages addPoints={addPoints} loggedIn={user} />}

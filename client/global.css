@@ -60,28 +60,44 @@ textarea {
 /* //// WOF COMPONENT */
 .wof-component{
   margin-top: 8em;
+  display: flex;
+  flex-direction: column;
+}
+
+.wof-header-container {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 0;
 }
 
 .wof-users-component {
   width: auto;
   height: auto;
   padding: 10px 10px 50px 30px;
-  float: left;
+  margin-right: 2em;
 }
 
 .wof-leger-component {
   width: auto;
   height: auto;
   padding: 5px 10px 5px 0px;
-  margin-right: auto;
-  margin-left: auto;
-  float: right;
 }
 
 .wof-explain-points-component {
   border: 1px solid #dee2e6;
   clear: both;
   width: inherit;
-  margin-bottom: 50px;
-  padding: 0px 10px 5px 10px;
+  margin: 25px 5px;
+  padding: 15px 10px 5px 10px;
+}
+
+
+/* //// MEDIA QUERIES */
+
+@media screen and (max-width: 540px) {
+  .wof-header-container {
+      flex-direction: column;
+      align-items: center;
+    }
 }

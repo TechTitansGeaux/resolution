@@ -48,7 +48,7 @@ const Home = ({ user, addPoints }) => {
         });
     };
     // also add points to user
-    addPoints(user, 5);
+    addPoints(user, -10);
 
 
     // calls async function
