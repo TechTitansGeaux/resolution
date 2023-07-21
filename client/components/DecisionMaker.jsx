@@ -124,7 +124,7 @@ const DecisionMaker = () => {
 
   return (
     <div className='section container'>
-      <h1>Decision Maker</h1>
+      <h1 className="text-primary">Decision Maker: Rock, Paper, Scissors</h1>
 
       {/* <input type="text"
         placeholder='Search User'
@@ -147,7 +147,8 @@ const DecisionMaker = () => {
           setRoom(e.target.value);
           if (e.target.value === '') {
             setFull(false);
-            setHand('none');
+            setJoined(false);
+            setReady(false);
           }
         }}
         onKeyDown={(e) => {
@@ -158,16 +159,16 @@ const DecisionMaker = () => {
       />
       <button onClick={joinRoom}> Join Room </button>
       <div>
-        {!joined ? (<h2></h2>) : <h2>You are in room: {room}</h2>}
+        {!joined ? (<h2></h2>) : <h2 className="text-primary">You are in room: {room}</h2>}
       </div>
       <div>
-        {!full ? (<h2></h2>) : <h2>The room is full</h2>}
+        {!full ? (<h2></h2>) : <h2 className="text-primary">The room is full</h2>}
       </div>
 
-      <div>{!ready ? (<h2>Waiting</h2>) :
+      <div>{!ready ? (<h2 className="text-primary">Waiting</h2>) :
         (<div>
 
-          <h2>Let's play!</h2>
+          <h2 className="text-primary">Let's play!</h2>
 
           <button
           ><img src={ROCK} alt='ROCK' onClick={() => setHand('rock')}/>
@@ -184,14 +185,14 @@ const DecisionMaker = () => {
           <button type="button"
             onClick={() => sendHand()}
           >Send Hand</button>
-          <h2>You picked {hand}!</h2>
+          <h2 className="text-primary">You picked {hand}!</h2>
         </div>)}
       </div>
 
       <div>
         {!result ? (<h2></h2>) : ( <div>
-          <h2>Your opponent picked {handReceived}!</h2>
-          <h2>{result}</h2>
+          <h2 className="text-primary">Your opponent picked {handReceived}!</h2>
+          <h2 className="text-primary">{result}</h2>
           <button onClick={refreshPage}>Click to Play Again!</button>
         </div>)}
       </div>
