@@ -6,10 +6,10 @@ import PAPER from "../img/PAPER.png";
 import SCISSORS from "../img/SCISSORS.png";
 import ROCK from "../img/ROCK.png";
 
-const DecisionMaker = () => {
+const DecisionMaker = ({ user, addPoints }) => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
   const [searchInput, setSearchInput] = useState(''); // search input to search users
-  const [user, setUser] = useState(''); // set user (your opponent) state
+  //const [user, setUser] = useState(''); // set user (your opponent) state
   const [room, setRoom] = useState(''); // create room for rps players
   const [handReceived, setHandReceived] = useState('...'); // hand received from socket server
   const [result, setResult] = useState(''); // result after playing hands
@@ -18,20 +18,21 @@ const DecisionMaker = () => {
   const [ready, setReady] = useState(false); // if both players are ready
 
   // create function to GET user by username
-  const getUser = () => {
-    axios.get(`/decisionmaker/user/${searchInput}`)
-      .then((response) => {
-        //console.log('response:', response);
-        if (response.data === 'OK') {
-          setUser(searchInput);
-          setSearchInput('');
-        }
-      })
-      .catch((err) => {
-        console.error('error getting user:', err);
-        setUser('User does not exist. Please enter a valid username');
-      });
-  };
+  // STRETCH GOAL find user and create connection on user search
+  // const getUser = () => {
+  //   axios.get(`/decisionmaker/user/${searchInput}`)
+  //     .then((response) => {
+  //       //console.log('response:', response);
+  //       if (response.data === 'OK') {
+  //         setUser(searchInput);
+  //         setSearchInput('');
+  //       }
+  //     })
+  //     .catch((err) => {
+  //       console.error('error getting user:', err);
+  //       setUser('User does not exist. Please enter a valid username');
+  //     });
+  // };
 
   // value to search username
   const handleChange = (e) => {
@@ -71,11 +72,12 @@ const DecisionMaker = () => {
     }
   };
 
-  // send rock, paper, or scissors to socket server
+  // send rock, paper, or scissors to socket server and opponent
   const sendHand = () => {
     if (!full) {
       socket.emit('hand', { hand, room });
       displayResult();
+      addPoints(user, 10);
     }
   };
 
@@ -94,6 +96,7 @@ const DecisionMaker = () => {
     });
   });
 
+  // see if other player is ready
   useEffect(() => {
     socket.on('other_ready', (data) => {
       setReady(true);
@@ -109,7 +112,7 @@ const DecisionMaker = () => {
     });
   });
 
-  // receive socket server info
+  // receive opponent's hand data
   useEffect(() => {
     socket.on('receive_hand', (data) => {
       // console.log(data.hand);
