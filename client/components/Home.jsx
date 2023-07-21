@@ -12,8 +12,7 @@ const Home = ({ user, addPoints }) => {
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false);
 
-  
-  let startCount = parseInt(posts.likes || 0)
+  let startCount = parseInt(posts.likes || 0);
   const [countLikes, setCountLikes] = useState(startCount);
 
 
@@ -92,9 +91,9 @@ const Home = ({ user, addPoints }) => {
         .catch((err) => {
           console.error("ERROR in axios put request at handleLikeClick: ", err);
         });
-        fetchData();
-      }
-    }, [countLikes]);
+      fetchData();
+    };
+  }, [countLikes]);
 
 
   return (

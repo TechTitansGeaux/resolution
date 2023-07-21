@@ -23,6 +23,7 @@ const Conversation = (props) => {
     <div>
       <div>
         <button
+          className='btn btn-primary'
           onClick={ () => {
             updateView(<ContinueConversation
               convo={convo}
@@ -40,7 +41,6 @@ const Conversation = (props) => {
         }
       </div>
     </div>
-   
   );
 
 };

@@ -4,7 +4,6 @@ import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
   const { convo, loggedIn, otherUser, updateView } = props;
-  console.log(convo);
 
   const [ topText, updateTopText ] = useState('');
 
@@ -56,7 +55,7 @@ const StartConversation = (props) => {
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click to send meme to {otherUser.username}</h3>
-      <button onClick={() => { sendMessage(); }}>send meme</button>
+      <button className='btn btn-primary' onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>
