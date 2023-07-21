@@ -11,26 +11,24 @@ const ConversationListItem = (props) => {
 
   const [ otherUser, setOtherUser ] = useState('');
 
-
-
   useEffect(() => {
     const getOtherUser = async () => {
       if (loggedIn.id === convo.userOneId) {
         const request = await axios.get(`/users/${convo.userTwoId}`);
-        setOtherUser(request.data.username);
+        setOtherUser(request.data);
       } else if (loggedIn.id === convo.userTwoId) {
         const request = await axios.get(`/users/${convo.userOneId}`);
-        setOtherUser(request.data.username);
+        setOtherUser(request.data);
       }
     };
     getOtherUser();
   }, [loggedIn]);
 
   return (
-    <div onClick={ () => { updateView(<Conversation loggedIn={loggedIn} convo={convo}/>); }}>
+    <div onClick={ () => { updateView(<Conversation loggedIn={loggedIn} convo={convo} otherUser={otherUser} updateView={updateView}/>); }}>
       <p className="scream modal-content  text-white pt-3">
         <span className="scream modal-content  text-sm-left">
-          between you and { `${otherUser}` }
+          between you and { `${otherUser.username}` }
         </span>
         <span>
           created: {dayjs(`${convo.createdAt}`).fromNow()}
