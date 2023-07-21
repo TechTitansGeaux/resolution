@@ -5,6 +5,7 @@ import { Link } from 'react-router-dom';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
+import Void from './Void.jsx'
 
 const Home = ({ user, addPoints }) => {
 
@@ -49,8 +50,7 @@ const Home = ({ user, addPoints }) => {
     };
     // also add points to user
     addPoints(user, 5);
-
-
+    
     // calls async function
     fetchData();
   };
@@ -140,31 +140,12 @@ const Home = ({ user, addPoints }) => {
               <b>SUBMIT</b>
             </button>
           </div>
-          <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
-            {posts.map((post) => {
-              return (
-                <div key={post.id + "void"} id={post.id}>
-                  <p className="scream modal-content  text-white pt-3">
-                    <span className="scream modal-content  text-sm-left">
-                      anonymous:{" "}
-                    </span>
-                    <b>{`"${post.text}"`}</b>
-                    <span>
-                      {" "}
-                      created: {dayjs(`${post.createdAt}`).fromNow()}
-                    </span>
-                  </p>
-                  <button
-                    className="btn btn-light round-btn"
-                    onClick={handleIncrementLikes}
-                  >
-                    💯 <span className="likes">{post.likes}</span>
-                  </button>
-                  <hr></hr>
-                </div>
-              );
-            })}
-          </div>
+          <Void
+            user={user}
+            addPoints={addPoints}
+            posts={posts}
+            handleIncrementLikes={handleIncrementLikes}
+          />
         </div>
         <hr></hr>
         <div className="messenger-intro">
