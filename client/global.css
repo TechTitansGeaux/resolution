@@ -42,10 +42,11 @@ textarea {
 }
 
 .link {
- text-decoration: none;
+  text-decoration: none;
 }
 
-.nav-link:active, .nav-link:hover {
+.nav-link:active,
+.nav-link:hover {
   color: var(--color-primary)
 }
 
@@ -61,11 +62,12 @@ textarea {
   font-size: 1.5em;
 }
 
-.toggle-text{
+.toggle-text {
   font-size: medium;
   font-weight: bold;
   padding-left: 5px;
 }
+
 /* //// VOID COMPONENT */
 
 .likes {
@@ -76,7 +78,7 @@ textarea {
 }
 
 /* //// WOF COMPONENT */
-.wof-component{
+.wof-component {
   margin-top: 8em;
 }
 

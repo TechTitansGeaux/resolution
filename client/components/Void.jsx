@@ -2,10 +2,10 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
-import VoidLikesItem from './VoidLikesItem.jsx'
+import VoidLikesItem from "./VoidLikesItem.jsx";
 
 const Void = ({ posts, submit }) => {
-  // SETS 
+  // SETS
   dayjs.extend(relativeTime);
 
   const [voidLikes, setVoidLikes] = useState([]); // i.e. [ { id: 1, likes: 0},  { id: 2, likes: 4}]
@@ -20,25 +20,24 @@ const Void = ({ posts, submit }) => {
     );
   };
 
-
-    useEffect(() => {
-      getVoid();
-    }, [submit]);
+  useEffect(() => {
+    getVoid();
+  }, [submit]);
 
   // INCREMENTS VOID LIKES STATE ARRAY & UPDATES A SPECIFIC SCREAM VIA CLICKED POST
   const handleIncrementLikes = (post) => {
     const fetchData = async () => {
       // filters voidLikes state array and adds 1 to likes value
       const incrementCurrPostLikes =
-      voidLikes.filter((obj) => obj.id === post.id)[0].likes + 1;
+        voidLikes.filter((obj) => obj.id === post.id)[0].likes + 1;
       await axios
-      .put(`/void/${post.id}`, { likes: incrementCurrPostLikes })
-      .then((response) => {
-        console.log("PUT request response", response);
-      })
-      .catch((err) => {
-        console.error("ERROR in axios put request at handleLikeClick: ", err);
-      });
+        .put(`/void/${post.id}`, { likes: incrementCurrPostLikes })
+        .then((response) => {
+          console.log("PUT request response", response);
+        })
+        .catch((err) => {
+          console.error("ERROR in axios put request at handleLikeClick: ", err);
+        });
     };
     fetchData();
 
@@ -47,10 +46,9 @@ const Void = ({ posts, submit }) => {
     };
 
     try {
-      refresh()
-    }
-    catch {
-      console.log('didn\'t work')
+      refresh();
+    } catch {
+      console.log("didn't work");
     }
   };
 
