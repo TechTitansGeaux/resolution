@@ -1,10 +1,6 @@
 import { useState, useEffect } from "react";
-
-
 import { Link } from 'react-router-dom';
 import axios from 'axios';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
 import Void from './Void.jsx'
 
 const Home = ({ user, addPoints }) => {
@@ -13,22 +9,9 @@ const Home = ({ user, addPoints }) => {
   const [posts, setPosts] = useState([]);
   const [submit, setSubmit] = useState(false);
 
-  
-  let startCount = parseInt(posts.likes || 0)
-  const [countLikes, setCountLikes] = useState(startCount);
-
-
-  dayjs.extend(relativeTime);
   const handleChange = (e) => {
     setText(e.target.value);
   };
-
-
-  // INCREMENTS LIKES STATE
-  const handleIncrementLikes = () => {
-    setCountLikes((prevCountLikes) => prevCountLikes + 1);
-  };
-
 
   // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
@@ -50,7 +33,7 @@ const Home = ({ user, addPoints }) => {
     };
     // also add points to user
     addPoints(user, 5);
-    
+
     // calls async function
     fetchData();
   };
@@ -78,23 +61,6 @@ const Home = ({ user, addPoints }) => {
     fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [submit]);
-
-
-  // CREATE POSTS v. POSTS ITEMS component to get post id through props! via Jackie's suggestion
-  // // UPDATE A SPECIFIC SCREAM VIA post id
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .put("/void/<Needs Post.id Variable ID>", { likes: countLikes })
-        .then((response) => {
-          console.log("PUT request response", response);
-        })
-        .catch((err) => {
-          console.error("ERROR in axios put request at handleLikeClick: ", err);
-        });
-        fetchData();
-      }
-    }, [countLikes]);
 
 
   return (
@@ -144,7 +110,6 @@ const Home = ({ user, addPoints }) => {
             user={user}
             addPoints={addPoints}
             posts={posts}
-            handleIncrementLikes={handleIncrementLikes}
           />
         </div>
         <hr></hr>
