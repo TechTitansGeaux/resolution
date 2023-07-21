@@ -1,11 +1,10 @@
 import { useState, useEffect } from 'react';
 import axios from 'axios'; // make GET request to search users
-// import '../../node_modules/socket.io';
-// const http = require('http');
 import io from 'socket.io-client';
 const socket = io();
-
-//import { socket } from '../socket';
+import PAPER from "../img/PAPER.png";
+import SCISSORS from "../img/SCISSORS.png";
+import ROCK from "../img/ROCK.png";
 
 const DecisionMaker = () => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
@@ -88,17 +87,25 @@ const DecisionMaker = () => {
   // if both players are ready
   useEffect(() => {
     socket.on('ready', (data) => {
-      console.log(data);
+      //console.log(data);
       setReady(true);
-      console.log(ready);
+      //console.log('ready:', ready);
+      socket.emit('other_ready', {ready: 'READY', room: room});
     });
   });
+
+  useEffect(() => {
+    socket.on('other_ready', (data) => {
+      setReady(true);
+      //console.log('other_ready:', ready);
+    });
+  }, [ready]);
 
   // receive if room is full
   useEffect(() => {
     socket.on('full', (data) => {
       setFull(true);
-      console.log(data);
+      //console.log(data);
     });
   });
 
@@ -153,8 +160,33 @@ const DecisionMaker = () => {
       <div>
         {!joined ? (<h2></h2>) : <h2>You are in room: {room}</h2>}
       </div>
-      <div>{!full ? (<h2></h2>) : <h2>The room is full</h2>}</div>
-      <h2>You picked {hand}!</h2>
+      <div>
+        {!full ? (<h2></h2>) : <h2>The room is full</h2>}
+      </div>
+
+      <div>{!ready ? (<h2>Waiting</h2>) :
+        (<div>
+
+          <h2>Let's play!</h2>
+
+          <button
+          ><img src={ROCK} alt='ROCK' onClick={() => setHand('rock')}/>
+          </button>
+
+          <button
+          ><img src={PAPER} alt='PAPER' onClick={() => setHand('paper')}/>
+          </button>
+
+          <button
+          ><img src={SCISSORS} alt='SCISSORS' onClick={() => setHand('scissors')}/>
+          </button>
+
+          <button type="button"
+            onClick={() => sendHand()}
+          >Send Hand</button>
+          <h2>You picked {hand}!</h2>
+        </div>)}
+      </div>
 
       <div>
         {!result ? (<h2></h2>) : ( <div>
@@ -163,20 +195,6 @@ const DecisionMaker = () => {
           <button onClick={refreshPage}>Click to Play Again!</button>
         </div>)}
       </div>
-
-      <button type="button"
-        onClick={() => setHand('rock')}
-      >Rock</button>
-      <button type="button"
-        onClick={() => setHand('paper')}
-      >Paper</button>
-      <button type="button"
-        onClick={() => setHand('scissors')}
-      >Scissors</button>
-
-      <button type="button"
-        onClick={() => sendHand()}
-      >Send Hand</button>
     </div>
   );
 };

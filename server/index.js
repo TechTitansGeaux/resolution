@@ -83,6 +83,10 @@ io.sockets.on('connection', (socket) => {
 
   });
 
+  socket.on('other_ready', (data) => {
+    socket.to(data.room).emit('other_ready', 'READY');
+  });
+
   socket.on('hand', (data) => {
     //console.log(data);
     socket.to(data.room).emit('receive_hand', data);
@@ -101,5 +105,5 @@ app.get('/*', (req, res) => {
 });
 
 server.listen(port, () => {
-  console.log(`Server listening at http://127.0.0.1:${port}`);
+  console.log(`Server listening at http://localhost:${port}`);
 });
