@@ -99,7 +99,6 @@ textarea {
   }
 }
 
-/* Apply the bounce animation only to the image within the SignUp component */
 .bounce-img {
   animation: bounce 2s infinite;
 }
