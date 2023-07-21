@@ -111,7 +111,7 @@ const Home = ({ user, addPoints }) => {
           </div>
           <div id="accordion">
             <div className="card">
-              <div className="card-header" id="void">
+              <div className="card-header d-flex flex-row-reverse" id="void">
                 <h5 className="mb-0">
                   <button
                     id="void-toggle-btn"

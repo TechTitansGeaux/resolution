@@ -25,6 +25,7 @@ textarea {
   box-shadow: 4px 4px 0px var(--color-primary);
   min-height: 2em;
   margin-bottom: .5em;
+  padding: 10px;
 }
 
 .round-btn {
