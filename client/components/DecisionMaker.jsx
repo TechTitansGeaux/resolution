@@ -1,14 +1,14 @@
 import { useState, useEffect } from 'react';
-import axios from 'axios'; // make GET request to search users
+//import axios from 'axios'; // make GET request to search users STRETCH GOAL
 import io from 'socket.io-client';
 const socket = io();
 import PAPER from "../img/PAPER.png";
 import SCISSORS from "../img/SCISSORS.png";
 import ROCK from "../img/ROCK.png";
 
-const DecisionMaker = ({ user, addPoints }) => {
+const DecisionMaker = () => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
-  const [searchInput, setSearchInput] = useState(''); // search input to search users
+  //const [searchInput, setSearchInput] = useState(''); // search input to search users
   //const [user, setUser] = useState(''); // set user (your opponent) state
   const [room, setRoom] = useState(''); // create room for rps players
   const [handReceived, setHandReceived] = useState('...'); // hand received from socket server
@@ -77,16 +77,22 @@ const DecisionMaker = ({ user, addPoints }) => {
     if (!full) {
       socket.emit('hand', { hand, room });
       displayResult();
-      addPoints(user, 10);
     }
   };
 
   // refresh page to play again
   const refreshPage = () => {
     window.location.reload(false);
+    // setHand('none');
+    // setRoom('');
+    // setHandReceived('...');
+    // setResult('');
+    // setJoined('false');
+    // setFull('false');
+    // setReady('false');
   };
 
-  // if both players are ready
+  // if one player is ready, send READY to other player
   useEffect(() => {
     socket.on('ready', (data) => {
       //console.log(data);
@@ -165,7 +171,7 @@ const DecisionMaker = ({ user, addPoints }) => {
         {!joined ? (<h2></h2>) : <h2 className="text-primary">You are in room: {room}</h2>}
       </div>
       <div>
-        {!full ? (<h2></h2>) : <h2 className="text-primary">The room is full</h2>}
+        {!full ? (<h2></h2>) : <h2 className="text-primary">Room {room} is full</h2>}
       </div>
 
       <div>{!ready ? (<h2 className="text-primary">Waiting</h2>) :
