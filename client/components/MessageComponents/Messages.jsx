@@ -2,10 +2,11 @@ import { React, useState } from 'react';
 
 import StartConversation from './StartConversation.jsx';
 import AllConversations from './AllConversations.jsx';
+import Landing from './Landing.jsx';
 
 const Messages = (props) => {
 
-  const [ view, updateView ] = useState(<AllConversations updateView={updateView} loggedIn={props.loggedIn}/>);
+  const [ view, updateView ] = useState(<Landing/>);
 
 
   return (

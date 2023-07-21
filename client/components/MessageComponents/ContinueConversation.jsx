@@ -55,7 +55,7 @@ const StartConversation = (props) => {
       <input value={topText} onChange={(e) => { updateTopText(e.target.value); }}></input>
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
-      <h3>click to send meme</h3>
+      <h3>click to send meme to {otherUser.username}</h3>
       <button onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>
