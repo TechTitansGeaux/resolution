@@ -3,7 +3,6 @@ import { React, useState } from 'react';
 
 const MessageItem = (props) => {
   const { message } = props;
-  console.log(message);
 
   return (
     <div>

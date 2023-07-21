@@ -9,6 +9,9 @@ const Home = ({ user, addPoints }) => {
   const [toggleOff, setToggleOff] = useState(false);
   const [submit, setSubmit] = useState(true);
 
+
+  dayjs.extend(relativeTime);
+  
   const handleChange = (e) => {
     setText(e.target.value);
   };
@@ -64,6 +67,7 @@ const Home = ({ user, addPoints }) => {
     fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [submit]);
+
 
   // ONCLICK STATE UPDATE FOR VOID TOGGLE OPEN OR CLOSE
   const handleVoidToggle = () => {
