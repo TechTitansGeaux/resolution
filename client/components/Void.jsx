@@ -1,13 +1,13 @@
-import { useState, useEffect, useReducer } from "react";
+import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
 
-const Void = ({ posts }) => {
+const Void = ({ posts, submit }) => {
+  // SETS 
   dayjs.extend(relativeTime);
 
   const [voidLikes, setVoidLikes] = useState([]); // i.e. [ { id: 1, likes: 0},  { id: 2, likes: 4}]
-  const [reducerValue, forceUpdate] = useReducer((x) => x + 1, 0); // forces a rerender 1 more time on useEffect
 
   // USE EFFECT TO GET VOID ON COMPONENT MOUNT
   const getVoid = async () => {
@@ -19,9 +19,10 @@ const Void = ({ posts }) => {
     );
   };
 
-  useEffect(() => {
-    getVoid();
-  }, [reducerValue]);
+
+    useEffect(() => {
+      getVoid();
+    }, [submit]);
 
   // INCREMENTS VOID LIKES STATE ARRAY & UPDATES A SPECIFIC SCREAM VIA CLICKED POST
   const handleIncrementLikes = (post) => {
@@ -39,7 +40,28 @@ const Void = ({ posts }) => {
       });
     };
     fetchData();
-    forceUpdate();
+
+    const refresh = async () => {
+      getVoid();
+    };
+
+    try {
+      refresh()
+    }
+    catch {
+      console.log('didn\'t work')
+    }
+    
+    // const refresh = async () => {
+    //   window.location.reload();
+    // };
+
+    // try {
+    //   refresh()
+    // }
+    // catch {
+    //   console.log('didn\'t work')
+    // }
   };
 
   return (
@@ -60,7 +82,7 @@ const Void = ({ posts }) => {
             >
               💯{" "}
               <span className="likes">
-                {voidLikes.filter((obj) => obj.id === post.id)[0].likes}
+                {post.likes}
               </span>
             </button>
             <hr></hr>

@@ -6,8 +6,8 @@ import Void from "./Void.jsx";
 const Home = ({ user, addPoints }) => {
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [toggleOn, setToggleOn] = useState(true);
-  // const [submit, setSubmit] = useState(false);
+  const [toggleOff, setToggleOff] = useState(false);
+  const [submit, setSubmit] = useState(true);
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -16,7 +16,7 @@ const Home = ({ user, addPoints }) => {
   // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
-    // setSubmit(true);
+    setSubmit(true);
     const fetchData = async () => {
       await axios
         .post("/void", { text })
@@ -24,7 +24,7 @@ const Home = ({ user, addPoints }) => {
           console.log("Success! handleSubmit post request data ==>", data);
           // empty input field
           setText("");
-          // setSubmit(false);
+          setSubmit(false);
         })
         .catch((err) => {
           console.error("Error in handleSubmit axios.post request ===>", err);
@@ -33,6 +33,10 @@ const Home = ({ user, addPoints }) => {
     // also add points to user
     addPoints(user, 5);
 
+    // open void on submit click if toggleOff state is true
+    if (toggleOff) {
+      document.getElementById("void-toggle-btn").click();
+    }
     // calls async function
     fetchData();
   };
@@ -59,11 +63,11 @@ const Home = ({ user, addPoints }) => {
     // calls async function
     fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
-  }, []);
+  }, [submit]);
 
   // ONCLICK STATE UPDATE FOR VOID TOGGLE OPEN OR CLOSE
   const handleVoidToggle = () => {
-    setToggleOn(!toggleOn);
+    setToggleOff(!toggleOff);
   };
 
   return (
@@ -122,15 +126,15 @@ const Home = ({ user, addPoints }) => {
                     aria-controls="collapseVoid"
                     onClick={handleVoidToggle}
                   >
-                    {toggleOn ? (
-                      <div className="toggle-icon-container">
-                        <i className="bi bi-toggle-on"></i>
-                        <span className="toggle-text">CLOSE VOID</span>
-                      </div>
-                    ) : (
+                    {toggleOff ? (
                       <div className="toggle-icon-container">
                         <i className="bi bi-toggle-off"></i>
                         <span className="toggle-text">OPEN VOID</span>
+                      </div>
+                    ) : (
+                      <div className="toggle-icon-container">
+                        <i className="bi bi-toggle-on"></i>
+                        <span className="toggle-text">CLOSE VOID</span>
                       </div>
                     )}
                   </button>
@@ -148,6 +152,7 @@ const Home = ({ user, addPoints }) => {
                 user={user}
                 addPoints={addPoints}
                 posts={posts}
+                submit={submit}
               />
             </div>
           </div>
