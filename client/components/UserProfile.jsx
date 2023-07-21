@@ -108,7 +108,7 @@ const UserProfile = () => {
                 onChange={handleImageChange}
               />
               <h2 className='card-title'>{authUser.username}</h2>
-              <div className='mb-3'>
+              <div className='mb-4'>
                 <label htmlFor='usernameInput' className='form-label'>
                   Edit Username:
                 </label>
@@ -121,14 +121,14 @@ const UserProfile = () => {
                 />
                 <button
                   onClick={uploadImageToServer}
-                  className='btn btn-primary mt-3'
+                  className='btn btn-primary mt-4'
                   disabled={isSaveProfileDisabled}
                 >
                   Save Profile Picture
                 </button>
                 <button
                   onClick={handleUpdateUser}
-                  className='btn btn-primary mt-3'
+                  className='btn btn-primary mt-4'
                   disabled={isSaveUsernameDisabled}
                 >
                   Save Username
