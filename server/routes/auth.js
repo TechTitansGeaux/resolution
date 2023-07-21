@@ -1,11 +1,12 @@
 const express = require('express');
 const passport = require('passport');
 const { isUserAuthenticated } = require('../middleware/auth');
+require('dotenv').config();
 
 const router = express.Router();
 
-const successLoginUrl = 'http://127.0.0.1:4000/Home';
-const errorLoginUrl = 'http://127.0.0.1:4000/login/error';
+const successLoginUrl = `${process.env.HOST}/Home`;
+const errorLoginUrl = `${process.env.HOST}/login/error`;
 
 router.get('/login/google', passport.authenticate('google', { scope: ['profile', 'email'] }));
 
