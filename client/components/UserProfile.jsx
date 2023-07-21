@@ -3,6 +3,7 @@ import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthUser } from './store/appSlice';
 
+
 const UserProfile = () => {
   const authUser = useSelector((state) => state.app.authUser);
   const dispatch = useDispatch();
@@ -28,6 +29,7 @@ const UserProfile = () => {
       const response = await axios.patch(`/users/${authUser.id}`, updatedUser);
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
+        // console.log(process.env.REACT_APP_HOST);
         setUpdatedUsername(''); // clear the input field after successful update
       }
     } catch (error) {
