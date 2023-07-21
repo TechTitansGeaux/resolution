@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import dayjs from "dayjs";
 import relativeTime from "dayjs/plugin/relativeTime";
+import VoidLikesItem from './VoidLikesItem.jsx'
 
 const Void = ({ posts, submit }) => {
   // SETS 
@@ -42,7 +43,7 @@ const Void = ({ posts, submit }) => {
     fetchData();
 
     const refresh = async () => {
-      getVoid();
+      window.location.reload();
     };
 
     try {
@@ -51,17 +52,6 @@ const Void = ({ posts, submit }) => {
     catch {
       console.log('didn\'t work')
     }
-    
-    // const refresh = async () => {
-    //   window.location.reload();
-    // };
-
-    // try {
-    //   refresh()
-    // }
-    // catch {
-    //   console.log('didn\'t work')
-    // }
   };
 
   return (
@@ -82,7 +72,7 @@ const Void = ({ posts, submit }) => {
             >
               💯{" "}
               <span className="likes">
-                {post.likes}
+                <VoidLikesItem postLikes={post.likes} />
               </span>
             </button>
             <hr></hr>
