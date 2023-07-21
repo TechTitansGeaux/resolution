@@ -17,11 +17,13 @@ const WallOfFame = () => {
     axios.get('/wofRoutes/users')
       // destructure to get data (array of top) from response
       .then(({data}) => {
-        // set top in state to top given from axios
-        setTop(data.slice(0, 10));
+        // filter out users with no points
+        const pointsOnly = data.filter(user => user.points !== 0);
+        // set top in state to filtered top given from axios
+        setTop(pointsOnly.slice(0, 10));
       })
       .catch((err) => {
-        console.error('Failed axios GET top 5: ', err);
+        console.error('Failed axios GET top: ', err);
       });
   }, []);
 
@@ -36,7 +38,6 @@ const WallOfFame = () => {
           if (top[i].points === top[i + 1].points) {
             // now check if trophies are NOT the same
             if (top[i].trophy !== top[i + 1].trophy) {
-              console.log('found mismatch trophies');
               // set trophy on state to the FIRST users trophy
               setMatchTrophy(top[i].trophy);
               setConflictedUser(top[i + 1]);

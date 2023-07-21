@@ -38,8 +38,6 @@ const App = () => {
         console.error('Failed axios GET user points: ', err);
       });
   };
-  console.log(points, '<----points state from app');
-
 
   useEffect(() => {
     fetchAuthUser();

@@ -44,6 +44,8 @@ const StartConversation = (props) => {
         .then((res) => {
           console.log(res.data);
           updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
+          // increase user points
+          addPoints(loggedIn, 10);
         })
         .catch((err) => {
           console.log(err);
@@ -86,7 +88,7 @@ const StartConversation = (props) => {
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
       <h3>click 'send meme' button to start conversation</h3>
       { noUserMessage }
-      <button onClick={() => { sendMessage(); addPoints(loggedIn, 10); }}>send meme</button>
+      <button onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>
       <img src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}></img>

@@ -10,7 +10,7 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
   // points variable in state for each user
   const [ points, setPoints ] = useState('');
 
-  console.log(conflictedUser, matchTrophy, '<----conflicted user and match trophy');
+  // console.log(conflictedUser, matchTrophy, '<----conflicted user and match trophy');
 
   // function to get points of each user
   // get current points from user
@@ -39,8 +39,6 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
   useEffect(() => {
     getPlacement();
   }, [points]);
-
-  // console.log(placement, '<----placements from wofItem');
 
   // assign trophy according to placement
   useEffect(() => {
