@@ -9,7 +9,7 @@ import GoogleButton from "react-google-button";
 import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
 
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
 import { useDispatch } from "react-redux";

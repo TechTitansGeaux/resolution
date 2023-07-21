@@ -1,39 +1,26 @@
 import { useState, useEffect } from "react";
-
-
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import dayjs from 'dayjs';
-import relativeTime from 'dayjs/plugin/relativeTime';
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Void from "./Void.jsx";
 
 const Home = ({ user, addPoints }) => {
-
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [submit, setSubmit] = useState(false);
-
-  let startCount = parseInt(posts.likes || 0);
-  const [countLikes, setCountLikes] = useState(startCount);
+  const [toggleOff, setToggleOff] = useState(false);
+  const [submit, setSubmit] = useState(true);
 
 
   dayjs.extend(relativeTime);
+  
   const handleChange = (e) => {
     setText(e.target.value);
   };
-
-
-  // INCREMENTS LIKES STATE
-  const handleIncrementLikes = () => {
-    setCountLikes((prevCountLikes) => prevCountLikes + 1);
-  };
-
 
   // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
     setSubmit(true);
     const fetchData = async () => {
-
       await axios
         .post("/void", { text })
         .then((data) => {
@@ -43,13 +30,16 @@ const Home = ({ user, addPoints }) => {
           setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err);
+          console.error("Error in handleSubmit axios.post request ===>", err);
         });
     };
     // also add points to user
     addPoints(user, 5);
 
-
+    // open void on submit click if toggleOff state is true
+    if (toggleOff) {
+      document.getElementById("void-toggle-btn").click();
+    }
     // calls async function
     fetchData();
   };
@@ -79,22 +69,10 @@ const Home = ({ user, addPoints }) => {
   }, [submit]);
 
 
-  // CREATE POSTS v. POSTS ITEMS component to get post id through props! via Jackie's suggestion
-  // // UPDATE A SPECIFIC SCREAM VIA post id
-  useEffect(() => {
-    const fetchData = async () => {
-      await axios
-        .put("/void/<Needs Post.id Variable ID>", { likes: countLikes })
-        .then((response) => {
-          console.log("PUT request response", response);
-        })
-        .catch((err) => {
-          console.error("ERROR in axios put request at handleLikeClick: ", err);
-        });
-      fetchData();
-    };
-  }, [countLikes]);
-
+  // ONCLICK STATE UPDATE FOR VOID TOGGLE OPEN OR CLOSE
+  const handleVoidToggle = () => {
+    setToggleOff(!toggleOff);
+  };
 
   return (
     <div className="home section">
@@ -139,30 +117,48 @@ const Home = ({ user, addPoints }) => {
               <b>SUBMIT</b>
             </button>
           </div>
-          <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
-            {posts.map((post) => {
-              return (
-                <div key={post.id + "void"} id={post.id}>
-                  <p className="scream modal-content  text-white pt-3">
-                    <span className="scream modal-content  text-sm-left">
-                      anonymous:{" "}
-                    </span>
-                    <b>{`"${post.text}"`}</b>
-                    <span>
-                      {" "}
-                      created: {dayjs(`${post.createdAt}`).fromNow()}
-                    </span>
-                  </p>
+          <div id="accordion">
+            <div className="card">
+              <div className="card-header d-flex flex-row-reverse" id="void">
+                <h5 className="mb-0">
                   <button
-                    className="btn btn-light round-btn"
-                    onClick={handleIncrementLikes}
+                    id="void-toggle-btn"
+                    className="btn btn-link"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseVoid"
+                    aria-expanded="true"
+                    aria-controls="collapseVoid"
+                    onClick={handleVoidToggle}
                   >
-                    💯 <span className="likes">{post.likes}</span>
+                    {toggleOff ? (
+                      <div className="toggle-icon-container">
+                        <i className="bi bi-toggle-off"></i>
+                        <span className="toggle-text">OPEN VOID</span>
+                      </div>
+                    ) : (
+                      <div className="toggle-icon-container">
+                        <i className="bi bi-toggle-on"></i>
+                        <span className="toggle-text">CLOSE VOID</span>
+                      </div>
+                    )}
                   </button>
-                  <hr></hr>
-                </div>
-              );
-            })}
+                </h5>
+              </div>
+            </div>
+            <div
+              id="collapseVoid"
+              className="collapse show"
+              aria-labelledby="void"
+              data-parent="#accordion"
+            >
+              <Void
+                className="card-body"
+                user={user}
+                addPoints={addPoints}
+                posts={posts}
+                submit={submit}
+              />
+            </div>
           </div>
         </div>
         <hr></hr>
