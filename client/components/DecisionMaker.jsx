@@ -7,7 +7,7 @@ const socket = io();
 
 //import { socket } from '../socket';
 
-const DecisionMaker = () => {
+const DecisionMaker = ({changePoints}) => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
   const [searchInput, setSearchInput] = useState(''); // search input to search users
   const [user, setUser] = useState(''); // set user (your opponent) state

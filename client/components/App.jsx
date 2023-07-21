@@ -20,10 +20,13 @@ const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState("");
 
-  // create placement and trophy and points variables in state for current user
+  // create trophy variable on state for current user
   const [ trophy, setTrophy ] = useState('');
+  // create placement variable in state for current user
   const [ placement, setPlacement ] = useState('');
+  // create refresher for one more refresh when points are added
   const [ refresher, setRefresher ] = useState(0);
+  // create points variable in state for current user
   const [ points, setPoints ] = useState('');
 
   // get current points from user
@@ -71,8 +74,10 @@ const App = () => {
   };
 
   useEffect(() => {
-    getPoints();
-    getPlacement();
+    if (user) {
+      getPoints();
+      getPlacement();
+    }
   }, [user, refresher]);
 
   // assign trophy according to placement
@@ -116,7 +121,7 @@ const App = () => {
 
   // function to add necessary points to current user
   // also must update trophy
-  const addPoints = (user, num) => {
+  const changePoints = (user, num) => {
     setRefresher(1);
     getPlacement();
     // points on user in state is 'read only' and cannot be directly updated
@@ -150,21 +155,21 @@ const App = () => {
           <Route
             exact
             path="/Home"
-            element={<Home user={user} addPoints={addPoints} />}
+            element={<Home user={user} changePoints={changePoints} />}
           />
           <Route
             path="/UserProfile"
             element={<UserProfile user={user} trophy={trophy} points={points}/>} />
           <Route
             path="/Messages"
-            element={<Messages addPoints={addPoints} loggedIn={user} />}
+            element={<Messages changePoints={changePoints} loggedIn={user} />}
           />
           <Route
             path="/WallOfFame"
-            element={<WallOfFame refresher={refresher}/>} />
+            element={<WallOfFame changePoints={changePoints}/>} />
           <Route
             path="/DecisionMaker"
-            element={<DecisionMaker addPoints={addPoints} user={user} />}
+            element={<DecisionMaker changePoints={changePoints} user={user} />}
           />
         </Route>
       </Routes>

@@ -2,7 +2,7 @@ import WOFItem from "./WOFItem.jsx";
 import { useState, useEffect } from "react";
 import axios from 'axios';
 
-const WallOfFame = () => {
+const WallOfFame = ({changePoints}) => {
 
   // add top property to state, empty array initially
   const [ top, setTop ] = useState([]);
@@ -59,7 +59,7 @@ const WallOfFame = () => {
           <h1 className="text-primary">Wall Of Fame</h1>
           {top.map((user, index) => {
             // send down each user, any conflicted user, and any match trophy
-            return <WOFItem user={user} conflictedUser={conflictedUser} matchTrophy={matchTrophy} key={'user' + index}/>;
+            return <WOFItem conflictedUser={conflictedUser} matchTrophy={matchTrophy} changePoints={changePoints} user={user} key={'user' + index}/>;
           })}
         </div>
         <div className='wof-leger-component'>
@@ -90,8 +90,8 @@ const WallOfFame = () => {
         <h5 className="text-primary">How do I earn points?</h5>
         <p>
           Earn points by resolving your conflicts!
-          Scream into the void for 5. Make a decision for 10.
-           Create and send a meme for 15. And remember, conflict resolution is a practice!
+          Scream into the void for 3. Make a decision for 7.
+           Create and send a meme for 11. And remember, conflict resolution is a practice!
            Stay active each week to keep your points up.
         </p>
       </div>

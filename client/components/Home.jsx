@@ -6,7 +6,7 @@ import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
 
-const Home = ({ user, addPoints }) => {
+const Home = ({ user, changePoints }) => {
 
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
@@ -48,7 +48,7 @@ const Home = ({ user, addPoints }) => {
         });
     };
     // also add points to user
-    addPoints(user, 3);
+    changePoints(user, 3);
 
 
     // calls async function

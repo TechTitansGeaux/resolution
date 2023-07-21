@@ -3,7 +3,7 @@ import axios from 'axios';
 import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
-  const { loggedIn, updateView, addPoints } = props;
+  const { loggedIn, updateView, changePoints } = props;
 
   const [ topText, updateTopText ] = useState('');
 
@@ -44,8 +44,6 @@ const StartConversation = (props) => {
         .then((res) => {
           console.log(res.data);
           updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
-          // increase user points
-          addPoints(loggedIn, 10);
         })
         .catch((err) => {
           console.log(err);

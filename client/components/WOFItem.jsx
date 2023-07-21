@@ -1,5 +1,8 @@
 import { useState, useEffect } from "react";
 import axios from 'axios';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+dayjs.extend(relativeTime);
 
 const WOFItem = ({user, conflictedUser, matchTrophy}) => {
 
@@ -9,6 +12,8 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
   const [ placement, setPlacement ] = useState('');
   // points variable in state for each user
   const [ points, setPoints ] = useState('');
+  // create updatedAt variable in state for current user to determine when last active
+  const [ updatedAt, setUpdatedAt ] = useState('');
 
   // console.log(conflictedUser, matchTrophy, '<----conflicted user and match trophy');
 
@@ -28,7 +33,21 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
 
   useEffect(() => {
     getPoints();
+    // // set updatedAt state variable to how long ago user was active
+    // setUpdatedAt(dayjs(`${user.updatedAt}`).fromNow());
   }, []);
+
+  // console.log(updatedAt, '<--- updatedAt from state');
+  // console.log(dayjs(`${user.updatedAt}`).fromNow(), '<--- time of user last update');
+
+  // // create a function that docs points for prolonged inactivity
+  // const checkInactivity = () => {
+  //   // determine if its been days since last active
+  //   if (updatedAt.includes(minutes)) {
+  //     console.log
+  //   }
+  // }
+
   // get placement of each user
   // useEffect to get user placement
   const getPlacement = async () => {
@@ -36,6 +55,7 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
     const request = await axios.get('/wofRoutes/users');
     setPlacement((request.data.map(user => user.id).indexOf(user.id)) / request.data.length);
   };
+
   useEffect(() => {
     getPlacement();
   }, [points]);
