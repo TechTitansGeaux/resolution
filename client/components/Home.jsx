@@ -1,13 +1,13 @@
 import { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
-import axios from 'axios';
-import Void from './Void.jsx'
+import { Link } from "react-router-dom";
+import axios from "axios";
+import Void from "./Void.jsx";
 
 const Home = ({ user, addPoints }) => {
-
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
-  const [submit, setSubmit] = useState(false);
+  const [toggleOn, setToggleOn] = useState(true);
+  // const [submit, setSubmit] = useState(false);
 
   const handleChange = (e) => {
     setText(e.target.value);
@@ -16,19 +16,18 @@ const Home = ({ user, addPoints }) => {
   // SUBMITS anonymous SCREAM INTO THE VOID
   const handleSubmit = (e) => {
     e.preventDefault();
-    setSubmit(true);
+    // setSubmit(true);
     const fetchData = async () => {
-
       await axios
         .post("/void", { text })
         .then((data) => {
           console.log("Success! handleSubmit post request data ==>", data);
           // empty input field
           setText("");
-          setSubmit(false);
+          // setSubmit(false);
         })
         .catch((err) => {
-          console.error('Error in handleSubmit axios.post request ===>', err);
+          console.error("Error in handleSubmit axios.post request ===>", err);
         });
     };
     // also add points to user
@@ -60,8 +59,12 @@ const Home = ({ user, addPoints }) => {
     // calls async function
     fetchData();
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
-  }, [submit]);
+  }, []);
 
+  // ONCLICK STATE UPDATE FOR VOID TOGGLE OPEN OR CLOSE
+  const handleVoidToggle = () => {
+    setToggleOn(!toggleOn);
+  };
 
   return (
     <div className="home section">
@@ -106,11 +109,48 @@ const Home = ({ user, addPoints }) => {
               <b>SUBMIT</b>
             </button>
           </div>
-          <Void
-            user={user}
-            addPoints={addPoints}
-            posts={posts}
-          />
+          <div id="accordion">
+            <div className="card">
+              <div className="card-header" id="void">
+                <h5 className="mb-0">
+                  <button
+                    id="void-toggle-btn"
+                    className="btn btn-link"
+                    data-bs-toggle="collapse"
+                    data-bs-target="#collapseVoid"
+                    aria-expanded="true"
+                    aria-controls="collapseVoid"
+                    onClick={handleVoidToggle}
+                  >
+                    {toggleOn ? (
+                      <div className="toggle-icon-container">
+                        <i className="bi bi-toggle-on"></i>
+                        <span className="toggle-text">CLOSE VOID</span>
+                      </div>
+                    ) : (
+                      <div className="toggle-icon-container">
+                        <i className="bi bi-toggle-off"></i>
+                        <span className="toggle-text">OPEN VOID</span>
+                      </div>
+                    )}
+                  </button>
+                </h5>
+              </div>
+            </div>
+            <div
+              id="collapseVoid"
+              className="collapse show"
+              aria-labelledby="void"
+              data-parent="#accordion"
+            >
+              <Void
+                className="card-body"
+                user={user}
+                addPoints={addPoints}
+                posts={posts}
+              />
+            </div>
+          </div>
         </div>
         <hr></hr>
         <div className="messenger-intro">

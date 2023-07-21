@@ -50,6 +50,23 @@ textarea {
 
 /* //// HOME COMPONENT */
 
+.toggle-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+#void-toggle-btn {
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.toggle-text{
+  font-size: medium;
+  font-weight: bold;
+  padding-left: 5px;
+}
+/* //// VOID COMPONENT */
+
 .likes {
   font-size: x-small;
   color: var(--color-primary);

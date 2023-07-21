@@ -43,7 +43,7 @@ const Void = ({ posts }) => {
   };
 
   return (
-    <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
+    <div className="scream-container bg-primary container ps-3">
       {posts.map((post) => {
         return (
           <div key={post.id + "void"} id={post.id}>
