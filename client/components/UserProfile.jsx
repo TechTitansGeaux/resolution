@@ -1,4 +1,4 @@
-import { useState, useEffect } from 'react';
+import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import { useSelector, useDispatch } from 'react-redux';
 import { setAuthUser } from './store/appSlice';
@@ -97,6 +97,11 @@ const UserProfile = () => {
     // redirect the user to the homepage
     window.location.href = 'http://127.0.0.1:4000';
   };
+
+  // if there's no user return loading
+  if (!authUser) {
+    return <div>Loading...</div>;
+  }
 
   const isSaveProfileDisabled = !isImageSelected;
   const isSaveUsernameDisabled = !updatedUsername;
