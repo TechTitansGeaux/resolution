@@ -84,7 +84,7 @@ const UserProfile = ({trophy, points}) => {
         // logout the user by clearing the authUser state
         dispatch(setAuthUser(null));
         // redirect the user to the homepage
-        window.location.href = 'http://127.0.0.1:4000';
+        window.location.href = process.env.HOST;
       }
     } catch (error) {
       console.error(error);
@@ -95,7 +95,7 @@ const UserProfile = ({trophy, points}) => {
     // logout the user by clearing the authUser state
     dispatch(setAuthUser(null));
     // redirect the user to the homepage
-    window.location.href = 'http://127.0.0.1:4000';
+    window.location.href = process.env.HOST;
   };
 
   // if there's no user return loading
