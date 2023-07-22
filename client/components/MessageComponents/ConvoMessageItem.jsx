@@ -6,7 +6,7 @@ const MessageItem = (props) => {
 
   return (
     <div>
-      <img src={message.img}></img>
+      <img className='rounded' src={message.img}></img>
     </div>
   );
 

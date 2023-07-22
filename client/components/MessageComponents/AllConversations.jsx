@@ -29,12 +29,12 @@ const AllConversations = (props) => {
   }, [message]);
 
   return (
-    <div>
-      <h1 className="text-primary">All Conversations</h1>
+    <div className='text-center'>
+      <h1 className='text-primary'>All Conversations</h1>
       <h3>
         {message}
       </h3>
-      <div className="scream-container bg-primary container ps-3 pt-3 pb-2">
+      <div style={{ width: '75%'}} className='scream-container bg-primary container ps-3 pt-3 pb-2'>
         {
           allConversations.map((conversation, i) => {
             return <ConversationListItem

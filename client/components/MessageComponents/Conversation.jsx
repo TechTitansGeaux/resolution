@@ -17,7 +17,7 @@ const Conversation = (props) => {
   }, [convoId]);
 
   return (
-    <div>
+    <div className='text-center'>
       <div>
         <button
           className='btn btn-primary'
