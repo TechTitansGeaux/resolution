@@ -2,6 +2,8 @@ import GoogleButton from 'react-google-button';
 import ResolutionLogo from '../img/resolution_app_logo_mini.svg';
 
 const SignUp = () => {
+
+  console.log(process.env);
   // redirect user to sign up page
   const redirectToGoogleSSO = () => {
     window.location.href = 'http://127.0.0.1:4000/auth/login/google';
