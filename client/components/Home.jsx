@@ -10,7 +10,7 @@ const Home = ({ user, changePoints }) => {
   const [toggleOff, setToggleOff] = useState(false);
   const [submit, setSubmit] = useState(true);
 
-  
+
   const handleChange = (e) => {
     setText(e.target.value);
   };
