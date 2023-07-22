@@ -83,7 +83,6 @@ const StartConversation = (props) => {
           <option value='Hard-To-Swallow-Pills'>Hard To Swallow Pills</option>
           <option value='Hipster-Ariel'>Hipster Ariel</option>
           <option value='Ill-Have-You-Know-Spongebob'>Ill Have You Know Spongebob</option>
-          <option value='Morty'>Morty</option>
           <option value='Mr-Krabs-Blur-Meme'>Mr Krabs Blur Meme</option>
           <option value='1990s-First-World-Problems'>1990's First World Problems</option>
         </select>
@@ -99,10 +98,12 @@ const StartConversation = (props) => {
       <div style={{ width: '47%', float: 'right' }}>
         <br></br>
         <br></br>
-        <img
-          src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}
-          className='rounded'
-        ></img>
+        <div className='text-center' style={{width: '90%'}}>
+          <img
+            src={`https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')}
+            className='img-thumbnail'
+          ></img>
+        </div>
       </div>
     </div>
   );

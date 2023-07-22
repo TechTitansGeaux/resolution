@@ -12,7 +12,7 @@ const Landing = (props) => {
       </p>
       <img
         style={{ width: '400px', height: '400px'}}
-        className='rounded'
+        className='img-thumbnail'
         src='https://apimeme.com/meme?meme=Albert-Cagestein&top=Revolutionary&bottom=Conflict+Resolution'
       ></img>
     </div>

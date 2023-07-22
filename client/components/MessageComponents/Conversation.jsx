@@ -33,7 +33,12 @@ const Conversation = (props) => {
       <div>
         {
           conversations.map((message) => {
-            return <MessageItem key={message.id + message.conversationId} message={message} />;
+            return <MessageItem
+              key={message.id + message.conversationId}
+              loggedIn={loggedIn}
+              otherUser={otherUser}
+              message={message}
+            />;
           })
         }
       </div>
