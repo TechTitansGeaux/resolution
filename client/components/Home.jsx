@@ -152,7 +152,7 @@ const Home = ({ user, changePoints }) => {
               <Void
                 className="card-body"
                 user={user}
-                addPoints={addPoints}
+                changePoints={changePoints}
                 posts={posts}
                 submit={submit}
               />
