@@ -76,20 +76,30 @@ io.sockets.on('connection', (socket) => {
       socket.join(data);
     } else if (numClients === 1) {
       socket.join(data);
+      // 2nd player has entered. Ready for game
       socket.to(data).emit('ready', 'READY');
     } else { // max two clients
       socket.emit('full', 'FULL');
     }
 
   });
-
+  // tell 1st player, 2nd player has entered
   socket.on('other_ready', (data) => {
     socket.to(data.room).emit('other_ready', 'READY');
   });
-
+  // client sends hand, server sends hand to opponent
   socket.on('hand', (data) => {
     //console.log(data);
     socket.to(data.room).emit('receive_hand', data);
+  });
+  // leave room when game is done
+  socket.on('leave_room', (data) =>{
+    socket.leave(data);
+    console.log('left room');
+  });
+
+  socket.on('message', (data) => {
+    socket.broadcast.emit('refresh', data);
   });
 
 });

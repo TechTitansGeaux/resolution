@@ -156,6 +156,7 @@ const App = () => {
     // should update every time placement updates
   }, [user, placement, points, conflictedUser, matchTrophy]);
 
+
   // send trophy back to database
   useEffect( () => {
     if (user) {
