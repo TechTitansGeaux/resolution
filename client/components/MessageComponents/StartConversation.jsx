@@ -38,7 +38,7 @@ const StartConversation = (props) => {
 
   const sendMessage = () => {
     if (userExists === 'all good') {
-      changePoints(loggedIn, 11);
+      changePoints(loggedIn, 5);
       socket.emit('message', 'sending');
       axios.post('/messagesHandling/message', {
         senderId: loggedIn.id,

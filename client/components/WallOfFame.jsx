@@ -87,9 +87,9 @@ const WallOfFame = ({changePoints}) => {
         <h5 className="text-primary">How do I earn points?</h5>
         <p>
           Earn points by resolving your conflicts!
-          Scream into the void for 3. Make a decision for 5.
-           Create and send a meme for 10. And remember, conflict resolution is a practice!
-           Stay active each week to keep your points up.
+          Scream into the void for 3. Start a conversation for 5.
+          Win decision maker for 10. And remember, conflict resolution is a practice!
+          Stay active each week to keep your points up.
         </p>
       </div>
     </div>
