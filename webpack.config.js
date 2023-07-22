@@ -3,6 +3,8 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const webpack = require("webpack");
+
 
 require("dotenv").config();
 
@@ -37,7 +39,9 @@ const config = {
   },
   plugins: [
     new HtmlWebpackPlugin({template: path.join(__dirname, "client", "index.html")}),
-
+    new webpack.DefinePlugin({
+      process: { env: {} }
+    }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
