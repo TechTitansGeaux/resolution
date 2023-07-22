@@ -1,9 +1,10 @@
 import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import MessageItem from './ConvoMessageItem.jsx';
+import ContinueConversation from './ContinueConversation.jsx';
 
 const Conversation = (props) => {
-  const { convo, loggedIn } = props;
+  const { convo, loggedIn, otherUser, updateView } = props;
 
   const [ conversations, setConversations ] = useState([]);
 
@@ -20,11 +21,25 @@ const Conversation = (props) => {
 
   return (
     <div>
-      {
-        conversations.map((message) => {
-          return <MessageItem key={message.id + message.conversationId} message={message} />;
-        })
-      }
+      <div>
+        <button
+          className='btn btn-primary'
+          onClick={ () => {
+            updateView(<ContinueConversation
+              convo={convo}
+              loggedIn={loggedIn}
+              otherUser={otherUser}
+              updateView={updateView}/>);
+          }}
+        >send another meme</button>
+      </div>
+      <div>
+        {
+          conversations.map((message) => {
+            return <MessageItem key={message.id + message.conversationId} message={message} />;
+          })
+        }
+      </div>
     </div>
   );
 

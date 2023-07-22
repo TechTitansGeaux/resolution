@@ -25,6 +25,7 @@ textarea {
   box-shadow: 4px 4px 0px var(--color-primary);
   min-height: 2em;
   margin-bottom: .5em;
+  padding: 10px;
 }
 
 .round-btn {
@@ -41,14 +42,33 @@ textarea {
 }
 
 .link {
- text-decoration: none;
+  text-decoration: none;
 }
 
-.nav-link:active, .nav-link:hover {
+.nav-link:active,
+.nav-link:hover {
   color: var(--color-primary)
 }
 
 /* //// HOME COMPONENT */
+
+.toggle-icon-container {
+  display: flex;
+  align-items: center;
+}
+
+#void-toggle-btn {
+  text-decoration: none;
+  font-size: 1.5em;
+}
+
+.toggle-text {
+  font-size: medium;
+  font-weight: bold;
+  padding-left: 5px;
+}
+
+/* //// VOID COMPONENT */
 
 .likes {
   font-size: x-small;
@@ -58,7 +78,7 @@ textarea {
 }
 
 /* //// WOF COMPONENT */
-.wof-component{
+.wof-component {
   margin-top: 8em;
   display: flex;
   flex-direction: column;
@@ -92,6 +112,24 @@ textarea {
   padding: 15px 10px 5px 10px;
 }
 
+
+
+/* Sign Up Component */
+@keyframes bounce {
+  0%, 20%, 50%, 80%, 100% {
+    transform: translateY(0);
+  }
+  40% {
+    transform: translateY(-10px);
+  }
+  60% {
+    transform: translateY(-5px);
+  }
+}
+
+.bounce-img {
+  animation: bounce 2s infinite;
+}
 
 /* //// MEDIA QUERIES */
 

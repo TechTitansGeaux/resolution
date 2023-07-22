@@ -3,63 +3,33 @@ import axios from 'axios';
 import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
-  const { loggedIn, updateView, changePoints } = props;
+  const { convo, loggedIn, otherUser, updateView } = props;
 
   const [ topText, updateTopText ] = useState('');
 
   const [ bottomText, updateBottomText ] = useState('');
 
-  const [ userExists, setUserExists ] = useState('');
-
-  const [ noUserMessage, setNoUserMessage ] = useState('');
-
   const [ meme, changeMeme ] = useState('Aint-Nobody-Got-Time-For-That');
 
-  const [ recipient, setRecipient ] = useState(null);
-
-  const getRecipient = (username) => {
-    axios.get(`/messagesHandling/user${username}`)
+  const sendMessage = () => {
+    axios.post('/messagesHandling/message', {
+      senderId: loggedIn.id,
+      recipientId: otherUser.id,
+      conversationId: convo.id,
+      img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
+    })
       .then((res) => {
-        if (res.status === 204 || username.length === 0) {
-          setUserExists('user not found');
-        } else if (res.status === 200) {
-          setRecipient(res.data);
-          setNoUserMessage('');
-          // maybe put a check mark emoji
-          setUserExists('all good');
-        }
+        updateView(<Conversation convo={convo} loggedIn={loggedIn} otherUser={otherUser} updateView={updateView}/>);
       })
       .catch((err) => {
         console.log(err);
       });
   };
 
-  const sendMessage = () => {
-    if (userExists === 'all good') {
-      axios.post('/messagesHandling/message', {
-        senderId: loggedIn.id,
-        recipientId: recipient.id,
-        img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
-      })
-        .then((res) => {
-          console.log(res.data);
-          updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
-        })
-        .catch((err) => {
-          console.log(err);
-        });
-    } else {
-      setNoUserMessage('please enter valid username');
-    }
-  };
-
 
 
   return (
     <div>
-      <h3>enter username to send to</h3>
-      <input onChange={(e) => { getRecipient(e.target.value); }}></input>
-      <h5>{ userExists }</h5>
       <h3>select Meme</h3>
       <select id='memes' onChange={(e) => { changeMeme(e.target.value); }}>
         <option value='Aint-Nobody-Got-Time-For-That'>Ain't Nobody Got Time For That</option>
@@ -84,8 +54,7 @@ const StartConversation = (props) => {
       <input value={topText} onChange={(e) => { updateTopText(e.target.value); }}></input>
       <h3>enter bottom text</h3>
       <input value={bottomText} onChange={(e) => { updateBottomText(e.target.value); }}></input>
-      <h3>click 'send meme' button to start conversation</h3>
-      { noUserMessage }
+      <h3>click to send meme to {otherUser.username}</h3>
       <button className='btn btn-primary' onClick={() => { sendMessage(); }}>send meme</button>
       <br></br>
       <br></br>

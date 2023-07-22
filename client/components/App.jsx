@@ -5,11 +5,11 @@ import Home from "./Home.jsx";
 import UserProfile from "./UserProfile.jsx";
 import WallOfFame from "./WallOfFame.jsx";
 import Navigation from "./Navigation.jsx";
-import GoogleButton from "react-google-button";
 import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
+import SignUp from "./SignUp.jsx";
 
-
+import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
 import ".././global.css";
 import { useDispatch } from "react-redux";
@@ -59,11 +59,6 @@ const App = () => {
     }
   };
 
-
-  // redirect user to sign up page
-  const redirectToGoogleSSO = () => {
-    window.location.href = "http://127.0.0.1:4000/auth/login/google";
-  };
 
   // get placement of current user
   // useEffect to get user placement
@@ -146,7 +141,7 @@ const App = () => {
       <Routes>
         <Route
           index
-          element={<GoogleButton onClick={redirectToGoogleSSO} />}
+          element={<SignUp />}
         ></Route>
         <Route
           exact

@@ -30,7 +30,8 @@ const Users = sequelize.define('Users', {
   },
   email: DataTypes.STRING(100),
   picture: DataTypes.STRING(100),
-  googleId: DataTypes.STRING(100)
+  googleId: DataTypes.STRING(100),
+  status: DataTypes.STRING(100)
 }, { timestamps: true });
 
 const Conversations = sequelize.define('Conversations', {

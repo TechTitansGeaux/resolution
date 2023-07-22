@@ -11,15 +11,18 @@ const UserProfile = ({trophy, points}) => {
   const [updatedUsername, setUpdatedUsername] = useState('');
   const [selectedImage, setSelectedImage] = useState(null);
   const [isImageSelected, setIsImageSelected] = useState(false);
+  const [status, setStatus] = useState('');
+  const [updatedStatus, setUpdatedStatus] = useState('');
 
   useEffect(() => {
     if (authUser) {
       setUsername(authUser.username);
+      setStatus(authUser.status);
     }
   }, [authUser]);
 
   const handleUsernameChange = (event) => {
-    setUsername(event.target.value);
+    setUpdatedUsername(event.target.value);
   };
 
   const handleUpdateUser = async () => {
@@ -29,6 +32,45 @@ const UserProfile = ({trophy, points}) => {
       if (response && response.data) {
         dispatch(setAuthUser(response.data));
         setUpdatedUsername(''); // clear the input field after successful update
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleStatusChange = (event) => {
+    setUpdatedStatus(event.target.value);
+  };
+
+  const handleUpdateStatus = async () => {
+    try {
+      const updatedUser = { ...authUser, status: updatedStatus };
+      const response = await axios.patch(`/users/${authUser.id}`, updatedUser);
+      if (response && response.data) {
+        dispatch(setAuthUser(response.data));
+        setUpdatedStatus(''); // clear the input field after successful update
+      }
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
+  const handleImageChange = (event) => {
+    setSelectedImage(event.target.files[0]);
+    setIsImageSelected(true);
+  };
+
+  const uploadImageToServer = async () => {
+    try {
+      const formData = new FormData();
+      formData.append('image', selectedImage);
+
+      const response = await axios.post(`/users/uploadImage/${authUser.id}`, formData);
+
+      if (response && response.data) {
+        dispatch(setAuthUser(response.data));
+        setSelectedImage(null); // clear the selected image after successful upload
+        setIsImageSelected(false); // reset the image selection state
       }
     } catch (error) {
       console.error(error);
@@ -56,34 +98,14 @@ const UserProfile = ({trophy, points}) => {
     window.location.href = 'http://127.0.0.1:4000';
   };
 
-  const handleImageChange = (event) => {
-    setSelectedImage(event.target.files[0]);
-    setIsImageSelected(true);
-  };
-
-  const uploadImageToServer = async () => {
-    try {
-      const formData = new FormData();
-      formData.append('image', selectedImage);
-
-      const response = await axios.post(`/users/uploadImage/${authUser.id}`, formData);
-
-      if (response && response.data) {
-        dispatch(setAuthUser(response.data));
-        setSelectedImage(null); // clear the selected image after successful upload
-        setIsImageSelected(false); // reset the image selection state
-      }
-    } catch (error) {
-      console.error(error);
-    }
-  };
-
+  // if there's no user return loading
   if (!authUser) {
     return <div>Loading...</div>;
   }
 
   const isSaveProfileDisabled = !isImageSelected;
   const isSaveUsernameDisabled = !updatedUsername;
+  const isSaveStatusDisabled = !updatedStatus;
 
   return (
     <div className='container section'>
@@ -98,6 +120,7 @@ const UserProfile = ({trophy, points}) => {
                 style={{ width: '150px', height: '150px', objectFit: 'cover', cursor: 'pointer' }}
                 onClick={() => document.getElementById('imageInput').click()}
               />
+              <p className='card-text'>{status}</p>
               <input
                 type='file'
                 id='imageInput'
@@ -107,6 +130,26 @@ const UserProfile = ({trophy, points}) => {
               />
               <h2 className='card-title'>{authUser.username}</h2>
               <div className='mb-3'>
+                <label htmlFor='statusInput' className='form-label'>
+                </label>
+                <input
+                  type='text'
+                  id='statusInput'
+                  value={updatedStatus}
+                  onChange={handleStatusChange}
+                  className='form-control'
+                  placeholder='Enter your status'
+                />
+                <button
+                  onClick={handleUpdateStatus}
+                  className='btn btn-primary mt-2'
+                  disabled={isSaveStatusDisabled}
+                  style={{ width: '100%' }}
+                >
+                  Update Status
+                </button>
+              </div>
+              <div className='mb-3'>
                 <label htmlFor='usernameInput' className='form-label'>
                   Edit Username:
                 </label>
@@ -114,38 +157,36 @@ const UserProfile = ({trophy, points}) => {
                   type='text'
                   id='usernameInput'
                   value={updatedUsername}
-                  onChange={(event) => setUpdatedUsername(event.target.value)}
+                  onChange={handleUsernameChange}
                   className='form-control'
                 />
                 <button
-                  onClick={uploadImageToServer}
-                  className='btn btn-primary mt-3'
-                  disabled={isSaveProfileDisabled}
-                >
-                  Save Profile Picture
-                </button>
-                <button
                   onClick={handleUpdateUser}
-                  className='btn btn-primary mt-3'
+                  className='btn btn-primary mt-2'
                   disabled={isSaveUsernameDisabled}
+                  style={{ width: '100%' }}
                 >
                   Save Username
+                </button>
+              </div>
+              <div className='mb-3'>
+                <button
+                  onClick={uploadImageToServer}
+                  className='btn btn-primary mt-2'
+                  disabled={isSaveProfileDisabled}
+                  style={{ width: '100%' }}
+                >
+                  Save Profile Picture
                 </button>
               </div>
               <p className='card-text'>Points: {points}</p>
               <p className='card-text'>Trophy: {trophy}</p>
               <div className='d-flex justify-content-between'>
-                <button
-                  onClick={handleLogout}
-                  className='btn btn-outline-secondary'
-                >
+                <button onClick={handleLogout} className='btn btn-outline-secondary'>
                   Logout
                 </button>
                 <div>
-                  <button
-                    onClick={handleDeleteUser}
-                    className='btn btn-danger ml-2'
-                  >
+                  <button onClick={handleDeleteUser} className='btn btn-danger ml-2'>
                     Delete Profile
                   </button>
                 </div>

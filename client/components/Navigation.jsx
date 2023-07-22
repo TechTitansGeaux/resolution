@@ -17,9 +17,9 @@ const Navigation = () => {
   const handleCollapseNav = () => {
     if (windowSize.width < 767) {
       setCollapseNav(!collapseNav);
-    } 
+    }
   };
-  
+
   // listen for window width resize
   useEffect(() => {
     const handleResize = () => {
@@ -31,10 +31,6 @@ const Navigation = () => {
     // clean up event listener every time useEffect runs
     return () => window.removeEventListener("resize", handleResize);
   });
-
-
-  // console.log("state of collapseNav =>", collapseNav);
-  // console.log("state of windowSize =>", windowSize);
 
   return (
     <>
