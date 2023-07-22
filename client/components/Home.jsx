@@ -8,9 +8,6 @@ const Home = ({ user, addPoints }) => {
   const [posts, setPosts] = useState([]);
   const [toggleOff, setToggleOff] = useState(false);
   const [submit, setSubmit] = useState(true);
-
-
-  dayjs.extend(relativeTime);
   
   const handleChange = (e) => {
     setText(e.target.value);
