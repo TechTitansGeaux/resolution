@@ -57,32 +57,30 @@ const DecisionMaker = ({ user, changePoints }) => {
   };
 
   // win lose tie logic
+  // add points when user wins
   const displayResult = () => {
     if (hand === handReceived) {
       setResult('Tie!');
     } else if (hand === 'rock' && handReceived === 'scissors') {
       setResult('You win!');
-      changePoints(user, 7);
+      changePoints(user, 10);
     } else if (hand === 'rock' && handReceived === 'paper') {
       setResult('You lose!');
-      changePoints(user, -2);
     } else if (hand === 'paper' && handReceived === 'rock') {
       setResult('You win!');
-      changePoints(user, 7);
+      changePoints(user, 10);
     } else if (hand === 'paper' && handReceived === 'scissors') {
       setResult('You lose!');
-      changePoints(user, -2);
     } else if (hand === 'scissors' && handReceived === 'paper') {
       setResult('You win!');
-      changePoints(user, 7);
+      changePoints(user, 10);
     } else if (hand === 'scissors' && handReceived === 'rock') {
       setResult('You lose!');
-      changePoints(user, -2);
     }
   };
 
   // send rock, paper, or scissors to socket server and opponent
-  // disable the other 2 non selected hands
+  // disable the other 2 non selected hands when sent
   const sendHand = () => {
     if (hand !== 'none') {
       if (!full) {
