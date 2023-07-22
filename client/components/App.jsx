@@ -20,12 +20,27 @@ const App = () => {
   const dispatch = useDispatch();
   const [user, setUser] = useState("");
 
-  // create placement and trophy variables in state for current user
+  // create trophy variable on state for current user
   const [ trophy, setTrophy ] = useState('');
+  // create placement variable in state for current user
   const [ placement, setPlacement ] = useState('');
+  // create refresher for one more refresh when points are added
   const [ refresher, setRefresher ] = useState(0);
+  // create points variable in state for current user
+  const [ points, setPoints ] = useState('');
 
-
+  // get current points from user
+  const getPoints = async () => {
+    // axios get request
+    await axios.get(`/wofRoutes/users/${user.id}`)
+      // grab points and assign to state
+      .then(({data}) => {
+        setPoints(data.points);
+      })
+      .catch((err) => {
+        console.error('Failed axios GET user points: ', err);
+      });
+  };
 
   useEffect(() => {
     fetchAuthUser();
@@ -54,27 +69,29 @@ const App = () => {
   };
 
   useEffect(() => {
-    getPlacement();
+    if (user) {
+      getPoints();
+      getPlacement();
+    }
   }, [user, refresher]);
 
   // assign trophy according to placement
   useEffect( () => {
     const chooseAward = async () => {
-      // determine if user has no points
-      if (user.points < 1) {
+      if (points === 0) {
         setTrophy('Earn points to win an award!');
-        // else determine users placement
       } else if (placement <= .1) {
+        // determine user placement
         // top 10 percent get gold
         setTrophy('🏆');
       } else if (placement <= .2) {
         // top 20 get Silver
         setTrophy('🥈');
-      } else if (placement <= .3) {
+      } else if (placement <= .35) {
         // top 30 get Bronze
         setTrophy('🥉');
-      } else if (placement > .3 && user.points > 0) {
-        // else if user has points but placement is over top 30 percent, ribbon
+      } else {
+        // else if placement is over top 30 percent, ribbon
         setTrophy('🎗️');
       }
     };
@@ -99,12 +116,14 @@ const App = () => {
 
   // function to add necessary points to current user
   // also must update trophy
-  const addPoints = (user, num) => {
+  const changePoints = (user, num) => {
     setRefresher(1);
     getPlacement();
     // points on user in state is 'read only' and cannot be directly updated
     // create variable to grab old points number from user
-    const oldPoints = user.points;
+    const oldPoints = points;
+    // reset points on state
+    setPoints(oldPoints + num);
     // axios patch request
     axios.patch(`wofRoutes/users/${user.id}`, {
       // increment old points variable INSTEAD of incrementing points property directly
@@ -114,6 +133,7 @@ const App = () => {
       .catch((err) => {
         console.error("Failed axios PATCH: ", err);
       });
+    // window.location.reload(false);
   };
 
   return (
@@ -130,21 +150,21 @@ const App = () => {
           <Route
             exact
             path="/Home"
-            element={<Home user={user} addPoints={addPoints} />}
+            element={<Home user={user} changePoints={changePoints} />}
           />
           <Route
             path="/UserProfile"
-            element={<UserProfile user={user} />} />
+            element={<UserProfile user={user} trophy={trophy} points={points}/>} />
           <Route
             path="/Messages"
-            element={<Messages addPoints={addPoints} loggedIn={user} />}
+            element={<Messages changePoints={changePoints} loggedIn={user} />}
           />
           <Route
             path="/WallOfFame"
-            element={<WallOfFame refresher={refresher}/>} />
+            element={<WallOfFame changePoints={changePoints}/>} />
           <Route
             path="/DecisionMaker"
-            element={<DecisionMaker addPoints={addPoints} user={user} />}
+            element={<DecisionMaker changePoints={changePoints} user={user} />}
           />
         </Route>
       </Routes>
