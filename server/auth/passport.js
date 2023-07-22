@@ -1,6 +1,6 @@
 const passport = require('passport');
 const GoogleStrategy = require('passport-google-oauth20').Strategy;
-const { Users } = require('../database/index'); 
+const { Users } = require('../database/index');
 require('dotenv').config();
 
 
@@ -21,7 +21,7 @@ passport.use(
         googleId: profile.id
       };
 
-  
+
       // check if the user already exists in the database, if not create one
       const user = await Users.findOrCreate({ where: { googleId: profile.id }, defaults: defaultUser }).catch((err) => {
         console.error(err);
