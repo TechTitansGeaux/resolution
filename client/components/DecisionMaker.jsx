@@ -6,7 +6,7 @@ import PAPER from "../img/PAPER.png";
 import SCISSORS from "../img/SCISSORS.png";
 import ROCK from "../img/ROCK.png";
 
-const DecisionMaker = ({changePoints}) => {
+const DecisionMaker = ({ user, changePoints }) => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
   //const [searchInput, setSearchInput] = useState(''); // search input to search users
   //const [user, setUser] = useState(''); // set user (your opponent) state
@@ -14,8 +14,11 @@ const DecisionMaker = ({changePoints}) => {
   const [handReceived, setHandReceived] = useState('...'); // hand received from socket server
   const [result, setResult] = useState(''); // result after playing hands
   const [joined, setJoined] = useState(false); // help visually confirm if user joined room
-  const [full, setFull] = useState(false); // if room is full
+  const [full, setFull] = useState(false); // if room is full don't let other players enter
   const [ready, setReady] = useState(false); // if both players are ready
+  const [rDisabled, setRDisabled] = useState(false);
+  const [pDisabled, setPDisabled] = useState(false);
+  const [sDisabled, setSDisabled] = useState(false);
 
   // create function to GET user by username
   // STRETCH GOAL find user and create connection on user search
@@ -59,24 +62,45 @@ const DecisionMaker = ({changePoints}) => {
       setResult('Tie!');
     } else if (hand === 'rock' && handReceived === 'scissors') {
       setResult('You win!');
+      changePoints(user, 7);
     } else if (hand === 'rock' && handReceived === 'paper') {
       setResult('You lose!');
+      changePoints(user, -2);
     } else if (hand === 'paper' && handReceived === 'rock') {
       setResult('You win!');
+      changePoints(user, 7);
     } else if (hand === 'paper' && handReceived === 'scissors') {
       setResult('You lose!');
+      changePoints(user, -2);
     } else if (hand === 'scissors' && handReceived === 'paper') {
       setResult('You win!');
+      changePoints(user, 7);
     } else if (hand === 'scissors' && handReceived === 'rock') {
       setResult('You lose!');
+      changePoints(user, -2);
     }
   };
 
   // send rock, paper, or scissors to socket server and opponent
+  // disable the other 2 non selected hands
   const sendHand = () => {
-    if (!full) {
-      socket.emit('hand', { hand, room });
-      displayResult();
+    if (hand !== 'none') {
+      if (!full) {
+        socket.emit('hand', { hand, room });
+        if (hand === 'rock') {
+          setPDisabled(true);
+          setSDisabled(true);
+        }
+        if (hand === 'paper') {
+          setRDisabled(true);
+          setSDisabled(true);
+        }
+        if (hand === 'scissors') {
+          setRDisabled(true);
+          setPDisabled(true);
+        }
+        displayResult();
+      }
     }
   };
 
@@ -131,10 +155,17 @@ const DecisionMaker = ({changePoints}) => {
     displayResult();
   }, [handReceived]);
 
+  // leave room after game
+  useEffect(() => {
+    socket.emit('leave_room', room);
+    //console.log('leaving room');
+  }, [result]);
+
   return (
     <div className='section container'>
       <h1 className="text-primary">Decision Maker: Rock, Paper, Scissors</h1>
-
+      <p>Welcome to Decision Maker! Settle your differences
+      over a game of rock, paper, scissors. Enter a room number and join a game!</p>
       {/* <input type="text"
         placeholder='Search User'
         onChange={handleChange}
@@ -166,7 +197,7 @@ const DecisionMaker = ({changePoints}) => {
           }
         }}
       />
-      <button onClick={joinRoom}> Join Room </button>
+      <button className='btn btn-primary' onClick={joinRoom}> Join Room </button>
       <div>
         {!joined ? (<h2></h2>) : <h2 className="text-primary">You are in room: {room}</h2>}
       </div>
@@ -179,19 +210,19 @@ const DecisionMaker = ({changePoints}) => {
 
           <h2 className="text-primary">Let's play!</h2>
 
-          <button
+          <button className='btn btn-primary' disabled={rDisabled}
           ><img src={ROCK} alt='ROCK' onClick={() => setHand('rock')}/>
           </button>
 
-          <button
+          <button className='btn btn-primary' disabled={pDisabled}
           ><img src={PAPER} alt='PAPER' onClick={() => setHand('paper')}/>
           </button>
 
-          <button
+          <button className='btn btn-primary' disabled={sDisabled}
           ><img src={SCISSORS} alt='SCISSORS' onClick={() => setHand('scissors')}/>
           </button>
 
-          <button type="button"
+          <button type="button" className='btn btn-primary'
             onClick={() => sendHand()}
           >Send Hand</button>
           <h2 className="text-primary">You picked {hand}!</h2>
@@ -202,7 +233,7 @@ const DecisionMaker = ({changePoints}) => {
         {!result ? (<h2></h2>) : ( <div>
           <h2 className="text-primary">Your opponent picked {handReceived}!</h2>
           <h2 className="text-primary">{result}</h2>
-          <button onClick={refreshPage}>Click to Play Again!</button>
+          <button className='btn btn-primary' onClick={refreshPage}>Click to Play Again!</button>
         </div>)}
       </div>
     </div>

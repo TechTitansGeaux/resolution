@@ -92,6 +92,11 @@ io.sockets.on('connection', (socket) => {
     socket.to(data.room).emit('receive_hand', data);
   });
 
+  socket.on('leave_room', (data) =>{
+    socket.leave(data);
+    console.log('left room');
+  });
+
 });
 
 
