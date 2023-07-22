@@ -2,31 +2,41 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import MessageItem from './ConvoMessageItem.jsx';
 import ContinueConversation from './ContinueConversation.jsx';
+import io from 'socket.io-client';
+const socket = io();
 
 const Conversation = (props) => {
-  const { convo, loggedIn, otherUser, updateView } = props;
+  const { convoId, loggedIn, otherUser, updateView } = props;
 
   const [ conversations, setConversations ] = useState([]);
-
-
+  const [ refresh, setRefresh ] = useState(false);
 
   useEffect(() => {
     const fetchAllConvoMessages = async () => {
-      const request = await axios.get(`/messagesHandling/messages${convo.id}`);
+      const request = await axios.get(`/messagesHandling/messages${convoId}`);
       setConversations(request.data);
+      setRefresh(false);
       return request;
     };
     fetchAllConvoMessages();
-  }, [convo]);
+  }, [convoId, refresh]);
+
+
+  useEffect(() => {
+    socket.on('refresh', (data) => {
+      console.log('data: ', data);
+      setRefresh(true);
+    });
+  }, []);
 
   return (
-    <div>
+    <div className='text-center'>
       <div>
         <button
           className='btn btn-primary'
           onClick={ () => {
             updateView(<ContinueConversation
-              convo={convo}
+              convoId={convoId}
               loggedIn={loggedIn}
               otherUser={otherUser}
               updateView={updateView}/>);
@@ -36,7 +46,12 @@ const Conversation = (props) => {
       <div>
         {
           conversations.map((message) => {
-            return <MessageItem key={message.id + message.conversationId} message={message} />;
+            return <MessageItem
+              key={message.id + message.conversationId}
+              loggedIn={loggedIn}
+              otherUser={otherUser}
+              message={message}
+            />;
           })
         }
       </div>
