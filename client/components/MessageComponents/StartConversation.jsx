@@ -52,6 +52,7 @@ const StartConversation = (props) => {
             otherUser={recipient}
             updateView={updateView}
           />);
+
         })
         .catch((err) => {
           console.log(err);

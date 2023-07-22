@@ -36,12 +36,9 @@ const WallOfFame = ({changePoints}) => {
         if (top[i + 1]) {
           // check if points are same
           if (top[i].points === top[i + 1].points) {
-            // now check if trophies are NOT the same
-            if (top[i].trophy !== top[i + 1].trophy) {
-              // set trophy on state to the FIRST users trophy
-              setMatchTrophy(top[i].trophy);
-              setConflictedUser(top[i + 1]);
-            }
+            // set trophy on state to the FIRST users trophy
+            setMatchTrophy(top[i].trophy);
+            setConflictedUser(top[i + 1]);
           }
         }
       }
@@ -90,8 +87,8 @@ const WallOfFame = ({changePoints}) => {
         <h5 className="text-primary">How do I earn points?</h5>
         <p>
           Earn points by resolving your conflicts!
-          Scream into the void for 3. Make a decision for 7.
-           Create and send a meme for 11. And remember, conflict resolution is a practice!
+          Scream into the void for 3. Make a decision for 5.
+           Create and send a meme for 10. And remember, conflict resolution is a practice!
            Stay active each week to keep your points up.
         </p>
       </div>
