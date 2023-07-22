@@ -65,7 +65,6 @@ const Home = ({ user, addPoints }) => {
     // runs useEffect every time handleSubmit function is invoked similar to componentDidMount()
   }, [submit]);
 
-
   // ONCLICK STATE UPDATE FOR VOID TOGGLE OPEN OR CLOSE
   const handleVoidToggle = () => {
     setToggleOff(!toggleOff);
