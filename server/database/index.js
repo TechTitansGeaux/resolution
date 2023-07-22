@@ -23,7 +23,11 @@ const Users = sequelize.define('Users', {
     defaultValue: 0,
     allowNull: false
   },
-  trophy: DataTypes.STRING(100),
+  trophy: {
+    type: DataTypes.STRING(100),
+    defaultValue: 'Earn some points!',
+    allowNull: false
+  },
   email: DataTypes.STRING(100),
   picture: DataTypes.STRING(100),
   googleId: DataTypes.STRING(100),

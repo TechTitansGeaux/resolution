@@ -6,7 +6,7 @@ import PAPER from "../img/PAPER.png";
 import SCISSORS from "../img/SCISSORS.png";
 import ROCK from "../img/ROCK.png";
 
-const DecisionMaker = () => {
+const DecisionMaker = ({changePoints}) => {
   const [hand, setHand] = useState('none'); // rock, paper, scissors hands
   //const [searchInput, setSearchInput] = useState(''); // search input to search users
   //const [user, setUser] = useState(''); // set user (your opponent) state

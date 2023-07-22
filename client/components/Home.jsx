@@ -3,15 +3,13 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import Void from "./Void.jsx";
 
-const Home = ({ user, addPoints }) => {
+const Home = ({ user, changePoints }) => {
+
   const [text, setText] = useState("");
   const [posts, setPosts] = useState([]);
   const [toggleOff, setToggleOff] = useState(false);
   const [submit, setSubmit] = useState(true);
 
-
-  dayjs.extend(relativeTime);
-  
   const handleChange = (e) => {
     setText(e.target.value);
   };
@@ -34,7 +32,7 @@ const Home = ({ user, addPoints }) => {
         });
     };
     // also add points to user
-    addPoints(user, 5);
+    changePoints(user, 3);
 
     // open void on submit click if toggleOff state is true
     if (toggleOff) {

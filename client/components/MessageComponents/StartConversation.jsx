@@ -3,7 +3,7 @@ import axios from 'axios';
 import Conversation from './Conversation.jsx';
 
 const StartConversation = (props) => {
-  const { loggedIn, updateView } = props;
+  const { loggedIn, updateView, changePoints } = props;
 
   const [ topText, updateTopText ] = useState('');
 

@@ -2,7 +2,7 @@ const express = require('express');
 const { Users } = require('../database/index');
 const wofRouter = express.Router();
 
-// handle request to get top 50 users
+// handle request to get top users
 wofRouter.get('/users', (req, res) => {
   // use sequelize method to get users
   Users.findAll()
@@ -20,6 +20,26 @@ wofRouter.get('/users', (req, res) => {
       res.sendStatus(500);
     });
 
+});
+
+// handle request to get property from one specific user
+wofRouter.get('/users/:id', (req, res) => {
+  // access id from request parameters
+  const { id } = req.params;
+  // use sequelize method to get user by id
+  Users.findByPk(id)
+    // data will either be an object or null
+    .then((user) => {
+      if (user) {
+        res.send(user);
+      } else {
+        res.sendStatus(404);
+      }
+    })
+    .catch((err) => {
+      console.error('Failed to GET user by id: ', err);
+      res.sendStatus(500);
+    });
 });
 
 // handle request to update properties (points or trophy)
