@@ -30,6 +30,7 @@ const AllConversations = (props) => {
 
   return (
     <div>
+      <h1 className="text-primary">All Conversations</h1>
       <h3>
         {message}
       </h3>

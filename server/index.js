@@ -83,6 +83,10 @@ io.sockets.on('connection', (socket) => {
 
   });
 
+  socket.on('other_ready', (data) => {
+    socket.to(data.room).emit('other_ready', 'READY');
+  });
+
   socket.on('hand', (data) => {
     //console.log(data);
     socket.to(data.room).emit('receive_hand', data);
