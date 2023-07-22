@@ -15,8 +15,6 @@ const WOFItem = ({user, conflictedUser, matchTrophy}) => {
   // create updatedAt variable in state for current user to determine when last active
   const [ updatedAt, setUpdatedAt ] = useState('');
 
-  // console.log(conflictedUser, matchTrophy, '<----conflicted user and match trophy');
-
   // function to get points of each user
   // get current points from user
   const getPoints = async () => {
