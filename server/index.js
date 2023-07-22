@@ -98,6 +98,10 @@ io.sockets.on('connection', (socket) => {
     console.log('left room');
   });
 
+  socket.on('message', (data) => {
+    socket.broadcast.emit('refresh', data);
+  });
+
 });
 
 

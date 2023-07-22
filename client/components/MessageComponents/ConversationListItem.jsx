@@ -25,7 +25,7 @@ const ConversationListItem = (props) => {
   }, [loggedIn]);
 
   return (
-    <div onClick={ () => { updateView(<Conversation loggedIn={loggedIn} convo={convo} otherUser={otherUser} updateView={updateView}/>); }}>
+    <div style={{ cursor: 'pointer' }} onClick={ () => { updateView(<Conversation loggedIn={loggedIn} convoId={convo.id} otherUser={otherUser} updateView={updateView}/>); }}>
       <p className="scream modal-content  text-white pt-3">
         <span className="scream modal-content  text-sm-left">
           between you and { `${otherUser.username}` }
