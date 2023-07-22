@@ -23,7 +23,6 @@ const SignUp = () => {
             </div>
             <div className="d-flex justify-content-center mb-3">
               <GoogleButton onClick={redirectToGoogleSSO} />
-              <pre>{process.env.HOST}</pre>
             </div>
             <p className="text-center">Welcome</p>
           </div>

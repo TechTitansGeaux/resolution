@@ -42,7 +42,7 @@ const config = {
     }),
 
     new Dotenv({
-      path: `.env/NODE_ENV=${NODE_ENV}`,
+      template: path.join(__dirname, ".env"),
     }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
