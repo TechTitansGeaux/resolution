@@ -1,6 +1,8 @@
 import { React, useState } from 'react';
 import axios from 'axios';
 import Conversation from './Conversation.jsx';
+import io from 'socket.io-client';
+const socket = io();
 
 const StartConversation = (props) => {
   const { loggedIn, updateView, changePoints } = props;
@@ -36,6 +38,8 @@ const StartConversation = (props) => {
 
   const sendMessage = () => {
     if (userExists === 'all good') {
+      changePoints(loggedIn, 11);
+      socket.emit('message', 'sending');
       axios.post('/messagesHandling/message', {
         senderId: loggedIn.id,
         recipientId: recipient.id,
@@ -78,9 +82,7 @@ const StartConversation = (props) => {
           <option value='Frustrated-Boromir'>Frustrated Boromir</option>
           <option value='Futurama-Fry'>Futurama Fry</option>
           <option value='Hercules-Hades'>Hercules Hades</option>
-          <option value='Hillary-Clinton'>Happy Hillary Clinton</option>
           <option value='Happy-Guy-Rage-Face'>Happy Guy Crying Face</option>
-          <option value='Hard-To-Swallow-Pills'>Hard To Swallow Pills</option>
           <option value='Hipster-Ariel'>Hipster Ariel</option>
           <option value='Ill-Have-You-Know-Spongebob'>Ill Have You Know Spongebob</option>
           <option value='Mr-Krabs-Blur-Meme'>Mr Krabs Blur Meme</option>

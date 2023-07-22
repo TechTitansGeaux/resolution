@@ -1,13 +1,15 @@
 import { React, useState, useEffect } from 'react';
 import ConversationListItem from './ConversationListItem.jsx';
 import axios from 'axios';
+import io from 'socket.io-client';
+const socket = io();
 
 const AllConversations = (props) => {
   const { loggedIn, updateView } = props;
 
   const [ allConversations, setConversations ] = useState([]);
-
   const [ message, setMessage ] = useState('');
+  const [ refresh, setRefresh ] = useState(false);
 
   const getAllConversations = () => {
     axios.get(`/messagesHandling/conversations${loggedIn.id}`)
@@ -15,8 +17,10 @@ const AllConversations = (props) => {
         setConversations(res.data);
         if (allConversations.length === 0) {
           setMessage('You don\'t have any conversations yet click start conversation to start one up!');
+          setRefresh(false);
         } else {
           setMessage('');
+          setRefresh(false);
         }
       })
       .catch((err) => {
@@ -26,7 +30,14 @@ const AllConversations = (props) => {
 
   useEffect(() => {
     getAllConversations();
-  }, [message]);
+  }, [message, refresh]);
+
+  useEffect(() => {
+    socket.on('refresh', (data) => {
+      console.log('data: ', data);
+      setRefresh(true);
+    });
+  }, []);
 
   return (
     <div className='text-center'>

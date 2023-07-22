@@ -5,6 +5,7 @@ import AllConversations from './AllConversations.jsx';
 import Landing from './Landing.jsx';
 
 const Messages = (props) => {
+  const {changePoints} = props;
 
   const [ view, updateView ] = useState(<Landing/>);
 
@@ -17,7 +18,7 @@ const Messages = (props) => {
         }}>all conversations</button>{' '}
 
         <button className='btn btn-primary' onClick={() => {
-          updateView(<StartConversation updateView={updateView} loggedIn={props.loggedIn} />);
+          updateView(<StartConversation changePoints={changePoints} updateView={updateView} loggedIn={props.loggedIn} />);
 
         }}>start conversation</button>
       </div>

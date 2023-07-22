@@ -92,6 +92,10 @@ io.sockets.on('connection', (socket) => {
     socket.to(data.room).emit('receive_hand', data);
   });
 
+  socket.on('message', (data) => {
+    socket.broadcast.emit('refresh', data);
+  });
+
 });
 
 

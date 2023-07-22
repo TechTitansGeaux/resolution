@@ -4,7 +4,6 @@ import relativeTime from 'dayjs/plugin/relativeTime';
 
 const MessageItem = (props) => {
   const { message, loggedIn, otherUser } = props;
-  console.log(props);
 
   const [messageData, setMessageData] = useState('');
 
@@ -27,6 +26,7 @@ const MessageItem = (props) => {
           <span>
             from {otherUser.username} to you
           </span>
+          <br></br>
           <span>
             created: {dayjs(`${message.createdAt}`).fromNow()}
           </span>

@@ -2,19 +2,32 @@ import { React, useState, useEffect } from 'react';
 import axios from 'axios';
 import MessageItem from './ConvoMessageItem.jsx';
 import ContinueConversation from './ContinueConversation.jsx';
+import io from 'socket.io-client';
+const socket = io();
 
 const Conversation = (props) => {
   const { convoId, loggedIn, otherUser, updateView } = props;
+
   const [ conversations, setConversations ] = useState([]);
+  const [ refresh, setRefresh ] = useState(false);
 
   useEffect(() => {
     const fetchAllConvoMessages = async () => {
       const request = await axios.get(`/messagesHandling/messages${convoId}`);
       setConversations(request.data);
+      setRefresh(false);
       return request;
     };
     fetchAllConvoMessages();
-  }, [convoId]);
+  }, [convoId, refresh]);
+
+
+  useEffect(() => {
+    socket.on('refresh', (data) => {
+      console.log('data: ', data);
+      setRefresh(true);
+    });
+  }, []);
 
   return (
     <div className='text-center'>
