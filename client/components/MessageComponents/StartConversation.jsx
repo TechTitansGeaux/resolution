@@ -43,6 +43,8 @@ const StartConversation = (props) => {
       })
         .then((res) => {
           console.log(res.data);
+          // add points to user who just sent
+          changePoints(loggedIn, 1);
           updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
         })
         .catch((err) => {

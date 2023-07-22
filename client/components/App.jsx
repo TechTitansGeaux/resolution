@@ -47,11 +47,14 @@ const App = () => {
       for (let i = 0; i < top.length; i++) {
         // determine if there is a NEXT user in array
         if (top[i + 1]) {
-          // declare variables to grab current and next
+          // declare variables to grab current and next and previous
           const curr = top[i];
           const next = top[i + 1];
+          // if theres a set with same points
           if (curr.points === next.points) {
+            // and one is the current user
             if (next.id === user.id) {
+              // set the trophy on state to the higher ranking trophy
               setTrophy(curr.trophy);
             }
           }
@@ -72,7 +75,7 @@ const App = () => {
   // call check trophy for conflicts once with useEffect
   useEffect(() => {
     checkTrophy();
-  }, [top, trophy]);
+  }, [top, trophy, points, refresher]);
 
   useEffect(() => {
     fetchAuthUser();
@@ -128,9 +131,7 @@ const App = () => {
   const chooseAward = (user) => {
     // see if user has conflict
     if (user.id === conflictedUser.id && user.trophy !== conflictedUser.trophy) {
-      console.log('current user has conflict');
       // if so, both get higher trophy
-      console.log(trophy, '<--- trophy when conflict recognized')
       setTrophy(matchTrophy);
       // then determine is user has no points
     } else if (points === 0) {
@@ -151,14 +152,9 @@ const App = () => {
     }
   };
   useEffect( () => {
-    console.log(user, '<---current user');
-    console.log(conflictedUser, '<----- conflicted user')
-    console.log(user.id === conflictedUser.id, '<---- is user id === conflictedUser id')
     chooseAward(user);
     // should update every time placement updates
   }, [user, placement, points, conflictedUser, matchTrophy]);
-
-  console.log(trophy, '<---- current trophy on state');
 
   // send trophy back to database
   useEffect( () => {
@@ -182,7 +178,7 @@ const App = () => {
       // destructure to get data (array of top) from response
       .then(({data}) => {
         // set top in state to filtered top given from axios
-        setTop(data.slice(0, 10));
+        setTop(data.slice(0, 15));
       })
       .catch((err) => {
         console.error('Failed axios GET top: ', err);
@@ -197,13 +193,19 @@ const App = () => {
     // points on user in state is 'read only' and cannot be directly updated
     // create variable to grab old points number from user
     const oldPoints = points;
+    const newPoints = (oldPoints + num);
+    // determine if new value would be negative
+    if (newPoints < 0) {
+      // cap at zero
+      newPoints = 0;
+    }
     // reset points on state
     setPoints(oldPoints + num);
     // axios patch request
     axios.patch(`wofRoutes/users/${user.id}`, {
       // increment old points variable INSTEAD of incrementing points property directly
       // and set that to points
-      points: oldPoints + num
+      points: newPoints
     })
       .catch((err) => {
         console.error("Failed axios PATCH: ", err);
