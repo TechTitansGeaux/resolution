@@ -2,8 +2,8 @@ import { React, useState } from 'react';
 import axios from 'axios';
 import Conversation from './Conversation.jsx';
 
-const StartConversation = (props) => {
-  const { convo, loggedIn, otherUser, updateView } = props;
+const ContinueConversation = (props) => {
+  const { convoId, loggedIn, otherUser, updateView } = props;
 
   const [ topText, updateTopText ] = useState('');
 
@@ -15,11 +15,16 @@ const StartConversation = (props) => {
     axios.post('/messagesHandling/message', {
       senderId: loggedIn.id,
       recipientId: otherUser.id,
-      conversationId: convo.id,
+      conversationId: convoId,
       img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
     })
       .then((res) => {
-        updateView(<Conversation convo={convo} loggedIn={loggedIn} otherUser={otherUser} updateView={updateView}/>);
+        updateView(<Conversation
+          convoId={convoId}
+          loggedIn={loggedIn}
+          otherUser={otherUser}
+          updateView={updateView}
+        />);
       })
       .catch((err) => {
         console.log(err);
@@ -63,4 +68,4 @@ const StartConversation = (props) => {
   );
 };
 
-export default StartConversation;
+export default ContinueConversation;

@@ -46,7 +46,6 @@ messageRouter.get('/messages:convoId', (req, res) => {
   const {convoId} = req.params;
   Messages.findAll({ where: { conversationId: convoId } })
     .then((data) => {
-      console.log(data);
       res.send(data.reverse());
     })
     .catch((err) => {

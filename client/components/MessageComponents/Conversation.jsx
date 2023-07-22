@@ -4,20 +4,17 @@ import MessageItem from './ConvoMessageItem.jsx';
 import ContinueConversation from './ContinueConversation.jsx';
 
 const Conversation = (props) => {
-  const { convo, loggedIn, otherUser, updateView } = props;
-
+  const { convoId, loggedIn, otherUser, updateView } = props;
   const [ conversations, setConversations ] = useState([]);
-
-
 
   useEffect(() => {
     const fetchAllConvoMessages = async () => {
-      const request = await axios.get(`/messagesHandling/messages${convo.id}`);
+      const request = await axios.get(`/messagesHandling/messages${convoId}`);
       setConversations(request.data);
       return request;
     };
     fetchAllConvoMessages();
-  }, [convo]);
+  }, [convoId]);
 
   return (
     <div>
@@ -26,7 +23,7 @@ const Conversation = (props) => {
           className='btn btn-primary'
           onClick={ () => {
             updateView(<ContinueConversation
-              convo={convo}
+              convoId={convoId}
               loggedIn={loggedIn}
               otherUser={otherUser}
               updateView={updateView}/>);

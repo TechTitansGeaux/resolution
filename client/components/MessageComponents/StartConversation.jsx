@@ -41,9 +41,13 @@ const StartConversation = (props) => {
         recipientId: recipient.id,
         img: `https://apimeme.com/meme?meme=${meme}&top=${topText}&bottom=${bottomText}`.replaceAll(' ', '+')
       })
-        .then((res) => {
-          console.log(res.data);
-          updateView(<Conversation convo={res.data} loggedIn={props.loggedIn} />);
+        .then((message) => {
+          updateView(<Conversation
+            convoId={message.data.conversationId}
+            loggedIn={loggedIn}
+            otherUser={recipient}
+            updateView={updateView}
+          />);
         })
         .catch((err) => {
           console.log(err);
