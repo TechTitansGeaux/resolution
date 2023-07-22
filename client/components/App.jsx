@@ -97,7 +97,7 @@ const App = () => {
     };
     chooseAward();
     // should update every time placement updates
-  }, [placement]);
+  }, [placement, points]);
 
   // send trophy back to database
   useEffect( () => {
