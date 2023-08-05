@@ -41,7 +41,9 @@ For deployment, HOST will be the instance address and not 127.0.0.1
 **KNOWN BUGS**  
 * An axios patch error logs to the console on point/trophy updates -- does not affect points and trophies rendered on pages or saved to DB.  
 * The Wall of Fame first loads gold trophies for every user and shows these briefly before updating to the correct trophies. This is exacerbated when deploying and testing the app with many users at once.
-* If a user enters a room in rock, paper, scissors,
+* If a user enters a room in rock, paper, scissors, and then navigates to another page before finishing a game, the user is still in that room until the user refreshes the page or logs out.
+* In Meme Messenger, if a user types either top or bottom text and the API/page doesn't update before clicking send, the other images will not display.
+* If a user deletes his/her profile, the user is redirected back to the login page. To login again, the server must be restarted.
 
 
 # Tech Stack
@@ -58,6 +60,7 @@ For deployment, HOST will be the instance address and not 127.0.0.1
 - eslint
 - Webpack
 - DayJS
+- API: https://apimeme.com/
 
 # Contributors
 Thanks to all the following people for contributing to this project:
