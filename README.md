@@ -15,6 +15,30 @@ Decision Maker – Are you ready to move forward with your conflict, but need an
 Finally, earn points and trophies as you become a master conflict resolver! Our top 10 Resolution users will be featured on the Wall of Fame. 
 
 
+# Developers
+
+**DOT ENV FILE**
+Create a dot env file and with the following variables:
+NODE_ENV=development
+HOST=http://127.0.0.1:4000
+GOOGLE_CLIENT_ID=(your own client ID)
+GOOGLE_CLIENT_SECRET=(your own client secret)
+Tip-- Some may need to add quotes to their variable definitions; ex: NODE_ENV="development"
+
+**STARTUP**
+Create the dot env file
+Install dependencies: npm i
+Start a mySQL server: mysql.server start (mac)
+Connect to mySQL shell: mysql -u root (mac)
+Build the webpack: npm run build:dev
+Start the server: npm start
+Seed the database: npm run seed
+
+**KNOWN BUGS**
+An axios patch error logs to the console on point/trophy updates -- does not affect points and trophies rendered on pages or saved to DB.
+The Wall of Fame first loads gold trophies for every user and shows these briefly before updating to the correct trophies. This is exacerbated when deploying and testing the app with many users at once.
+
+
 # Tech Stack
 
 - React

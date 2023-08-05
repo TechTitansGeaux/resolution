@@ -3,6 +3,7 @@
 const path = require("path");
 const HtmlWebpackPlugin = require("html-webpack-plugin");
 const MiniCssExtractPlugin = require("mini-css-extract-plugin");
+const Dotenv = require('dotenv-webpack');
 
 require("dotenv").config();
 
@@ -18,7 +19,7 @@ const stylesHandler = isProduction
 
 const config = {
   mode: NODE_ENV,
-  entry: path.resolve(__dirname, 'client/index.jsx'),
+  entry: path.resolve(__dirname, "client/index.jsx"),
   stats: {
     errorDetails: true,
   },
@@ -36,8 +37,13 @@ const config = {
     },
   },
   plugins: [
-    new HtmlWebpackPlugin({template: path.join(__dirname, "client", "index.html")}),
+    new HtmlWebpackPlugin({
+      template: path.join(__dirname, "client", "index.html"),
+    }),
 
+    new Dotenv({
+      template: path.join(__dirname, ".env"),
+    }),
     // Add your plugins here
     // Learn more about plugins from https://webpack.js.org/configuration/plugins/
   ],
@@ -46,7 +52,7 @@ const config = {
       {
         test: /\.(js|jsx)$/i,
         exclude: /node_modules/,
-        loader: "babel-loader"
+        loader: "babel-loader",
       },
       {
         test: /\.css$/i,
@@ -63,13 +69,15 @@ const config = {
   },
 };
 
-module.exports = () => {
+module.exports = (env) => {
   if (isProduction) {
     config.mode = "production";
 
     config.plugins.push(new MiniCssExtractPlugin());
+    config.plugins.push(new Dotenv());
   } else {
     config.mode = "development";
+    config.plugins.push(new Dotenv());
   }
   return config;
 };
