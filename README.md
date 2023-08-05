@@ -26,13 +26,14 @@ GOOGLE_CLIENT_ID=(your own client ID)
 GOOGLE_CLIENT_SECRET=(your own client secret)  
 ```
 Tip-- Some may need to add quotes to their variable definitions; ex: ```NODE_ENV="development"```
+For deployment, HOST will be the instance address and not 127.0.0.1
 
 **STARTUP**  
 * Must use Node version 18.16.1  
 * Create the dot env file  
 * Install dependencies: ```npm i```  
-* Start a mySQL server: ```mysql.server start (mac)```  
-* Connect to mySQL shell: ```mysql -u root (mac)```  
+* Start a mySQL server: ```mysql.server start (mac)```  ```sudo service mysql start (WSL)```
+* Connect to mySQL shell: ```mysql -u root (mac, WSL)```  
 * Build the webpack: ```npm run build:dev```  
 * Start the server: ```npm start```  
 * Seed the database: ```npm run seed```  
@@ -40,6 +41,7 @@ Tip-- Some may need to add quotes to their variable definitions; ex: ```NODE_ENV
 **KNOWN BUGS**  
 * An axios patch error logs to the console on point/trophy updates -- does not affect points and trophies rendered on pages or saved to DB.  
 * The Wall of Fame first loads gold trophies for every user and shows these briefly before updating to the correct trophies. This is exacerbated when deploying and testing the app with many users at once.
+* If a user enters a room in rock, paper, scissors,
 
 
 # Tech Stack
