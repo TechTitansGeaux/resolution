@@ -19,11 +19,14 @@ const Whack = ({changePoints}) => {
   }, []);
 
   return (
-    <div class="canvas-component">
-      <div>
-
-        <canvas id="canvas" width="350" height="350" role="presentation">circles</canvas>
+    <div class="pinata">
+  
+      <div class="canvas-component">
+        <div>
+          <canvas id="canvas" width="500" height="400" role="presentation">circles</canvas>
+        </div>
       </div>
+      <button id="whack-button">Whack'em!</button>
     </div>
   );
 };

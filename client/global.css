@@ -112,6 +112,12 @@ textarea {
   padding: 15px 10px 5px 10px;
 }
 
+.pinata {
+  margin-top: 8em;
+  display: flex;
+  flex-direction: column;
+}
+
 .canvas-component {
   border: 1px solid black;
   position: fixed;
@@ -123,6 +129,15 @@ textarea {
   margin: -100px 0 0 -150px;
   background: white;
 }
+
+#whack-button {
+  text-decoration: none;
+  font-size: 1.5em;
+  width: auto;
+  height: auto;
+}
+
+
 
 
 
