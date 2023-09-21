@@ -17,53 +17,39 @@ const Canvas = () => {
     ctx.fillRect(0, 0, canvas.current.width, canvas.current.height);      
   };
   
-  const drawPinata = (ctx, x, y) => {
+  const drawPinata = (ctx, x, y, vx, vy) => {
     const img = new Image();
     img.onload = () => {
-      //ctx.rotate(Math.PI / 4);
-      ctx.drawImage(img, x, y);
+      let direction = true;
+      ctx.clearRect(0, 0, canvas.current.width, canvas.current.height);
+      draw(ctx);
+      ctx.drawImage(img, 105, 70, 300, 300, x, y, 300, 300);
       ctx.beginPath();
-      ctx.arc(x + 150, y + 150, 45, 0, Math.PI * 2, true);
+      ctx.arc(x + 45, y + 80, 45, 0, Math.PI * 2, true);
       ctx.fillStyle = 'black';
       ctx.fill();
+
+      if (x + vx > canvas.current.width - 200 || x + vx < 0) {
+        vx = -vx;
+      }
+      if (y + vy > canvas.current.height - 200 || y + vy < 0) {
+        vy = -vy;
+      }
+      x += vx;
+      y += vy;
+
+      requestAnimationFrame(() => drawPinata(ctx, x, y, vx, vy));
     };
     img.src = 'https://imgs.search.brave.com/xAtlwyYP3sgceJ7EQHnJ9uAKH74l9KiqENdk-y50VI0/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuc3RpY2twbmcu/Y29tL3RodW1icy81/YzYxZTM4OWU0Yjhk/ZDAyOWZmMjViMDMu/cG5n';
   };  
 
-  const drawStick = (ctx, x, y) => {
-    const img = new Image();
-    img.onload = () => {
-      ctx.save();
-      ctx.rotate((2 * Math.PI) / 4);
-      ctx.drawImage(img, x, y, 250, 250);
-    };
-    img.src = 'https://imgs.search.brave.com/qdhZqbxoGLwfireOZZwwK_kFqJ8ha0KYpE4Mzj1WF4E/rs:fit:860:0:0/g:ce/aHR0cHM6Ly9hc3Nl/dHMuc3RpY2twbmcu/Y29tL3RodW1icy81/ODUyZGQ4MjM5NGUy/ODAyNzFmM2I0OGIu/cG5n'
-  };
-
   
   useEffect(() => {
     const ctx = canvas.current.getContext('2d'); 
-    draw(ctx);
-    drawPinata(ctx, 0, 0);
-    drawStick(ctx, 100, 100);
-    // const getPosition = (event) => {
-    //   const mouseX = event.clientX - 300;
-    //   const mouseY = event.clientY - 300;
-    //   drawStick(ctx, mouseX, mouseY);
-    // };
-    // canvas.current.addEventListener("mouseover", getPosition, false);
-    // return function cleanup() {
-    //   canvas.current.removeEventListener("mouseover", getPosition);
-    // };
+    drawPinata(ctx, 0, 0, 1, 1);
+
   });
 
-  // useEffect(() => {
-  //   const ctx = canvas.current.getContext('2d');
-  //   canvas.current.addEventListener("mouseover", getPosition, false);
-  //   return function cleanup() {
-  //     canvas.current.removeEventListener("mouseover", getPosition);
-  //   };
-  // }, []);
 
   return (
     <canvas
