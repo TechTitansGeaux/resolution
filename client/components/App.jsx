@@ -9,6 +9,7 @@ import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
 import SignUp from "./SignUp.jsx";
 import Whack from "./Whack.jsx";
+import Controversy from './Controversy.jsx'
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -248,6 +249,10 @@ const App = () => {
           <Route 
             path="/Whack"
             element={<Whack changePoints={changePoints}/>}
+          />
+          <Route
+            path="/Controversy"
+            element={<Controversy />}
           />
         </Route>
       </Routes>
