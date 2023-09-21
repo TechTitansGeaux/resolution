@@ -102,6 +102,12 @@ io.sockets.on('connection', (socket) => {
     socket.broadcast.emit('refresh', data);
   });
 
+  //test notifications
+  socket.on('test_notify', () => {
+
+    socket.emit('notification', 'if you are reading this, your pinata has been violated 👹')
+  });
+
 });
 
 
