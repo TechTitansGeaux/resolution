@@ -8,6 +8,7 @@ import Navigation from "./Navigation.jsx";
 import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
 import SignUp from "./SignUp.jsx";
+import Whack from "./Whack.jsx";
 import Controversy from './Controversy.jsx'
 
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -244,6 +245,10 @@ const App = () => {
           <Route
             path="/DecisionMaker"
             element={<DecisionMaker changePoints={changePoints} user={user} />}
+          />
+          <Route 
+            path="/Whack"
+            element={<Whack changePoints={changePoints}/>}
           />
           <Route
             path="/Controversy"
