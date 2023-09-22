@@ -1,18 +1,21 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import io from 'socket.io-client';
-
+const socket = io();
 const Notification = () => {
 
-  const [notifications, setNotification] = useState([]);
+  const [notifications, setNotifications] = useState([]);
 
-  useEffect(() => {
-    //connect to socket.io server
-    const socket = io('http://localhost:4000');
+  useEffect(() => { 
+    console.log(socket.connected);
 
     //listen for incoming notifications
-    socket.on('notification', (message) => {
-      //add incoming notifications to state
-      setNotification((prevNotifications) => [...prevNotifications, message]);
+    socket.on('test_notify', (message) => {
+      const newNotification = {
+        id: Math.random(), 
+        message,
+        dismissed: false,
+      };
+      setNotifications((prevNotifications) => [...prevNotifications, newNotification]);
       //preview message
       console.log('Received test notification', message);
     });
@@ -21,18 +24,26 @@ const Notification = () => {
 
   }, []);
 
+  //dismiss notify
+  const dismissNotification = (id) => {
+    setNotifications((prevNotifications) =>
+      prevNotifications.map((notification) =>
+        notification.id === id ? { ...notification, dismissed: true } : notification
+      )
+    );
+  };
+
   return (
     <div className='notify-container'>
       <h3> Notification</h3>
-      <ul>
-        {notifications.map((notification, index) => {
-          return <li
-            key={index}
-          >
-            {notification}
-          </li>;
-        })}
-      </ul>
+      {notifications.map((notification) =>
+        !notification.dismissed ? (
+          <div className="notify-popup" key={notification.id}>
+            <p>{notification.message}</p>
+            <button onClick={() => dismissNotification(notification.id)}>Dismiss</button>
+          </div>
+        ) : null
+      )}
 
     </div>
   );

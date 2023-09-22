@@ -231,9 +231,7 @@ const App = () => {
           <Route
             exact
             path="/Home"
-            element={<><Home user={user} changePoints={changePoints} /><Notification /></>
-          
-          }
+            element={<Home user={user} changePoints={changePoints} />}
 
           />
           <Route
