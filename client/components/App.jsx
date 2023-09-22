@@ -9,7 +9,8 @@ import axios from "axios";
 import Messages from "./MessageComponents/Messages.jsx";
 import SignUp from "./SignUp.jsx";
 import Whack from "./Whack.jsx";
-import Controversy from './Controversy.jsx'
+import Controversy from './Controversy.jsx';
+import Notification from "./Notifications.jsx";
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -231,6 +232,7 @@ const App = () => {
             exact
             path="/Home"
             element={<Home user={user} changePoints={changePoints} />}
+
           />
           <Route
             path="/UserProfile"
