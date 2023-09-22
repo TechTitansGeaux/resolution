@@ -27,9 +27,14 @@ const Whack = () => {
   };
   
   return (
-    <div className="pinata">
+    <div className='section container'>
+      <h1 className="text-primary">Who would you like to Whack?</h1>
+      <p>Take your anger out on whoever you are mad at! Search for your Enemy
+        to get a personalized Piñata of them and give them as many Whacks as you
+        want, they will get a notification every time you do!
+      </p>
       <input type="text"
-        placeholder='Who would you like to Whack?'
+        placeholder='Enemy username'
         onChange={handleChange}
         onKeyDown={(e) => {
           if (e.key === 'Enter') {
@@ -38,17 +43,15 @@ const Whack = () => {
         }}
         value={searchInput}/>
 
-      <button type="button"
+      <button className='btn btn-primary'
+        type="button"
         onClick={getUser}
       >Search</button>
       <h2>Your Opponent: {user}</h2>
-      <img src={userPhoto} />
+      <button className='btn btn-primary'>Whack'em!</button>
       <div className="canvas-component">
-        <div>
-          <Canvas/>
-        </div>
+        <Canvas userPhoto={userPhoto}/>
       </div>
-      <button id="whack-button">Whack'em!</button>
     </div>
   );
 };

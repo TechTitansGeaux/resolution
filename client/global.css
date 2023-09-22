@@ -120,21 +120,12 @@ textarea {
 
 .canvas-component {
   border: 1px solid black;
-  position: fixed;
+  position: sticky;
   width: 500px;
   height: 400px;
-  z-index: 15;
-  top: 40%;
-  left: 30%;
-  margin: -100px 0 0 -150px;
-  background: white;
-}
+  flex-direction:inherit;
 
-#whack-button {
-  text-decoration: none;
-  font-size: 1.5em;
-  width: auto;
-  height: auto;
+  background: white;
 }
 
 
