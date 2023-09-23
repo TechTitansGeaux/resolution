@@ -16,7 +16,7 @@ const Whack = () => {
   //function to handle toast/notification onClick/Whack
   const notify = () => {
     //toast.warn used to give 'warning' notification message to user on Piñata whack
-    toast.warn('🦄 Piñata under assault!', {
+    toast.info('🦄 Piñata under assault!', {//using .info until fully styled
       //props on toast object to style/modify
       position: "top-right",
       autoClose: 5000,
@@ -43,9 +43,7 @@ const Whack = () => {
       });
   };
   
-  const handleWhack = () => {
-    socket.emit('test_notify');
-  };
+ 
   
   // value to search username
   const handleChange = (e) => {
@@ -69,8 +67,6 @@ const Whack = () => {
           }
         }}
         value={searchInput}/>
-
-      <Notification userId={userId}/>
       <button className='btn btn-primary'
         type="button"
         onClick={getUser}

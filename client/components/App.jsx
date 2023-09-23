@@ -11,7 +11,7 @@ import SignUp from "./SignUp.jsx";
 import Whack from "./Whack.jsx";
 import Controversy from './Controversy.jsx';
 //import Notification from "./Notifications.jsx";
-import { ToastContainer } from "react-toastify";
+import { Flip, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
 
 import "bootstrap-icons/font/bootstrap-icons.css";
@@ -221,7 +221,8 @@ const App = () => {
   //ToastContainer used to alert users throughout application (see toast types in components for specific notifications)
   return (
     <BrowserRouter>
-      <ToastContainer/>
+      <ToastContainer
+        transition={Flip}/>
       <Routes>
         <Route
           index
