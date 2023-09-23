@@ -10,7 +10,9 @@ import Messages from "./MessageComponents/Messages.jsx";
 import SignUp from "./SignUp.jsx";
 import Whack from "./Whack.jsx";
 import Controversy from './Controversy.jsx';
-import Notification from "./Notifications.jsx";
+//import Notification from "./Notifications.jsx";
+import { ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 import "bootstrap-icons/font/bootstrap-icons.css";
 import "bootstrap/dist/css/bootstrap.min.css";
@@ -216,9 +218,10 @@ const App = () => {
       });
     // window.location.reload(false);
   };
-
+  //ToastContainer used to alert users throughout application (see toast types in components for specific notifications)
   return (
     <BrowserRouter>
+      <ToastContainer/>
       <Routes>
         <Route
           index
